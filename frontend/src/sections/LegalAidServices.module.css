@@ -1,17 +1,18 @@
 .legalAidServices {
-  background: var(--background-light);
+  background: linear-gradient(180deg, var(--background-light) 0%, rgba(244, 247, 251, 0.5) 100%);
+  position: relative;
 }
 
 .servicesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .servicesGrid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 20px;
   }
 }

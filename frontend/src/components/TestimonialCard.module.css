@@ -1,25 +1,42 @@
 .testimonialCard {
   background: var(--primary-white);
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-light);
   border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
-  text-align: center;
+  transition: all var(--transition-smooth);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.testimonialCard::before {
+  content: '\201C';
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 4rem;
+  font-family: 'Instrument Serif', Georgia, serif;
+  color: var(--primary-gold);
+  opacity: 0.25;
+  line-height: 1;
 }
 
 .testimonialCard:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-medium);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-large);
+  border-color: rgba(212, 163, 115, 0.3);
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   overflow: hidden;
-  margin: 0 auto 1.5rem;
-  border: 3px solid var(--primary-blue);
+  margin-bottom: 1.25rem;
+  border: 3px solid var(--primary-gold);
+  box-shadow: 0 4px 12px rgba(212, 163, 115, 0.3);
 }
 
 .avatarImage {
@@ -32,32 +49,36 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex: 1;
 }
 
 .quote {
-  font-style: italic;
+  font-style: normal;
   color: var(--text-dark);
-  line-height: 1.6;
-  font-size: 1rem;
+  line-height: 1.7;
+  font-size: 0.95rem;
   margin: 0;
+  flex: 1;
 }
 
 .userInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 2px;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 .name {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-dark);
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .location {
   color: var(--text-light);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin: 0;
 }
 
@@ -65,22 +86,9 @@
   .testimonialCard {
     padding: 1.5rem;
   }
-  
+
   .avatar {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 1rem;
-  }
-  
-  .quote {
-    font-size: 0.95rem;
-  }
-  
-  .name {
-    font-size: 1rem;
-  }
-  
-  .location {
-    font-size: 0.85rem;
+    width: 56px;
+    height: 56px;
   }
 }

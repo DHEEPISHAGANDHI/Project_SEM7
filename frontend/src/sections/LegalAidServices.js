@@ -13,25 +13,28 @@ const LegalAidServices = ({ services = [] }) => {
 
   const defaultServices = [
     {
-      image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop',
       title: 'Free Legal Consultation',
       description: 'Get free initial consultation with experienced lawyers to understand your legal options.',
       actionText: 'Find a Lawyer',
-      action: 'consultation'
+      action: 'consultation',
+      icon: 'fas fa-user-tie'
     },
     {
-      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop',
       title: 'Document Templates',
       description: 'Access ready-to-use legal document templates for common legal procedures.',
       actionText: 'Browse Templates',
-      action: 'templates'
+      action: 'templates',
+      icon: 'fas fa-file-contract'
     },
     {
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop',
       title: 'Local Legal Clinics',
       description: 'Find legal aid clinics and organizations in your area for in-person assistance.',
       actionText: 'Find Clinics',
-      action: 'clinics'
+      action: 'clinics',
+      icon: 'fas fa-map-location-dot'
     }
   ];
 
@@ -39,43 +42,44 @@ const LegalAidServices = ({ services = [] }) => {
 
   const handleServiceAction = (action) => {
     switch (action) {
-      case 'consultation':
-        setIsConsultationModalOpen(true);
-        break;
-      case 'templates':
-        setIsTemplatesModalOpen(true);
-        break;
-      case 'clinics':
-        setIsClinicFinderOpen(true);
-        break;
-      default:
-        break;
+      case 'consultation': setIsConsultationModalOpen(true); break;
+      case 'templates': setIsTemplatesModalOpen(true); break;
+      case 'clinics': setIsClinicFinderOpen(true); break;
+      default: break;
     }
   };
+
   return (
     <section id="legal-aid" className={`section ${styles.legalAidServices}`}>
       <div className="container">
-        <TranslatableText
-          text="Legal Aid Services"
-          component="h2"
-          className="section-title"
-        />
-        <TranslatableText
-          text="Get practical help and connect with legal professionals to resolve your legal issues"
-          component="p"
-          className="section-subtitle"
-        />
-        
+        <div className="reveal" style={{ textAlign: 'center' }}>
+          <span className="section-badge">
+            <i className="fas fa-hands-helping" /> Get Help
+          </span>
+          <TranslatableText
+            text="Legal Aid Services"
+            component="h2"
+            className="section-title"
+          />
+          <TranslatableText
+            text="Get practical help and connect with legal professionals to resolve your legal issues"
+            component="p"
+            className="section-subtitle"
+          />
+        </div>
+
         <div className={styles.servicesGrid}>
           {displayServices.map((service, index) => (
-            <ServiceCard
-              key={index}
-              image={service.image}
-              title={service.title}
-              description={service.description}
-              actionText={service.actionText}
-              onAction={() => handleServiceAction(service.action)}
-            />
+            <div key={index} className={`reveal reveal-delay-${index + 1}`}>
+              <ServiceCard
+                image={service.image}
+                title={service.title}
+                description={service.description}
+                actionText={service.actionText}
+                icon={service.icon}
+                onAction={() => handleServiceAction(service.action)}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -84,12 +88,10 @@ const LegalAidServices = ({ services = [] }) => {
         isOpen={isConsultationModalOpen}
         onClose={() => setIsConsultationModalOpen(false)}
       />
-      
       <DocumentTemplatesModal
         isOpen={isTemplatesModalOpen}
         onClose={() => setIsTemplatesModalOpen(false)}
       />
-
       <LegalClinicFinder
         isOpen={isClinicFinderOpen}
         onClose={() => setIsClinicFinderOpen(false)}

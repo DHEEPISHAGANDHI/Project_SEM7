@@ -10,11 +10,11 @@ const Hero = () => {
       <div className={styles.ambientRight} aria-hidden="true" />
       <div className={styles.overlay}>
         <div className={styles.container}>
-          <div className={styles.content}>
+          <div className={`${styles.content} reveal visible`}>
             <div className={styles.pillRow}>
-              <span className={styles.pill}>24/7 legal guidance</span>
-              <span className={styles.pill}>Multilingual support</span>
-              <span className={styles.pill}>Verified resources</span>
+              <span className={styles.pill}>⚡ 24/7 legal guidance</span>
+              <span className={styles.pill}>🌐 Multilingual support</span>
+              <span className={styles.pill}>✓ Verified resources</span>
             </div>
 
             <TranslatableText
@@ -38,6 +38,7 @@ const Hero = () => {
                 className={styles.primaryButton}
               >
                 <TranslatableText text="Explore Rights" />
+                <i className="fas fa-arrow-right" />
               </Link>
               <Link
                 to="legal-aid"
@@ -67,14 +68,14 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className={styles.visualPanel}>
+          <div className={`${styles.visualPanel} reveal reveal-delay-2 visible`}>
             <div className={styles.visualHeader}>
               <span className={styles.visualTag}>Live support</span>
               <span className={styles.visualStatus}>Ready</span>
             </div>
 
             <div className={styles.visualCard}>
-              <div className={styles.visualCardTitle}>Today’s guidance</div>
+              <div className={styles.visualCardTitle}>Today's guidance</div>
               <p>Talk to the assistant, review your options, and move to the right legal resource in one flow.</p>
             </div>
 

@@ -81,11 +81,11 @@ const Login = ({ onClose }) => {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role: formData.role
+        role: formData.role.toLowerCase()
       });
       
       if (result.success) {
-        navigateToRoleDashboard(formData.role);
+        navigateToRoleDashboard(result.user.role);
       } else {
         setError(result.error);
       }

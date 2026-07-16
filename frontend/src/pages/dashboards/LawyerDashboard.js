@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useConsultationRequests } from '../../contexts/ConsultationRequestContext';
 import TranslatableText from '../../components/TranslatableText';
 import VideoCallInterface from '../../components/VideoCallInterface';
 import ScheduledMeetingsCalendar from '../../components/ScheduledMeetingsCalendar';
@@ -9,25 +10,28 @@ import styles from './LawyerDashboard.module.css';
 const LawyerDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const {
+    requests,
+    acceptRequest,
+    rejectRequest,
+    approveMeetingRequest,
+    scheduleMeeting,
+    completeMeeting,
+    sendMessage
+  } = useConsultationRequests();
+
   const [activeTab, setActiveTab] = useState('overview');
-  const [consultationRequests, setConsultationRequests] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
-  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [showVideoCall, setShowVideoCall] = useState(false);
   const [activeVideoConsultation, setActiveVideoConsultation] = useState(null);
   const [consultationTab, setConsultationTab] = useState('new-requests'); // 'new-requests', 'active-consultations' or 'scheduled-meetings'
-  const [lawyerStats, setLawyerStats] = useState({
-    totalRequests: 0,
-    acceptedRequests: 0,
-    rejectedRequests: 0,
-    acceptanceRate: 100
-  });
+  
   const [lawyerProfile, setLawyerProfile] = useState({
-    profilePhoto: null,
-    clinicName: '',
-    address: '',
-    contactEmail: '',
+    clinicName: "Priya's Family Legal Aid Clinic",
+    address: 'Flat 402, Sunset Heights, Bandra West, Mumbai, Maharashtra 400050',
+    contactEmail: 'contact@priyasharma.legal',
+    contactPhone: '+91-9876543210',
     workingDays: {
       monday: true,
       tuesday: true,
@@ -38,19 +42,20 @@ const LawyerDashboard = () => {
       sunday: false
     },
     openingTime: '09:00',
-    closingTime: '17:00'
+    closingTime: '18:00',
+    profilePhoto: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
   });
+
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [activeChatRequest, setActiveChatRequest] = useState(null);
+  
+  const [activeChatRequestId, setActiveChatRequestId] = useState(null);
   const [showChatModal, setShowChatModal] = useState(false);
-  const [chatMessages, setChatMessages] = useState({});
   const [newChatMessage, setNewChatMessage] = useState('');
   const [showSchedulingModal, setShowSchedulingModal] = useState(false);
-  const [proposedTimeSlots, setProposedTimeSlots] = useState([]);
   const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
 
-  // Redirect to home if not authenticated or not a lawyer
+  // Redirect if not lawyer
   useEffect(() => {
     if (!isAuthenticated || user?.role !== 'lawyer') {
       navigate('/');
@@ -63,622 +68,172 @@ const LawyerDashboard = () => {
     navigate('/');
   };
 
-  // Mock data for consultation requests - replace with actual API calls
-  useEffect(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const dayAfter = new Date(today);
-    dayAfter.setDate(dayAfter.getDate() + 2);
-    const nextWeek = new Date(today);
-    nextWeek.setDate(nextWeek.getDate() + 7);
-    const nextMonth = new Date(today);
-    nextMonth.setDate(nextMonth.getDate() + 15);
+  // Filter requests assigned to this lawyer
+  const consultationRequests = requests.filter(r => r.lawyerId === user?.id);
 
-    const mockRequests = [
-      {
-        id: 'REQ001',
-        userId: 'USER001',
-        userName: 'Rajesh Kumar',
-        userEmail: 'rajesh@email.com',
-        subject: 'Property Dispute Legal Advice',
-        description: 'I am facing a boundary dispute with my neighbor. They have constructed a wall that encroaches on my property. I need legal guidance on how to proceed.',
-        requestDate: '2024-08-15',
-        status: 'pending', // pending, active, scheduled, completed, rejected
-        consultationType: 'free_30min',
-        urgency: 'medium',
-        scheduledDate: null,
-        scheduledTime: null
-      },
-      {
-        id: 'REQ002',
-        userId: 'USER002',
-        userName: 'Priya Sharma',
-        userEmail: 'priya@email.com',
-        subject: 'Employment Contract Review',
-        description: 'I need help reviewing my employment contract. There are some clauses I don\'t understand and want to ensure my rights are protected.',
-        requestDate: '2024-08-14',
-        status: 'active',
-        consultationType: 'free_30min',
-        urgency: 'low',
-        scheduledDate: null,
-        scheduledTime: null,
-        canSchedule: true // User can now schedule after lawyer approval
-      },
-      {
-        id: 'REQ003',
-        userId: 'USER003',
-        userName: 'Amit Singh',
-        userEmail: 'amit@email.com',
-        subject: 'Consumer Rights Issue',
-        description: 'I purchased a defective product and the company is refusing to provide a refund or replacement. What are my legal options?',
-        requestDate: '2024-08-13',
-        status: 'scheduled',
-        consultationType: 'free_30min',
-        urgency: 'high',
-        scheduledDate: today.toISOString().split('T')[0],
-        scheduledTime: '11:00'
-      },
-      {
-        id: 'REQ004',
-        userId: 'USER004',
-        userName: 'Meena Gupta',
-        userEmail: 'meena@email.com',
-        subject: 'Divorce Proceedings',
-        description: 'I need assistance with filing for divorce. My husband has been abusive and I want to ensure I get proper alimony and child custody.',
-        requestDate: '2024-08-16',
-        status: 'pending',
-        consultationType: 'free_30min',
-        urgency: 'high',
-        scheduledDate: null,
-        scheduledTime: null
-      },
-      {
-        id: 'REQ005',
-        userId: 'USER005',
-        userName: 'Suresh Patel',
-        userEmail: 'suresh@email.com',
-        subject: 'Business Partnership Dispute',
-        description: 'My business partner is not fulfilling his obligations as per our partnership agreement. I need legal advice on how to proceed.',
-        requestDate: '2024-08-12',
-        status: 'scheduled',
-        consultationType: 'free_30min',
-        urgency: 'medium',
-        scheduledDate: dayAfter.toISOString().split('T')[0],
-        scheduledTime: '16:00'
-      },
-      {
-        id: 'REQ006',
-        userId: 'USER006',
-        userName: 'Kavya Reddy',
-        userEmail: 'kavya@email.com',
-        subject: 'Property Registration Issues',
-        description: 'I am facing issues with property registration. The documents are being rejected and I need legal guidance.',
-        requestDate: '2024-08-10',
-        status: 'scheduled',
-        consultationType: 'free_30min',
-        urgency: 'medium',
-        scheduledDate: nextWeek.toISOString().split('T')[0],
-        scheduledTime: '10:00'
-      },
-      {
-        id: 'REQ007',
-        userId: 'USER007',
-        userName: 'Arjun Nair',
-        userEmail: 'arjun@email.com',
-        subject: 'Employment Termination',
-        description: 'I was wrongfully terminated from my job. I need to understand my rights and possible legal recourse.',
-        requestDate: '2024-08-11',
-        status: 'scheduled',
-        consultationType: 'free_30min',
-        urgency: 'high',
-        scheduledDate: nextMonth.toISOString().split('T')[0],
-        scheduledTime: '15:00'
-      },
-      {
-        id: 'REQ008',
-        userId: 'USER008',
-        userName: 'Deepika Shah',
-        userEmail: 'deepika@email.com',
-        subject: 'Tenant Rights',
-        description: 'My landlord is trying to evict me without proper notice. I need legal advice on tenant rights.',
-        requestDate: '2024-08-09',
-        status: 'scheduled',
-        consultationType: 'free_30min',
-        urgency: 'medium',
-        scheduledDate: today.toISOString().split('T')[0],
-        scheduledTime: '09:00'
-      }
-    ];
-    
-    setConsultationRequests(mockRequests);
-    
-    // Calculate lawyer stats
-    const total = mockRequests.length;
-    const accepted = mockRequests.filter(req => 
+  // Active chat request derived state
+  const activeChatRequest = consultationRequests.find(r => r.id === activeChatRequestId) || null;
+
+  // Dynamically calculate statistics
+  const lawyerStats = (() => {
+    const total = consultationRequests.length;
+    const accepted = consultationRequests.filter(req => 
       req.status === 'active' || req.status === 'scheduled' || req.status === 'completed'
     ).length;
-    const rejected = mockRequests.filter(req => req.status === 'rejected').length;
+    const rejected = consultationRequests.filter(req => req.status === 'rejected').length;
     const acceptanceRate = total > 0 ? Math.round((accepted / total) * 100) : 100;
     
-    setLawyerStats({
+    return {
       totalRequests: total,
       acceptedRequests: accepted,
       rejectedRequests: rejected,
       acceptanceRate
-    });
+    };
+  })();
 
-    // Mock messages for accepted consultations
-    setMessages([
-      {
-        id: 1,
-        consultationId: 'REQ002',
-        senderId: 'USER002',
-        senderName: 'Priya Sharma',
-        message: 'Thank you for accepting my consultation request. I have scheduled our meeting for tomorrow at 2 PM.',
-        timestamp: '2024-08-14 10:30 AM',
-        type: 'user'
-      },
-      {
-        id: 2,
-        consultationId: 'REQ002',
-        senderId: user?.id,
-        senderName: user?.name,
-        message: 'Perfect! I look forward to our video consultation tomorrow. Please have your employment contract ready for review.',
-        timestamp: '2024-08-14 11:15 AM',
-        type: 'lawyer'
-      }
-    ]);
-  }, [user]);
+  // Generate notifications based on pending requests
+  useEffect(() => {
+    const pendings = consultationRequests.filter(r => r.status === 'pending');
+    const notifs = pendings.map((r, index) => ({
+      id: index + 1,
+      message: `New consultation request from ${r.userName}: "${r.subject}"`,
+      timestamp: r.requestDate,
+      isRead: false
+    }));
+    setNotifications(notifs);
+  }, [requests, user]);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'pending': return '#ffc107';
-      case 'accepted': return '#0056b3';
-      case 'scheduled': return '#17a2b8';
-      case 'completed': return '#28a745';
-      case 'rejected': return '#dc3545';
-      default: return '#6c757d';
-    }
+  const markNotificationAsRead = (id) => {
+    setNotifications(prev => 
+      prev.map(n => n.id === id ? { ...n, isRead: true } : n)
+    );
   };
 
-  const getUrgencyColor = (urgency) => {
-    switch (urgency) {
-      case 'high': return '#dc3545';
-      case 'medium': return '#ffc107';
-      case 'low': return '#28a745';
-      default: return '#6c757d';
-    }
-  };
-
-  // Check if lawyer can reject a request (80% rule)
+  // Check if lawyer has enough margin to reject
   const canRejectRequest = () => {
-    if (lawyerStats.totalRequests === 0) return true;
-    
-    // Calculate what acceptance rate would be if we reject one more
-    const newRejected = lawyerStats.rejectedRequests + 1;
-    const newAcceptanceRate = ((lawyerStats.totalRequests - newRejected) / lawyerStats.totalRequests) * 100;
-    
-    return newAcceptanceRate >= 80;
+    if (lawyerStats.totalRequests < 5) return true; // Let them reject initially
+    return lawyerStats.acceptanceRate >= 80;
   };
 
   const handleAcceptAndOpenChat = (consultationId) => {
-    // Step 1: Update the request status to 'active'
-    setConsultationRequests(prev => 
-      prev.map(req => 
-        req.id === consultationId 
-          ? { ...req, status: 'active' }
-          : req
-      )
-    );
+    acceptRequest(consultationId);
+    setActiveChatRequestId(consultationId);
+    setShowChatModal(true);
+    setConsultationTab('active-consultations');
+    alert('✅ Request Accepted!\n\nYou can now chat with the client and schedule a video consultation.');
+  };
 
-    // Update stats
-    setLawyerStats(prev => ({
-      ...prev,
-      acceptedRequests: prev.acceptedRequests + 1,
-      acceptanceRate: Math.round(((prev.acceptedRequests + 1) / prev.totalRequests) * 100)
-    }));
-
-    // Step 2: Open chat for this consultation
-    const acceptedRequest = consultationRequests.find(req => req.id === consultationId);
-    if (acceptedRequest) {
-      handleOpenChat({...acceptedRequest, status: 'active'});
-      
-      // Show success message to lawyer
-      alert(`✅ Request Accepted & Chat Opened!\n\nYou can now communicate with ${acceptedRequest.userName} and propose meeting times.`);
+  const handleRejectConsultation = (consultationId) => {
+    if (!canRejectRequest()) {
+      alert('⚠️ Cannot reject request: Your acceptance rate would drop below the required 80% threshold.');
+      return;
+    }
+    const confirmReject = window.confirm('Are you sure you want to decline this request?');
+    if (confirmReject) {
+      rejectRequest(consultationId);
+      alert('❌ Consultation request declined.');
     }
   };
 
-  // Function to send notification to user
-  const sendNotificationToUser = (request) => {
-    console.log('📧 Sending notification to user:', {
-      userId: request.userId,
-      userName: request.userName,
-      userEmail: request.userEmail,
-      message: `Great news! Lawyer ${user?.name} has accepted your consultation request for "${request.subject}". Please check your email for the scheduling link.`
-    });
-    
-    // In real implementation, this would call your backend API to:
-    // 1. Send email notification to user
-    // 2. Send push notification (if app is installed)
-    // 3. Create in-app notification
-    
-    // For demonstration, simulate user booking after a delay
-    simulateUserBooking(request.id);
+  const handleOpenChat = (request) => {
+    setActiveChatRequestId(request.id);
+    setShowChatModal(true);
   };
 
-  // Function to generate private calendar link for user
-  const generateCalendarLink = (request) => {
-    // Generate a unique token for this scheduling session
-    const schedulingToken = `schedule_${request.id}_${Date.now()}`;
-    const calendarLink = `${window.location.origin}/schedule-appointment/${schedulingToken}`;
-    
-    console.log('🔗 Generated private calendar link:', {
-      requestId: request.id,
-      userName: request.userName,
-      userEmail: request.userEmail,
-      calendarLink: calendarLink,
-      expiresIn: '7 days'
-    });
-    
-    // In real implementation, this would:
-    // 1. Store the scheduling token in database with expiry
-    // 2. Send the link via email to the user
-    // 3. Create a temporary calendar access for this user
-    
-    return schedulingToken;
+  const handleSendChatMessage = () => {
+    if (!newChatMessage.trim() || !activeChatRequest) return;
+    sendMessage(activeChatRequest.id, 'lawyer', user?.name || 'Advocate', newChatMessage.trim());
+    setNewChatMessage('');
   };
 
-  // Function to handle when user schedules a meeting (called from calendar booking)
-  const handleMeetingScheduled = (requestId, selectedDate, selectedTime, userDetails) => {
-    console.log('📅 Meeting scheduled by user:', {
-      requestId,
-      selectedDate,
-      selectedTime,
-      userDetails
-    });
-
-    // Update the consultation request to 'scheduled' status
-    setConsultationRequests(prev => 
-      prev.map(req => 
-        req.id === requestId 
-          ? { 
-              ...req, 
-              status: 'scheduled',
-              scheduledDate: selectedDate,
-              scheduledTime: selectedTime
-            }
-          : req
-      )
-    );
-
-    // Add notification for the lawyer
-    const newNotification = {
-      id: Date.now(),
-      type: 'meeting_scheduled',
-      title: 'New Meeting Scheduled!',
-      message: `${userDetails.userName} has scheduled a meeting for ${selectedDate} at ${selectedTime}`,
-      timestamp: new Date().toISOString(),
-      isRead: false,
-      requestId: requestId
-    };
-
-    setNotifications(prev => [newNotification, ...prev]);
-    
-    // Show notification banner briefly
-    setShowNotifications(true);
-    setTimeout(() => setShowNotifications(false), 5000);
-
-    // In real implementation, this would:
-    // 1. Save the scheduled meeting to database
-    // 2. Send confirmation emails to both lawyer and user
-    // 3. Add to both calendars
-    // 4. Set up reminder notifications
+  const handleRejectFromChat = () => {
+    if (!activeChatRequest) return;
+    if (!canRejectRequest()) {
+      alert('⚠️ Cannot decline consultation: Your acceptance rate must remain above 80%.');
+      return;
+    }
+    const confirmEnd = window.confirm('Are you sure you want to decline and end this consultation?');
+    if (confirmEnd) {
+      rejectRequest(activeChatRequest.id);
+      setShowChatModal(false);
+      setActiveChatRequestId(null);
+      alert('❌ Consultation declined.');
+    }
   };
 
-  // Mark notification as read
-  const markNotificationAsRead = (notificationId) => {
-    setNotifications(prev => 
-      prev.map(notif => 
-        notif.id === notificationId 
-          ? { ...notif, isRead: true }
-          : notif
-      )
-    );
-  };
-
-  // Clear all notifications
-  const clearAllNotifications = () => {
-    setNotifications([]);
-    setShowNotifications(false);
-  };
-
-  // Lawyer-initiated scheduling functions
   const handleProposeTime = () => {
     setShowSchedulingModal(true);
-    setSelectedTimeSlots([]);
   };
 
   const handleTimeSlotSelect = (date, time) => {
-    const timeSlot = { date, time };
-    const timeSlotKey = `${date}_${time}`;
-    
-    setSelectedTimeSlots(prev => {
-      const exists = prev.find(slot => `${slot.date}_${slot.time}` === timeSlotKey);
-      if (exists) {
-        return prev.filter(slot => `${slot.date}_${slot.time}` !== timeSlotKey);
-      } else {
-        return [...prev, timeSlot];
-      }
-    });
+    const slotExists = selectedTimeSlots.some(s => s.date === date && s.time === time);
+    if (slotExists) {
+      setSelectedTimeSlots(prev => prev.filter(s => !(s.date === date && s.time === time)));
+    } else {
+      setSelectedTimeSlots(prev => [...prev, { date, time }]);
+    }
   };
 
   const handleSendTimeProposal = () => {
     if (!activeChatRequest || selectedTimeSlots.length === 0) return;
 
-    const proposalMessage = {
-      id: Date.now(),
-      senderId: user?.id,
-      senderName: user?.name,
-      message: `I'd like to propose the following meeting times for our consultation:`,
-      timestamp: new Date().toISOString(),
-      type: 'lawyer',
-      isTimeProposal: true,
-      proposedTimes: selectedTimeSlots
-    };
+    // Send the meeting proposal in chat
+    sendMessage(
+      activeChatRequest.id, 
+      'lawyer', 
+      user?.name || 'Advocate', 
+      "I'd like to propose the following meeting times for our consultation:", 
+      {
+        isTimeProposal: true,
+        proposedTimes: selectedTimeSlots
+      }
+    );
 
-    setChatMessages(prev => ({
-      ...prev,
-      [activeChatRequest.id]: [...(prev[activeChatRequest.id] || []), proposalMessage]
-    }));
+    // Automatically approve meeting request state so user can schedule it
+    approveMeetingRequest(activeChatRequest.id);
 
     setShowSchedulingModal(false);
     setSelectedTimeSlots([]);
-    
-    console.log('📅 Time proposal sent:', {
-      requestId: activeChatRequest.id,
-      proposedTimes: selectedTimeSlots,
-      recipient: activeChatRequest.userEmail
-    });
-
-    alert(`✅ Meeting times proposed!\n\n${activeChatRequest.userName} will be notified of your available time slots.`);
+    alert('📅 Proposed meeting slots sent successfully to the client!');
   };
 
   const handleAcceptProposedTime = (timeSlot) => {
     if (!activeChatRequest) return;
-
-    // Update consultation to scheduled status
-    setConsultationRequests(prev => 
-      prev.map(req => 
-        req.id === activeChatRequest.id 
-          ? { 
-              ...req, 
-              status: 'scheduled',
-              scheduledDate: timeSlot.date,
-              scheduledTime: timeSlot.time
-            }
-          : req
-      )
-    );
-
-    // Add confirmation message to chat
-    const confirmationMessage = {
-      id: Date.now(),
-      senderId: user?.id,
-      senderName: user?.name,
-      message: `✅ Meeting confirmed for ${timeSlot.date} at ${timeSlot.time}. See you then!`,
-      timestamp: new Date().toISOString(),
-      type: 'lawyer',
-      isConfirmation: true
-    };
-
-    setChatMessages(prev => ({
-      ...prev,
-      [activeChatRequest.id]: [...(prev[activeChatRequest.id] || []), confirmationMessage]
-    }));
-
-    // Close chat modal
+    scheduleMeeting(activeChatRequest.id, timeSlot.date, timeSlot.time);
     setShowChatModal(false);
-    setActiveChatRequest(null);
-
-    alert(`✅ Meeting Scheduled!\n\nDate: ${timeSlot.date}\nTime: ${timeSlot.time}\n\nBoth you and ${activeChatRequest.userName} will receive confirmation.`);
+    setActiveChatRequestId(null);
+    alert(`✅ Meeting Scheduled successfully on ${timeSlot.date} at ${timeSlot.time}!`);
   };
 
-  // Chat functionality
-  const handleOpenChat = (request) => {
-    setActiveChatRequest(request);
-    setShowChatModal(true);
-    
-    // Initialize chat messages if they don't exist
-    if (!chatMessages[request.id]) {
-      setChatMessages(prev => ({
-        ...prev,
-        [request.id]: [
-          {
-            id: 1,
-            senderId: request.userId,
-            senderName: request.userName,
-            message: `Original request: ${request.description}`,
-            timestamp: request.requestDate,
-            type: 'user',
-            isOriginalRequest: true
-          }
-        ]
-      }));
-    }
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !selectedConsultation) return;
+    sendMessage(selectedConsultation.id, 'lawyer', user?.name || 'Advocate', newMessage.trim());
+    setNewMessage('');
   };
 
-  const handleSendChatMessage = () => {
-    if (!newChatMessage.trim() || !activeChatRequest) return;
-
-    const message = {
-      id: Date.now(),
-      senderId: user?.id,
-      senderName: user?.name,
-      message: newChatMessage,
-      timestamp: new Date().toISOString(),
-      type: 'lawyer'
-    };
-
-    setChatMessages(prev => ({
-      ...prev,
-      [activeChatRequest.id]: [...(prev[activeChatRequest.id] || []), message]
-    }));
-
-    setNewChatMessage('');
-    
-    // In real app, send message to backend and notify user
-    console.log('💬 Message sent to user:', {
-      requestId: activeChatRequest.id,
-      message: newChatMessage,
-      recipient: activeChatRequest.userEmail
-    });
-  };
-
-  const handleRejectFromChat = () => {
-    if (!activeChatRequest) return;
-
-    if (!canRejectRequest()) {
-      alert('Cannot reject this request. Your acceptance rate would drop below 80%.');
-      return;
-    }
-
-    // Update request status to rejected
-    setConsultationRequests(prev => 
-      prev.map(req => 
-        req.id === activeChatRequest.id 
-          ? { ...req, status: 'rejected' }
-          : req
-      )
-    );
-
-    // Update stats
-    setLawyerStats(prev => ({
-      ...prev,
-      rejectedRequests: prev.rejectedRequests + 1,
-      acceptanceRate: Math.round(((prev.totalRequests - (prev.rejectedRequests + 1)) / prev.totalRequests) * 100)
-    }));
-
-    // Close chat modal
-    setShowChatModal(false);
-    setActiveChatRequest(null);
-
-    alert(`❌ Request Rejected.\n\n${activeChatRequest?.userName} has been notified.`);
-    
-    console.log('❌ Request rejected:', activeChatRequest);
-  };
-
-  // Simulate a user booking a meeting (for testing purposes)
-  const simulateUserBooking = (requestId) => {
-    // Simulate a user scheduling after accepting
-    setTimeout(() => {
-      const request = consultationRequests.find(req => req.id === requestId);
-      if (request && request.status === 'accepted') {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        
-        handleMeetingScheduled(
-          requestId,
-          tomorrow.toISOString().split('T')[0],
-          '15:00',
-          {
-            userName: request.userName,
-            userEmail: request.userEmail
-          }
-        );
-      }
-    }, 3000); // Simulate 3 seconds delay
-  };
-
-  const handleRejectConsultation = (consultationId) => {
-    if (!canRejectRequest()) {
-      alert('Cannot reject this request. Your acceptance rate would drop below 80%.');
-      return;
-    }
-
-    setConsultationRequests(prev => 
-      prev.map(req => 
-        req.id === consultationId 
-          ? { ...req, status: 'rejected' }
-          : req
-      )
-    );
-
-    // Update stats
-    setLawyerStats(prev => ({
-      ...prev,
-      rejectedRequests: prev.rejectedRequests + 1,
-      acceptanceRate: Math.round(((prev.totalRequests - (prev.rejectedRequests + 1)) / prev.totalRequests) * 100)
-    }));
-  };
-
-  // Check if join call button should be enabled (10 minutes before meeting)
-  const canJoinCall = (consultation) => {
-    if (!consultation.scheduledDate || !consultation.scheduledTime) return false;
-    
-    const scheduledDateTime = new Date(`${consultation.scheduledDate}T${consultation.scheduledTime}`);
-    const now = new Date();
-    const timeDiff = scheduledDateTime.getTime() - now.getTime();
-    const minutesDiff = timeDiff / (1000 * 60);
-    
-    // Can join 10 minutes before the scheduled time
-    return minutesDiff <= 10 && minutesDiff >= -30; // Allow joining up to 30 minutes after start time
-  };
-
-  // Handle join video call
   const handleJoinCall = (consultation) => {
     setActiveVideoConsultation(consultation);
     setShowVideoCall(true);
   };
 
-  // Handle end video call
   const handleEndCall = () => {
     setShowVideoCall(false);
-    
-    // Update consultation status to completed
     if (activeVideoConsultation) {
-      setConsultationRequests(prev => 
-        prev.map(req => 
-          req.id === activeVideoConsultation.id 
-            ? { ...req, status: 'completed' }
-            : req
-        )
-      );
+      completeMeeting(activeVideoConsultation.id);
     }
-    
     setActiveVideoConsultation(null);
   };
 
   const handleCompleteConsultation = (consultationId) => {
-    setConsultationRequests(prev => 
-      prev.map(req => 
-        req.id === consultationId 
-          ? { ...req, status: 'completed' }
-          : req
-      )
-    );
-  };
-
-  const handleSendMessage = () => {
-    if (!newMessage.trim() || !selectedConsultation) return;
-
-    const message = {
-      id: Date.now(),
-      consultationId: selectedConsultation.id,
-      senderId: user?.id,
-      senderName: user?.name,
-      message: newMessage,
-      timestamp: new Date().toLocaleString(),
-      type: 'lawyer'
-    };
-
-    setMessages(prev => [...prev, message]);
-    setNewMessage('');
+    const confirmComplete = window.confirm('Mark this consultation as completed?');
+    if (confirmComplete) {
+      completeMeeting(consultationId);
+      alert('✅ Consultation completed.');
+    }
   };
 
   const handleProfileSave = () => {
-    // Save profile logic here - API call
-    alert('Profile updated successfully!');
+    alert('Clinic & Profile details saved successfully!');
   };
 
   const handlePhotoUpload = (event) => {
@@ -695,6 +250,48 @@ const LawyerDashboard = () => {
     }
   };
 
+  // Helper colors
+  const getUrgencyColor = (urgency) => {
+    switch (urgency?.toLowerCase()) {
+      case 'high': return '#dc3545';
+      case 'medium': return '#ffc107';
+      default: return '#28a745';
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'pending': return '#ffc107';
+      case 'active': return '#0056b3';
+      case 'scheduled': return '#17a2b8';
+      case 'completed': return '#28a745';
+      case 'rejected': return '#dc3545';
+      default: return '#6c757d';
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const canJoinCall = (consultation) => {
+    if (!consultation?.scheduledDate || !consultation?.scheduledTime) return false;
+    
+    const scheduledDateTime = new Date(`${consultation.scheduledDate}T${consultation.scheduledTime}`);
+    const now = new Date();
+    const timeDiff = scheduledDateTime.getTime() - now.getTime();
+    const minutesDiff = timeDiff / (1000 * 60);
+    
+    return minutesDiff <= 10 && minutesDiff >= -30;
+  };
+
+  // Render Subcomponents
   const renderOverview = () => (
     <div className={styles.overviewContent}>
       <div className={styles.welcomeSection}>
@@ -703,7 +300,7 @@ const LawyerDashboard = () => {
       </div>
 
       <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
+        <div className={styles.statCard} onClick={() => { setActiveTab('consultations'); setConsultationTab('new-requests'); }} style={{ cursor: 'pointer' }}>
           <div className={styles.statIcon}>
             <i className="fas fa-clock" style={{color: '#ffc107'}}></i>
           </div>
@@ -713,7 +310,7 @@ const LawyerDashboard = () => {
           </div>
         </div>
         
-        <div className={styles.statCard}>
+        <div className={styles.statCard} onClick={() => { setActiveTab('consultations'); setConsultationTab('active-consultations'); }} style={{ cursor: 'pointer' }}>
           <div className={styles.statIcon}>
             <i className="fas fa-handshake" style={{color: '#0056b3'}}></i>
           </div>
@@ -723,13 +320,13 @@ const LawyerDashboard = () => {
           </div>
         </div>
         
-        <div className={styles.statCard}>
+        <div className={styles.statCard} onClick={() => { setActiveTab('consultations'); setConsultationTab('scheduled-meetings'); }} style={{ cursor: 'pointer' }}>
           <div className={styles.statIcon}>
             <i className="fas fa-check-circle" style={{color: '#28a745'}}></i>
           </div>
           <div className={styles.statInfo}>
-            <h3>{consultationRequests.filter(req => req.status === 'completed').length}</h3>
-            <p><TranslatableText text="Completed Today" /></p>
+            <h3>{consultationRequests.filter(req => req.status === 'scheduled').length}</h3>
+            <p><TranslatableText text="Scheduled Meetings" /></p>
           </div>
         </div>
       </div>
@@ -759,19 +356,7 @@ const LawyerDashboard = () => {
                   </span>
                 </div>
               </div>
-              <p className={styles.requestDescription}>{request.description}</p>
-              <div className={styles.requestActions}>
-                <span className={styles.requestDate}>{request.requestDate}</span>
-                <button 
-                  className={styles.viewButton}
-                  onClick={() => {
-                    setSelectedConsultation(request);
-                    setActiveTab('consultations');
-                  }}
-                >
-                  View Details
-                </button>
-              </div>
+              <p className={styles.recentDesc}>{request.description}</p>
             </div>
           ))}
         </div>
@@ -781,7 +366,6 @@ const LawyerDashboard = () => {
 
   const renderConsultations = () => (
     <div className={styles.consultationsContent}>
-      {/* Consultation Tabs */}
       <div className={styles.consultationTabs}>
         <button 
           className={`${styles.tabButton} ${consultationTab === 'new-requests' ? styles.activeTab : ''}`}
@@ -815,18 +399,16 @@ const LawyerDashboard = () => {
         </button>
       </div>
 
-      {/* Acceptance Rate Warning */}
       {lawyerStats.acceptanceRate < 85 && (
         <div className={styles.warningBanner}>
           <i className="fas fa-exclamation-triangle"></i>
           <span>
             Warning: Your acceptance rate is {lawyerStats.acceptanceRate}%. 
-            Please maintain at least 80% to continue receiving consultation requests.
+            Please maintain at least 80% to continue receiving requests.
           </span>
         </div>
       )}
 
-      {/* Tab Content */}
       {consultationTab === 'new-requests' && renderNewRequests()}
       {consultationTab === 'active-consultations' && renderActiveConsultations()}
       {consultationTab === 'scheduled-meetings' && renderScheduledMeetings()}
@@ -841,7 +423,7 @@ const LawyerDashboard = () => {
         <div className={styles.emptyState}>
           <i className="fas fa-inbox"></i>
           <h3><TranslatableText text="No New Requests" /></h3>
-          <p><TranslatableText text="You have no pending consultation requests at the moment." /></p>
+          <p><TranslatableText text="You have no pending requests at the moment." /></p>
         </div>
       );
     }
@@ -850,10 +432,6 @@ const LawyerDashboard = () => {
       <div className={styles.requestsList}>
         <div className={styles.requestsHeader}>
           <h3><TranslatableText text="New Consultation Requests" /></h3>
-          <div className={styles.statsInfo}>
-            <span>Acceptance Rate: <strong>{lawyerStats.acceptanceRate}%</strong></span>
-            <span>Total Requests: <strong>{lawyerStats.totalRequests}</strong></span>
-          </div>
         </div>
         
         <div className={styles.requestsGrid}>
@@ -863,8 +441,7 @@ const LawyerDashboard = () => {
                 <div className={styles.requestInfo}>
                   <h4>{request.subject}</h4>
                   <p><strong>Client:</strong> {request.userName}</p>
-                  <p><strong>Legal Issue Type:</strong> {request.subject}</p>
-                  <p><strong>Request Date:</strong> {request.requestDate}</p>
+                  <p><strong>Request Date:</strong> {formatDate(request.requestDate)}</p>
                 </div>
                 <div className={styles.requestBadges}>
                   <span 
@@ -892,7 +469,6 @@ const LawyerDashboard = () => {
                   className={`${styles.rejectButton} ${!canRejectRequest() ? styles.disabled : ''}`}
                   onClick={() => handleRejectConsultation(request.id)}
                   disabled={!canRejectRequest()}
-                  title={!canRejectRequest() ? 'Cannot reject - would drop acceptance rate below 80%' : ''}
                 >
                   <i className="fas fa-times"></i>
                   <TranslatableText text="Reject" />
@@ -913,7 +489,7 @@ const LawyerDashboard = () => {
         <div className={styles.emptyState}>
           <i className="fas fa-comments"></i>
           <h3><TranslatableText text="No Active Consultations" /></h3>
-          <p><TranslatableText text="Accepted requests will appear here for messaging and scheduling." /></p>
+          <p><TranslatableText text="Accepted requests will appear here for messaging." /></p>
         </div>
       );
     }
@@ -921,8 +497,7 @@ const LawyerDashboard = () => {
     return (
       <div className={styles.requestsList}>
         <div className={styles.requestsHeader}>
-          <h3><TranslatableText text="Active Consultations - Chat & Schedule Meetings" /></h3>
-          <p className={styles.subHeader}>Communicate with clients and propose meeting times</p>
+          <h3><TranslatableText text="Active Consultations" /></h3>
         </div>
         
         <div className={styles.requestsGrid}>
@@ -933,12 +508,10 @@ const LawyerDashboard = () => {
                   <h4>{request.subject}</h4>
                   <p><strong>Client:</strong> {request.userName}</p>
                   <p><strong>Email:</strong> {request.userEmail}</p>
-                  <p><strong>Active since:</strong> {request.requestDate}</p>
                 </div>
                 <div className={styles.requestBadges}>
                   <span className={styles.activeBadge}>
-                    <i className="fas fa-comments"></i>
-                    Active Chat
+                    <i className="fas fa-comments"></i> Active Chat
                   </span>
                 </div>
               </div>
@@ -955,10 +528,6 @@ const LawyerDashboard = () => {
                   <i className="fas fa-comments"></i>
                   <TranslatableText text="Open Chat" />
                 </button>
-                <div className={styles.chatIndicator}>
-                  <i className="fas fa-circle" style={{color: '#28a745'}}></i>
-                  <span>Ready for messaging</span>
-                </div>
               </div>
             </div>
           ))}
@@ -972,29 +541,19 @@ const LawyerDashboard = () => {
       <div className={styles.scheduledMeetingsWrapper}>
         <div className={styles.scheduledMeetingsHeader}>
           <h3><TranslatableText text="Scheduled Meetings Calendar" /></h3>
-          <p><TranslatableText text="View your upcoming consultations and manage your availability" /></p>
+          <p><TranslatableText text="View your upcoming consultations. Click a slot to view details and launch the call." /></p>
         </div>
         
         <ScheduledMeetingsCalendar 
           consultationRequests={consultationRequests}
           onBlockTime={(date, timeSlots) => {
-            console.log('🚫 Blocking time slots:', { date, timeSlots });
-            
-            // In real implementation, this would save blocked time to your backend
-            // For now, we'll show a confirmation message
-            alert(`✅ Time blocked successfully!\n\nDate: ${date}\nTime slots: ${timeSlots.join(', ')}\n\nThese slots are now unavailable for booking.`);
+            alert(`✅ Time slots blocked: ${timeSlots.join(', ')} on ${date}`);
           }}
           onBlockDay={(date) => {
-            console.log('🚫 Blocking entire day:', date);
-            
-            // In real implementation, this would save blocked day to your backend
-            // For now, we'll show a confirmation message
-            alert(`✅ Day blocked successfully!\n\nDate: ${date}\n\nThis entire day is now unavailable for booking.`);
+            alert(`✅ Day blocked: ${date}`);
           }}
           onMeetingClick={(meeting) => {
-            // Handle when lawyer clicks on a scheduled meeting
             setSelectedConsultation(meeting);
-            console.log('📋 Meeting details requested:', meeting);
           }}
         />
       </div>
@@ -1048,7 +607,7 @@ const LawyerDashboard = () => {
           
           <div className={styles.fieldGroup}>
             <label>Bar Council Registration Number</label>
-            <input type="text" placeholder="Enter your Bar Council ID" className={styles.inputField} />
+            <input type="text" placeholder="Enter your Bar Council ID" defaultValue="MAH/4021/2018" className={styles.inputField} />
           </div>
         </div>
 
@@ -1061,7 +620,6 @@ const LawyerDashboard = () => {
               type="text"
               value={lawyerProfile.clinicName}
               onChange={(e) => setLawyerProfile(prev => ({...prev, clinicName: e.target.value}))}
-              placeholder="Enter your clinic/office name"
               className={styles.inputField}
             />
           </div>
@@ -1071,7 +629,6 @@ const LawyerDashboard = () => {
             <textarea
               value={lawyerProfile.address}
               onChange={(e) => setLawyerProfile(prev => ({...prev, address: e.target.value}))}
-              placeholder="Enter complete address with city, state, and pincode"
               className={styles.textareaField}
             ></textarea>
           </div>
@@ -1082,7 +639,6 @@ const LawyerDashboard = () => {
               type="email"
               value={lawyerProfile.contactEmail}
               onChange={(e) => setLawyerProfile(prev => ({...prev, contactEmail: e.target.value}))}
-              placeholder="clinic@example.com"
               className={styles.inputField}
             />
           </div>
@@ -1163,7 +719,7 @@ const LawyerDashboard = () => {
                 className={styles.closeChatModal}
                 onClick={() => {
                   setShowChatModal(false);
-                  setActiveChatRequest(null);
+                  setActiveChatRequestId(null);
                 }}
               >
                 <i className="fas fa-times"></i>
@@ -1172,69 +728,55 @@ const LawyerDashboard = () => {
             
             <div className={styles.chatModalContent}>
               <div className={styles.chatMessages}>
-                {(chatMessages[activeChatRequest.id] || []).map(message => (
-                  <div 
-                    key={message.id} 
-                    className={`${styles.chatMessage} ${styles[message.type]} ${message.isOriginalRequest ? styles.originalRequest : ''}`}
-                  >
-                    <div className={styles.messageHeader}>
-                      <strong>{message.senderName}</strong>
-                      <span className={styles.messageTime}>
-                        {new Date(message.timestamp).toLocaleString()}
-                      </span>
-                    </div>
-                    <div className={styles.messageText}>
-                      {message.isOriginalRequest && (
-                        <div className={styles.originalRequestLabel}>
-                          <i className="fas fa-file-alt"></i>
-                          <span>Original Request</span>
-                        </div>
-                      )}
-                      {message.message}
-                      
-                      {/* Time Proposal Display */}
-                      {message.isTimeProposal && message.proposedTimes && (
-                        <div className={styles.timeProposal}>
-                          <div className={styles.proposalHeader}>
-                            <i className="fas fa-calendar-alt"></i>
-                            <span>Proposed Meeting Times:</span>
+                {/* Render seeded/stored messages directly */}
+                {(activeChatRequest.messages || []).map(message => {
+                  const type = message.sender === 'user' ? 'client' : message.sender === 'system' ? 'system' : 'lawyer';
+                  return (
+                    <div 
+                      key={message.id} 
+                      className={`${styles.chatMessage} ${styles[type]} ${message.isOriginalRequest ? styles.originalRequest : ''}`}
+                    >
+                      <div className={styles.messageHeader}>
+                        <strong>{message.senderName}</strong>
+                        <span className={styles.messageTime}>
+                          {new Date(message.timestamp).toLocaleString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                        </span>
+                      </div>
+                      <div className={styles.messageText}>
+                        {message.text}
+                        
+                        {/* Time Proposal Display */}
+                        {message.isTimeProposal && message.proposedTimes && (
+                          <div className={styles.timeProposal}>
+                            <div className={styles.proposalHeader}>
+                              <i className="fas fa-calendar-alt"></i>
+                              <span>Proposed Meeting Times:</span>
+                            </div>
+                            <div className={styles.proposedTimes}>
+                              {message.proposedTimes.map((timeSlot, index) => (
+                                <button
+                                  key={index}
+                                  className={styles.proposedTimeSlot}
+                                  onClick={() => handleAcceptProposedTime(timeSlot)}
+                                  title="Click to schedule this time"
+                                >
+                                  <i className="fas fa-calendar-check"></i>
+                                  <span>
+                                    {formatDate(timeSlot.date)} at {timeSlot.time}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                            <p className={styles.proposalNote}>
+                              <i className="fas fa-info-circle"></i>
+                              Click on a slot to schedule it.
+                            </p>
                           </div>
-                          <div className={styles.proposedTimes}>
-                            {message.proposedTimes.map((timeSlot, index) => (
-                              <button
-                                key={index}
-                                className={styles.proposedTimeSlot}
-                                onClick={() => handleAcceptProposedTime(timeSlot)}
-                                title="Click to schedule this time"
-                              >
-                                <i className="fas fa-calendar-check"></i>
-                                <span>
-                                  {new Date(timeSlot.date).toLocaleDateString('en-US', { 
-                                    weekday: 'long', 
-                                    month: 'short', 
-                                    day: 'numeric' 
-                                  })} at {timeSlot.time}
-                                </span>
-                              </button>
-                            ))}
-                          </div>
-                          <p className={styles.proposalNote}>
-                            <i className="fas fa-info-circle"></i>
-                            Click on any time slot to confirm the meeting
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* Confirmation Display */}
-                      {message.isConfirmation && (
-                        <div className={styles.confirmationMessage}>
-                          <i className="fas fa-check-circle"></i>
-                          <span>Meeting Confirmed</span>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               
               <div className={styles.chatInput}>
@@ -1272,7 +814,7 @@ const LawyerDashboard = () => {
                     disabled={!canRejectRequest()}
                   >
                     <i className="fas fa-times"></i>
-                    <TranslatableText text="End Consultation" />
+                    <TranslatableText text="Decline Consultation" />
                   </button>
                 </>
               )}
@@ -1298,16 +840,15 @@ const LawyerDashboard = () => {
             
             <div className={styles.schedulingModalContent}>
               <div className={styles.timeSlotGrid}>
-                {/* Generate time slots for the next 7 days */}
-                {Array.from({length: 7}, (_, dayIndex) => {
+                {Array.from({length: 4}, (_, dayIndex) => {
                   const date = new Date();
                   date.setDate(date.getDate() + dayIndex + 1);
                   const dateString = date.toISOString().split('T')[0];
-                  const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+                  const dayName = date.toLocaleDateString('en-IN', { weekday: 'long' });
                   
                   return (
                     <div key={dateString} className={styles.daySlots}>
-                      <h4>{dayName} - {date.toLocaleDateString()}</h4>
+                      <h4>{dayName} - {formatDate(dateString)}</h4>
                       <div className={styles.timeSlots}>
                         {['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'].map(time => {
                           const isSelected = selectedTimeSlots.some(
@@ -1345,6 +886,92 @@ const LawyerDashboard = () => {
               >
                 Cancel
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Meeting Details Modal (Scheduled Meetings) */}
+      {selectedConsultation && (
+        <div className={styles.chatModalOverlay}>
+          <div className={styles.chatModal}>
+            <div className={styles.chatModalHeader}>
+              <div className={styles.chatHeaderInfo}>
+                <h3><TranslatableText text="Meeting Details" /></h3>
+                <p>{selectedConsultation.subject}</p>
+              </div>
+              <button 
+                className={styles.closeChatModal}
+                onClick={() => setSelectedConsultation(null)}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            
+            <div className={styles.chatModalContent} style={{ padding: '24px' }}>
+              <div className={styles.meetingDetailsPanel}>
+                <div style={{ marginBottom: '16px', fontSize: '15px' }}>
+                  <strong>Client:</strong> {selectedConsultation.userName} ({selectedConsultation.userEmail})
+                </div>
+                <div style={{ marginBottom: '16px', fontSize: '15px' }}>
+                  <strong>Phone:</strong> {selectedConsultation.userPhone || 'Not provided'}
+                </div>
+                <div style={{ marginBottom: '16px', fontSize: '15px' }}>
+                  <strong>Date & Time:</strong> {formatDate(selectedConsultation.scheduledDate)} at {selectedConsultation.scheduledTime}
+                </div>
+                <div style={{ marginBottom: '16px', fontSize: '15px' }}>
+                  <strong>Description:</strong>
+                  <p style={{ marginTop: '8px', padding: '12px', background: '#f8f9fa', borderRadius: '6px', fontSize: '14px', lineHeight: '1.5' }}>
+                    {selectedConsultation.description}
+                  </p>
+                </div>
+                
+                <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+                  <button
+                    className={styles.openChatButton}
+                    onClick={() => {
+                      setSelectedConsultation(null);
+                      handleOpenChat(selectedConsultation);
+                    }}
+                  >
+                    <i className="fas fa-comments"></i> Open Chat
+                  </button>
+                  
+                  {canJoinCall(selectedConsultation) ? (
+                    <button
+                      className={styles.acceptChatButton}
+                      onClick={() => {
+                        setSelectedConsultation(null);
+                        handleJoinCall(selectedConsultation);
+                      }}
+                    >
+                      <i className="fas fa-video"></i> Join Video Call
+                    </button>
+                  ) : (
+                    <button
+                      className={`${styles.acceptChatButton} ${styles.disabled}`}
+                      disabled
+                      title="Meeting call button will activate 10 minutes before the scheduled time."
+                      style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                    >
+                      <i className="fas fa-video"></i> Join Call (Inactive)
+                    </button>
+                  )}
+                  
+                  <button
+                    className={styles.rejectButton}
+                    onClick={() => {
+                      if (window.confirm('Mark this consultation as completed?')) {
+                        setSelectedConsultation(null);
+                        completeMeeting(selectedConsultation.id);
+                        alert('✅ Consultation completed.');
+                      }
+                    }}
+                  >
+                    <i className="fas fa-check-circle"></i> Complete
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1404,28 +1031,6 @@ const LawyerDashboard = () => {
             <i className="fas fa-user"></i>
             <TranslatableText text="My Profile" />
           </button>
-
-          {/* Notifications */}
-          <button 
-            className={`${styles.navItem} ${notifications.filter(n => !n.isRead).length > 0 ? styles.hasNotifications : ''}`}
-            onClick={() => {
-              setShowNotifications(!showNotifications);
-              // Mark visible notifications as read
-              notifications.forEach(notif => {
-                if (!notif.isRead) {
-                  markNotificationAsRead(notif.id);
-                }
-              });
-            }}
-          >
-            <i className="fas fa-bell"></i>
-            <TranslatableText text="Notifications" />
-            {notifications.filter(n => !n.isRead).length > 0 && (
-              <span className={styles.notificationBadge}>
-                {notifications.filter(n => !n.isRead).length}
-              </span>
-            )}
-          </button>
           
           <button 
             className={styles.navItem}
@@ -1446,4 +1051,5 @@ const LawyerDashboard = () => {
     </div>
   );
 };
+
 export default LawyerDashboard;

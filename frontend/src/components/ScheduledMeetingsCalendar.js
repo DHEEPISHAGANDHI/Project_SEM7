@@ -338,7 +338,7 @@ const ScheduledMeetingsCalendar = ({ consultationRequests, onBlockTime, onBlockD
                         {meeting.subject}
                       </div>
                       <div className={styles.meetingType}>
-                        {meeting.consultationType.replace('_', ' ')}
+                        {(meeting.consultationType || 'video_call').replace('_', ' ')}
                       </div>
                       <div className={styles.meetingActions}>
                         <i className="fas fa-eye" title="View details"></i>

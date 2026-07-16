@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   // Mock user database (in production, this would be from a backend)
   const mockUsers = [
     {
-      id: 1,
+      id: 101,
       email: 'admin@legalaid.com',
       password: 'admin123',
       role: ROLES.ADMIN,
@@ -33,12 +33,12 @@ export const AuthProvider = ({ children }) => {
       permissions: ['manage_users', 'manage_content', 'view_analytics', 'manage_ai_models']
     },
     {
-      id: 2,
+      id: 1,
       email: 'lawyer@legalaid.com',
       password: 'lawyer123',
       role: ROLES.LAWYER,
-      name: 'Legal Expert',
-      specialization: 'Civil Law',
+      name: 'Adv. Priya Sharma',
+      specialization: 'Family Law',
       permissions: ['review_queries', 'manage_resources', 'handle_escalations']
     },
     {
@@ -131,14 +131,37 @@ export const AuthProvider = ({ children }) => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // In production, this would create a new user in the database
+      const requestedRole = (userData.role || ROLES.USER).toLowerCase();
+      const role = Object.values(ROLES).includes(requestedRole) ? requestedRole : ROLES.USER;
+      
+      let permissions = ['access_chatbot', 'download_templates', 'book_consultation'];
+      if (role === ROLES.ADMIN) {
+        permissions = ['manage_users', 'manage_content', 'view_analytics', 'manage_ai_models'];
+      } else if (role === ROLES.LAWYER) {
+        permissions = ['review_queries', 'manage_resources', 'handle_escalations'];
+      }
+
       const newUser = {
         id: Date.now(),
         email: userData.email,
-        role: ROLES.USER, // Default role for new registrations
+        role: role,
         name: userData.name,
-        permissions: ['access_chatbot', 'download_templates', 'book_consultation']
+        permissions: permissions
       };
+
+      // Generate mock JWT token
+      const token = btoa(JSON.stringify({ 
+        userId: newUser.id, 
+        role: newUser.role,
+        exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+      }));
+
+      // Save to localStorage
+      localStorage.setItem('auth_user', JSON.stringify(newUser));
+      localStorage.setItem('auth_token', token);
+
+      setUser(newUser);
+      setIsAuthenticated(true);
 
       return { success: true, user: newUser };
     } catch (error) {

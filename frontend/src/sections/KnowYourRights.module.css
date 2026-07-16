@@ -1,36 +1,73 @@
 .knowYourRights {
   background: var(--primary-white);
+  position: relative;
+}
+
+.knowYourRights::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2.5rem;
+}
+
+.filterBtn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--primary-white);
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: inherit;
+}
+
+.filterBtn:hover {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.filterActive {
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+  color: var(--primary-white);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(22, 58, 114, 0.25);
 }
 
 .topicsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-  justify-content: center;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
-@media (min-width: 1200px) {
-  .topicsGrid {
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-  }
+.emptyState {
+  text-align: center;
+  color: var(--text-light);
+  padding: 3rem;
+  font-size: 1.1rem;
 }
 
-@media (max-width: 1199px) and (min-width: 768px) {
+@media (max-width: 1024px) {
   .topicsGrid {
     grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 640px) {
   .topicsGrid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    justify-items: center;
+    gap: 18px;
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useConsultationRequests } from '../../contexts/ConsultationRequestContext';
 import TranslatableText from '../../components/TranslatableText';
 import VideoCallInterface from '../../components/VideoCallInterface';
 import jsPDF from 'jspdf';
@@ -9,18 +10,23 @@ import styles from './UserDashboard.module.css';
 const UserDashboard = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const {
+    requests,
+    cancelRequest,
+    requestMeetingFromUser,
+    scheduleMeeting,
+    completeMeeting,
+    sendMessage
+  } = useConsultationRequests();
+
   const [activeTab, setActiveTab] = useState('consultations');
-  const [selectedConsultation, setSelectedConsultation] = useState(null);
+  const [selectedConsultationId, setSelectedConsultationId] = useState(null);
   const [newMessage, setNewMessage] = useState('');
-  const [consultations, setConsultations] = useState([]);
-  const [requestHistory, setRequestHistory] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [showVideoCall, setShowVideoCall] = useState(false);
   const [activeVideoConsultation, setActiveVideoConsultation] = useState(null);
-  const [approvedLawyers, setApprovedLawyers] = useState([]);
   const [selectedLawyerForScheduling, setSelectedLawyerForScheduling] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [meetingRequests, setMeetingRequests] = useState({});
 
   // Redirect to home if not authenticated or not a user
   useEffect(() => {
@@ -35,298 +41,91 @@ const UserDashboard = () => {
     navigate('/');
   };
 
-  // Mock data for consultations
-  useEffect(() => {
-    const mockConsultations = [
-      {
-        id: 1,
-        lawyerId: 1,
-        lawyerName: 'Adv. Priya Sharma',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Family Law',
-        initiatedDate: '2025-08-10',
-        lastMessageDate: '2025-08-14',
-        lastMessage: 'Your consultation has been approved. Please schedule a meeting.',
-        status: 'Approved - Schedule Now', // Updated status
-        scheduledDate: null,
-        scheduledTime: null,
-        meetingApproved: true, // New field to track if lawyer approved meeting
-        meetingRequestStatus: 'approved', // 'none', 'sent', 'approved', 'rejected'
-        hasActiveConversation: true, // Track if conversation has started
-        messages: [
-          {
-            id: 1,
-            sender: 'user',
-            senderName: user?.name || 'You',
-            text: 'Hello, I need help with a divorce case. My husband and I have been separated for 2 years and we want to file for mutual consent divorce.',
-            timestamp: '2025-08-10T10:30:00Z'
-          },
-          {
-            id: 2,
-            sender: 'lawyer',
-            senderName: 'Adv. Priya Sharma',
-            text: 'Hello! I understand you need assistance with a mutual consent divorce. This is definitely something I can help you with. I have approved your consultation request.',
-            timestamp: '2025-08-10T14:45:00Z'
-          },
-          {
-            id: 3,
-            sender: 'system',
-            senderName: 'System',
-            text: 'Adv. Priya Sharma has approved your request for a meeting. You can now schedule it.',
-            timestamp: '2025-08-14T09:00:00Z'
-          }
-        ]
-      },
-      {
-        id: 2,
-        lawyerId: 2,
-        lawyerName: 'Adv. Rajesh Kumar',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Property Law',
-        initiatedDate: '2025-08-05',
-        lastMessageDate: '2025-08-12',
-        lastMessage: 'I\'ve reviewed your property documents. See you tomorrow at 2 PM.',
-        status: 'Scheduled for Aug 17 at 2:00 PM', // Updated status
-        scheduledDate: '2025-08-17',
-        scheduledTime: '14:00',
-        meetingApproved: true,
-        meetingRequestStatus: 'scheduled', // Meeting already scheduled
-        hasActiveConversation: true,
-        messages: [
-          {
-            id: 1,
-            sender: 'user',
-            senderName: user?.name || 'You',
-            text: 'I\'m having issues with my property registration. The seller is claiming there are no pending dues, but I found some tax arrears.',
-            timestamp: '2025-08-05T11:00:00Z'
-          },
-          {
-            id: 2,
-            sender: 'lawyer',
-            senderName: 'Adv. Rajesh Kumar',
-            text: 'This is a common issue in property transactions. I\'ve approved your consultation request. Let\'s schedule a video call to discuss this in detail.',
-            timestamp: '2025-08-05T15:30:00Z'
-          }
-        ]
-      },
-      {
-        id: 3,
-        lawyerId: 3,
-        lawyerName: 'Adv. Meera Patel',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Consumer Rights',
-        initiatedDate: '2025-07-28',
-        lastMessageDate: '2025-08-01',
-        lastMessage: 'Your case has been successfully resolved. Thank you for choosing our services.',
-        status: 'Completed', // Updated status
-        scheduledDate: '2025-08-01',
-        scheduledTime: '11:00',
-        meetingApproved: true,
-        meetingRequestStatus: 'completed',
-        hasActiveConversation: true,
-        messages: [
-          {
-            id: 1,
-            sender: 'user',
-            senderName: user?.name || 'You',
-            text: 'I bought a defective mobile phone and the company is refusing to replace it despite being under warranty.',
-            timestamp: '2025-07-28T14:00:00Z'
-          },
-          {
-            id: 2,
-            sender: 'lawyer',
-            senderName: 'Adv. Meera Patel',
-            text: 'Based on the evidence you provided, we successfully filed a complaint with the consumer forum and got your replacement. Case completed!',
-            timestamp: '2025-08-01T11:15:00Z'
-          }
-        ]
-      },
-      {
-        id: 4,
-        lawyerId: 4,
-        lawyerName: 'Adv. Amit Singh',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Criminal Law',
-        initiatedDate: '2025-08-15',
-        lastMessageDate: '2025-08-15',
-        lastMessage: 'Thank you for your consultation request. I will review it shortly.',
-        status: 'Pending Approval', // New status
-        scheduledDate: null,
-        scheduledTime: null,
-        meetingApproved: false,
-        meetingRequestStatus: 'none', // No meeting request yet
-        hasActiveConversation: true, // Has started conversation
-        messages: [
-          {
-            id: 1,
-            sender: 'user',
-            senderName: user?.name || 'You',
-            text: 'I need legal advice regarding a false accusation case filed against me.',
-            timestamp: '2025-08-15T09:00:00Z'
-          }
-        ]
-      },
-      {
-        id: 5,
-        lawyerId: 5,
-        lawyerName: 'Adv. Kavita Reddy',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Labor Law',
-        initiatedDate: '2025-08-16',
-        lastMessageDate: '2025-08-16',
-        lastMessage: 'Chat started. Send your first message.',
-        status: 'New Conversation',
-        scheduledDate: null,
-        scheduledTime: null,
-        meetingApproved: false,
-        meetingRequestStatus: 'none',
-        hasActiveConversation: false, // No messages sent yet
-        messages: []
-      }
-    ];
-    setConsultations(mockConsultations);
-    
-    // Extract approved lawyers for scheduling
-    const approved = mockConsultations
-      .filter(consultation => consultation.meetingApproved)
-      .map(consultation => ({
-        id: consultation.lawyerId,
-        name: consultation.lawyerName,
-        photo: consultation.lawyerPhoto,
-        specialization: consultation.specialization,
-        consultationId: consultation.id,
-        status: consultation.status,
-        // Mock calendar data
-        availableSlots: [
-          { date: '2025-08-17', time: '10:00', available: true },
-          { date: '2025-08-17', time: '14:00', available: false },
-          { date: '2025-08-17', time: '16:00', available: true },
-          { date: '2025-08-18', time: '09:00', available: true },
-          { date: '2025-08-18', time: '11:00', available: true },
-          { date: '2025-08-18', time: '15:00', available: true },
-          { date: '2025-08-19', time: '10:00', available: true },
-          { date: '2025-08-19', time: '13:00', available: true },
-          { date: '2025-08-19', time: '17:00', available: true }
-        ]
-      }));
-    
-    setApprovedLawyers(approved);
-  }, [user]);
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
 
-  // Mock data for request history - ALL consultation requests ever sent
-  useEffect(() => {
-    const mockRequestHistory = [
-      {
-        id: 1,
-        lawyerName: 'Adv. Priya Sharma',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Family Law',
-        dateSent: '2025-08-10',
-        status: 'Approved',
-        legalIssue: 'Divorce proceedings - mutual consent'
-      },
-      {
-        id: 2,
-        lawyerName: 'Adv. Rajesh Kumar',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Property Law',
-        dateSent: '2025-08-05',
-        status: 'Approved',
-        legalIssue: 'Property registration issues'
-      },
-      {
-        id: 3,
-        lawyerName: 'Adv. Meera Patel',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Consumer Rights',
-        dateSent: '2025-07-28',
-        status: 'Approved',
-        legalIssue: 'Defective mobile phone replacement'
-      },
-      {
-        id: 4,
-        lawyerName: 'Adv. Amit Singh',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Criminal Law',
-        dateSent: '2025-08-15',
-        status: 'Pending',
-        legalIssue: 'False accusation case'
-      },
-      {
-        id: 5,
-        lawyerName: 'Adv. Kavita Reddy',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Labor Law',
-        dateSent: '2025-08-16',
-        status: 'Pending',
-        legalIssue: 'Workplace harassment complaint'
-      },
-      {
-        id: 6,
-        lawyerName: 'Adv. Suresh Gupta',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Corporate Law',
-        dateSent: '2025-07-20',
-        status: 'Rejected',
-        legalIssue: 'Business partnership dispute'
-      },
-      {
-        id: 7,
-        lawyerName: 'Adv. Anita Verma',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Immigration Law',
-        dateSent: '2025-07-15',
-        status: 'Rejected',
-        legalIssue: 'Visa application assistance'
-      },
-      {
-        id: 8,
-        lawyerName: 'Adv. Rohit Sharma',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Tax Law',
-        dateSent: '2025-06-30',
-        status: 'Approved',
-        legalIssue: 'Income tax dispute resolution'
-      },
-      {
-        id: 9,
-        lawyerName: 'Adv. Deepika Nair',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Family Law',
-        dateSent: '2025-06-25',
-        status: 'Rejected',
-        legalIssue: 'Child custody case'
-      },
-      {
-        id: 10,
-        lawyerName: 'Adv. Vikram Joshi',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Real Estate Law',
-        dateSent: '2025-06-10',
-        status: 'Approved',
-        legalIssue: 'Property sale agreement review'
-      },
-      {
-        id: 11,
-        lawyerName: 'Adv. Ravi Kumar',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Criminal Law',
-        dateSent: '2025-08-12',
-        status: 'Cancelled',
-        legalIssue: 'Traffic violation defense'
-      },
-      {
-        id: 12,
-        lawyerName: 'Adv. Sonia Patel',
-        lawyerPhoto: '/api/placeholder/50/50',
-        specialization: 'Employment Law',
-        dateSent: '2025-08-14',
-        status: 'Cancelled',
-        legalIssue: 'Wrongful termination case'
-      }
-    ];
-    setRequestHistory(mockRequestHistory);
-  }, [user]);
+  // Helper to generate relative date strings
+  const getRelativeDateStr = (daysOffset) => {
+    const d = new Date();
+    d.setDate(d.getDate() + daysOffset);
+    return d.toISOString().split('T')[0];
+  };
+
+  // Filter user's requests
+  const userRequests = requests.filter(r => r.userId === user?.id);
+
+  // consultations list - map context requests to user dashboard format
+  const consultations = userRequests
+    .filter(r => r.status !== 'rejected' && r.status !== 'cancelled')
+    .map(r => {
+      let statusStr = '';
+      if (r.status === 'pending') statusStr = 'Pending Approval';
+      else if (r.status === 'active') statusStr = 'Approved - Schedule Now';
+      else if (r.status === 'scheduled') statusStr = `Scheduled for ${formatDate(r.scheduledDate)} at ${r.scheduledTime}`;
+      else if (r.status === 'completed') statusStr = 'Completed';
+      else statusStr = r.status;
+
+      return {
+        ...r,
+        status: statusStr,
+        meetingApproved: r.meetingApproved || r.meetingRequestStatus === 'approved' || r.status === 'scheduled' || r.status === 'completed'
+      };
+    });
+
+  const selectedConsultation = consultations.find(c => c.id === selectedConsultationId) || null;
+
+  // requestHistory - complete history
+  const requestHistory = userRequests.map(r => {
+    let statusStr = '';
+    if (r.status === 'pending') statusStr = 'Pending';
+    else if (r.status === 'active') statusStr = 'Approved';
+    else if (r.status === 'scheduled') statusStr = 'Scheduled';
+    else if (r.status === 'completed') statusStr = 'Completed';
+    else if (r.status === 'rejected') statusStr = 'Rejected';
+    else if (r.status === 'cancelled') statusStr = 'Cancelled';
+    else statusStr = r.status;
+
+    return {
+      id: r.id,
+      lawyerName: r.lawyerName,
+      lawyerPhoto: r.lawyerPhoto || '/api/placeholder/50/50',
+      specialization: r.specialization,
+      dateSent: r.requestDate,
+      status: statusStr,
+      legalIssue: r.subject
+    };
+  });
+
+  // approvedLawyers - lawyers available for scheduling
+  const approvedLawyers = consultations
+    .filter(c => c.meetingApproved && c.status === 'Approved - Schedule Now')
+    .map(c => ({
+      id: c.lawyerId,
+      name: c.lawyerName,
+      photo: c.lawyerPhoto,
+      specialization: c.specialization,
+      consultationId: c.id,
+      status: c.status,
+      availableSlots: [
+        { date: getRelativeDateStr(1), time: '10:00', available: true },
+        { date: getRelativeDateStr(1), time: '14:00', available: false },
+        { date: getRelativeDateStr(1), time: '16:00', available: true },
+        { date: getRelativeDateStr(2), time: '09:00', available: true },
+        { date: getRelativeDateStr(2), time: '11:00', available: true },
+        { date: getRelativeDateStr(2), time: '15:00', available: true },
+        { date: getRelativeDateStr(3), time: '10:00', available: true },
+        { date: getRelativeDateStr(3), time: '13:00', available: true },
+        { date: getRelativeDateStr(3), time: '17:00', available: true }
+      ]
+    }));
 
   // Mock data for downloaded documents
   useEffect(() => {
@@ -386,40 +185,7 @@ const UserDashboard = () => {
   // Send message function
   const handleSendMessage = () => {
     if (!newMessage.trim() || !selectedConsultation) return;
-
-    const message = {
-      id: Date.now(),
-      sender: 'user',
-      senderName: user?.name || 'You',
-      text: newMessage.trim(),
-      timestamp: new Date().toISOString()
-    };
-
-    setConsultations(prev => 
-      prev.map(consultation => 
-        consultation.id === selectedConsultation.id
-          ? {
-              ...consultation,
-              messages: [...consultation.messages, message],
-              lastMessage: newMessage.trim(),
-              lastMessageDate: new Date().toISOString().split('T')[0],
-              status: consultation.status === 'New Conversation' ? 'Active' : 'Awaiting Reply',
-              hasActiveConversation: true // Mark conversation as active after first message
-            }
-          : consultation
-      )
-    );
-
-    // Update selected consultation
-    setSelectedConsultation(prev => ({
-      ...prev,
-      messages: [...prev.messages, message],
-      lastMessage: newMessage.trim(),
-      lastMessageDate: new Date().toISOString().split('T')[0],
-      status: prev.status === 'New Conversation' ? 'Active' : 'Awaiting Reply',
-      hasActiveConversation: true
-    }));
-
+    sendMessage(selectedConsultation.id, 'user', user?.name || 'You', newMessage.trim());
     setNewMessage('');
   };
 
@@ -435,118 +201,13 @@ const UserDashboard = () => {
       return;
     }
 
-    // Send meeting request
-    setConsultations(prev => 
-      prev.map(c => 
-        c.id === consultation.id
-          ? {
-              ...c,
-              meetingRequestStatus: 'sent',
-              lastMessage: 'Meeting request sent to lawyer.',
-              messages: [...c.messages, {
-                id: Date.now(),
-                sender: 'system',
-                senderName: 'System',
-                text: `You have requested a meeting with ${c.lawyerName}. They will review your request and respond soon.`,
-                timestamp: new Date().toISOString()
-              }]
-            }
-          : c
-      )
-    );
-
-    // Update selected consultation
-    if (selectedConsultation?.id === consultation.id) {
-      setSelectedConsultation(prev => ({
-        ...prev,
-        meetingRequestStatus: 'sent',
-        lastMessage: 'Meeting request sent to lawyer.',
-        messages: [...prev.messages, {
-          id: Date.now(),
-          sender: 'system',
-          senderName: 'System',
-          text: `You have requested a meeting with ${prev.lawyerName}. They will review your request and respond soon.`,
-          timestamp: new Date().toISOString()
-        }]
-      }));
-    }
-
-    // Simulate lawyer response (for demo purposes)
-    setTimeout(() => {
-      simulateLawyerResponse(consultation.id);
-    }, 3000); // Simulate 3 second delay
-  };
-
-  // Simulate lawyer response to meeting request
-  const simulateLawyerResponse = (consultationId) => {
-    // For demo, randomly approve or reject (80% approval rate)
-    const isApproved = Math.random() > 0.2;
-    
-    setConsultations(prev => 
-      prev.map(c => 
-        c.id === consultationId
-          ? {
-              ...c,
-              meetingRequestStatus: isApproved ? 'approved' : 'rejected',
-              meetingApproved: isApproved,
-              status: isApproved ? 'Approved - Schedule Now' : 'Request Rejected',
-              lastMessage: isApproved 
-                ? 'Your meeting request has been approved! You can now schedule a time.'
-                : 'Your meeting request has been rejected.',
-              messages: [...c.messages, {
-                id: Date.now() + 1,
-                sender: 'system',
-                senderName: 'System',
-                text: isApproved 
-                  ? `${c.lawyerName} has approved your meeting request. You can now schedule a time slot.`
-                  : `${c.lawyerName} has rejected your meeting request. You may try again later or continue with text consultation.`,
-                timestamp: new Date().toISOString()
-              }]
-            }
-          : c
-      )
-    );
-
-    // Update selected consultation if it's currently open
-    setSelectedConsultation(prev => {
-      if (prev?.id === consultationId) {
-        const consultation = consultations.find(c => c.id === consultationId);
-        if (consultation) {
-          return {
-            ...prev,
-            meetingRequestStatus: isApproved ? 'approved' : 'rejected',
-            meetingApproved: isApproved,
-            status: isApproved ? 'Approved - Schedule Now' : 'Request Rejected',
-            lastMessage: isApproved 
-              ? 'Your meeting request has been approved! You can now schedule a time.'
-              : 'Your meeting request has been rejected.',
-            messages: [...prev.messages, {
-              id: Date.now() + 1,
-              sender: 'system',
-              senderName: 'System',
-              text: isApproved 
-                ? `${prev.lawyerName} has approved your meeting request. You can now schedule a time slot.`
-                : `${prev.lawyerName} has rejected your meeting request. You may try again later or continue with text consultation.`,
-              timestamp: new Date().toISOString()
-            }]
-          };
-        }
-      }
-      return prev;
-    });
-
-    // Show notification to user
-    if (isApproved) {
-      alert('Great news! Your meeting request has been approved. You can now schedule a time.');
-    } else {
-      alert('Your meeting request was not approved. You can continue with text consultation.');
-    }
+    requestMeetingFromUser(consultation.id);
   };
 
   // Get meeting request button based on status
   const getMeetingRequestButton = (consultation) => {
     if (!consultation.hasActiveConversation) {
-      return null; // No button if no conversation started
+      return null;
     }
 
     switch (consultation.meetingRequestStatus) {
@@ -592,7 +253,7 @@ const UserDashboard = () => {
         );
       case 'scheduled':
       case 'completed':
-        return null; // No button needed for these states
+        return null;
       default:
         return null;
     }
@@ -601,18 +262,14 @@ const UserDashboard = () => {
   // Download document function
   const handleDownloadDocument = (doc) => {
     if (doc.name === 'Draft Complaint Template') {
-      // Generate PDF for Draft Complaint
       generateDraftComplaintPDF();
     } else {
-      // For other documents, simulate download
       const link = document.createElement('a');
       link.href = doc.fileUrl;
       link.download = doc.name + '.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      // Show success message
       alert(`${doc.name} downloaded successfully!`);
     }
   };
@@ -620,13 +277,10 @@ const UserDashboard = () => {
   // Generate Draft Complaint PDF
   const generateDraftComplaintPDF = () => {
     const pdf = new jsPDF();
-    
-    // Set title
     pdf.setFontSize(18);
     pdf.setFont('helvetica', 'bold');
     pdf.text('DRAFT COMPLAINT TEMPLATE', 105, 20, { align: 'center' });
     
-    // Add court details section
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('IN THE COURT OF:', 20, 40);
@@ -634,7 +288,6 @@ const UserDashboard = () => {
     pdf.text('_________________________________________________', 20, 48);
     pdf.text('(Name and Address of the Court)', 20, 55);
     
-    // Add case details
     pdf.setFont('helvetica', 'bold');
     pdf.text('CASE TYPE:', 20, 75);
     pdf.setFont('helvetica', 'normal');
@@ -645,7 +298,6 @@ const UserDashboard = () => {
     pdf.setFont('helvetica', 'normal');
     pdf.text('_________________________________________________', 20, 108);
     
-    // Add parties section
     pdf.setFont('helvetica', 'bold');
     pdf.text('COMPLAINANT/PETITIONER:', 20, 125);
     pdf.setFont('helvetica', 'normal');
@@ -662,10 +314,8 @@ const UserDashboard = () => {
     pdf.text('Address: __________________________________', 20, 215);
     pdf.text('___________________________________________', 20, 225);
     
-    // Add new page for complaint details
     pdf.addPage();
     
-    // Complaint details
     pdf.setFont('helvetica', 'bold');
     pdf.text('SUBJECT OF COMPLAINT:', 20, 20);
     pdf.setFont('helvetica', 'normal');
@@ -702,7 +352,6 @@ const UserDashboard = () => {
     pdf.text('2. ___________________________________________', 20, 240);
     pdf.text('3. ___________________________________________', 20, 250);
     
-    // Add signature page
     pdf.addPage();
     
     pdf.setFont('helvetica', 'bold');
@@ -733,31 +382,18 @@ const UserDashboard = () => {
     pdf.text('Signature of Advocate', 120, 230);
     pdf.text('(if represented)', 120, 240);
     
-    // Add footer with instructions
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'italic');
     pdf.text('Instructions: Fill in all the blanks with relevant information.', 20, 270);
     pdf.text('Attach all supporting documents. Consult a lawyer for legal advice.', 20, 280);
     
-    // Download the PDF
     pdf.save('Draft_Complaint_Template.pdf');
-    
-    // Show success message
     alert('Draft Complaint Template downloaded successfully!');
-  };
-
-  // Format date for display
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
   };
 
   // Format time for messages
   const formatTime = (timestamp) => {
+    if (!timestamp) return '';
     const date = new Date(timestamp);
     return date.toLocaleTimeString('en-IN', {
       hour: '2-digit',
@@ -768,14 +404,12 @@ const UserDashboard = () => {
 
   // Get status badge color
   const getStatusColor = (status) => {
-    switch (status) {
-      case 'Pending Approval': return '#ffc107';
-      case 'Approved - Schedule Now': return '#0056b3';
-      case 'Completed': return '#28a745';
-      default: 
-        if (status.includes('Scheduled for')) return '#17a2b8';
-        return '#6c757d';
-    }
+    if (!status) return '#6c757d';
+    if (status === 'Pending Approval') return '#ffc107';
+    if (status === 'Approved - Schedule Now') return '#0056b3';
+    if (status === 'Completed') return '#28a745';
+    if (status.includes('Scheduled for')) return '#17a2b8';
+    return '#6c757d';
   };
 
   // Check if join call button should be enabled (10 minutes before meeting)
@@ -787,45 +421,13 @@ const UserDashboard = () => {
     const timeDiff = scheduledDateTime.getTime() - now.getTime();
     const minutesDiff = timeDiff / (1000 * 60);
     
-    // Can join 10 minutes before the scheduled time
-    return minutesDiff <= 10 && minutesDiff >= -30; // Allow joining up to 30 minutes after start time
+    return minutesDiff <= 10 && minutesDiff >= -30;
   };
 
   // Handle schedule meeting with specific lawyer
   const handleScheduleMeetingWithLawyer = (lawyer, date, time) => {
-    // Update the consultation status
-    setConsultations(prev => 
-      prev.map(c => 
-        c.id === lawyer.consultationId
-          ? {
-              ...c,
-              status: `Scheduled for ${formatDate(date)} at ${time}`,
-              scheduledDate: date,
-              scheduledTime: time,
-              lastMessage: `Meeting scheduled successfully for ${formatDate(date)} at ${time}. You will receive a reminder 10 minutes before the call.`
-            }
-          : c
-      )
-    );
+    scheduleMeeting(lawyer.consultationId, date, time);
 
-    // Update approved lawyers list
-    setApprovedLawyers(prev => 
-      prev.map(l => 
-        l.id === lawyer.id
-          ? {
-              ...l,
-              status: `Scheduled for ${formatDate(date)} at ${time}`,
-              availableSlots: l.availableSlots.map(slot => 
-                slot.date === date && slot.time === time
-                  ? { ...slot, available: false }
-                  : slot
-              )
-            }
-          : l
-      )
-    );
-
-    // Reset scheduling state
     setSelectedLawyerForScheduling(null);
     setShowCalendar(false);
     setActiveTab('consultations');
@@ -1090,7 +692,7 @@ const UserDashboard = () => {
           <div className={styles.chatHeader}>
             <button 
               className={styles.backButton}
-              onClick={() => setSelectedConsultation(null)}
+              onClick={() => setSelectedConsultationId(null)}
             >
               <i className="fas fa-arrow-left"></i>
               <TranslatableText text="Back to Consultations" />
@@ -1182,7 +784,7 @@ const UserDashboard = () => {
               <div 
                 key={consultation.id} 
                 className={styles.consultationCard}
-                onClick={() => setSelectedConsultation(consultation)}
+                onClick={() => setSelectedConsultationId(consultation.id)}
               >
                 <div className={styles.cardHeader}>
                   <img 
@@ -1424,16 +1026,16 @@ const UserDashboard = () => {
             className={`${styles.navItem} ${activeTab === 'consultations' ? styles.active : ''}`}
             onClick={() => {
               setActiveTab('consultations');
-              setSelectedConsultation(null);
+              setSelectedConsultationId(null);
               setShowCalendar(false);
               setSelectedLawyerForScheduling(null);
             }}
           >
             <i className="fas fa-comments"></i>
             <TranslatableText text="My Consultations" />
-            {consultations.filter(c => c.status === 'Active' || c.status === 'Awaiting Reply').length > 0 && (
+            {consultations.filter(c => c.status === 'Active' || c.status === 'Awaiting Reply' || c.status === 'Approved - Schedule Now').length > 0 && (
               <span className={styles.notificationBadge}>
-                {consultations.filter(c => c.status === 'Active' || c.status === 'Awaiting Reply').length}
+                {consultations.filter(c => c.status === 'Active' || c.status === 'Awaiting Reply' || c.status === 'Approved - Schedule Now').length}
               </span>
             )}
           </button>
@@ -1442,7 +1044,7 @@ const UserDashboard = () => {
             className={`${styles.navItem} ${activeTab === 'schedule-meeting' ? styles.active : ''}`}
             onClick={() => {
               setActiveTab('schedule-meeting');
-              setSelectedConsultation(null);
+              setSelectedConsultationId(null);
               setShowCalendar(false);
               setSelectedLawyerForScheduling(null);
             }}
@@ -1460,7 +1062,7 @@ const UserDashboard = () => {
             className={`${styles.navItem} ${activeTab === 'request-history' ? styles.active : ''}`}
             onClick={() => {
               setActiveTab('request-history');
-              setSelectedConsultation(null);
+              setSelectedConsultationId(null);
               setShowCalendar(false);
               setSelectedLawyerForScheduling(null);
             }}

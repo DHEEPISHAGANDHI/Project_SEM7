@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { useConsultationRequests } from '../contexts/ConsultationRequestContext';
 import styles from './MessageModal.module.css';
 
 const MessageModal = ({ lawyer, onClose }) => {
+  const { user } = useAuth();
+  const { addRequest } = useConsultationRequests();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,24 +30,26 @@ const MessageModal = ({ lawyer, onClose }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Create consultation request
-    const consultationRequest = {
-      id: `REQ_${Date.now()}`,
-      userId: 'current_user_id', // In real app, get from auth context
+    // Submit consultation request to shared context
+    addRequest({
+      userId: user?.id || 3,
       userName: formData.name,
       userEmail: formData.email,
       userPhone: formData.phone,
       lawyerId: lawyer.id,
       lawyerName: lawyer.name,
-      legalIssue: formData.legalIssue,
+      lawyerPhoto: lawyer.image,
+      specialization: lawyer.specialization,
+      legalIssue: formData.legalIssue === 'family' ? 'Family Law' : 
+                   formData.legalIssue === 'criminal' ? 'Criminal Law' :
+                   formData.legalIssue === 'property' ? 'Property Law' :
+                   formData.legalIssue === 'consumer' ? 'Consumer Rights' :
+                   formData.legalIssue === 'employment' ? 'Labor Rights' :
+                   formData.legalIssue === 'civil' ? 'Civil Rights' :
+                   formData.legalIssue === 'corporate' ? 'Business Law' : 'Other',
       urgency: formData.urgency,
-      issueDescription: formData.issueDescription,
-      status: 'pending_approval', // pending_approval, accepted, rejected, scheduled, completed
-      requestDate: new Date().toISOString(),
-      rejectionReason: null
-    };
-
-    console.log('Consultation request submitted:', consultationRequest);
+      issueDescription: formData.issueDescription
+    });
 
     // Simulate API call
     setTimeout(() => {
