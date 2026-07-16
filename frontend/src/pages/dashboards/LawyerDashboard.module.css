@@ -1,0 +1,1977 @@
+/* Lawyer Dashboard Styles */
+.lawyerDashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 280px;
+  background-color: #ffffff;
+  border-right: 1px solid #e9ecef;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebarHeader {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+  color: white;
+}
+
+.sidebarHeader h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.sidebarHeader p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.sidebarNav {
+  padding: 1rem 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: none;
+  text-align: left;
+  color: #333333;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.navItem:hover {
+  background-color: #f8f9fa;
+  color: #0056b3;
+}
+
+.navItem.active {
+  background-color: #e3f2fd;
+  color: #0056b3;
+  border-right: 3px solid #0056b3;
+}
+
+.navItem i {
+  margin-right: 0.75rem;
+  width: 20px;
+  font-size: 1.1rem;
+}
+
+.notificationBadge {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main Content Styles */
+.mainContent {
+  flex: 1;
+  margin-left: 280px;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Overview Styles */
+.overviewContent {
+  max-width: 1200px;
+}
+
+.welcomeSection {
+  background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 86, 179, 0.3);
+}
+
+.welcomeSection h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.welcomeSection p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.statIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  margin-right: 1rem;
+}
+
+.statIcon i {
+  font-size: 1.5rem;
+}
+
+.statInfo h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333333;
+}
+
+.statInfo p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.recentRequests {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.recentRequests h3 {
+  margin: 0 0 1.5rem 0;
+  color: #333333;
+  font-size: 1.25rem;
+}
+
+.requestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.requestCard {
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.requestCard:hover {
+  border-color: #0056b3;
+  box-shadow: 0 2px 8px rgba(0, 86, 179, 0.1);
+}
+
+.requestHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.requestInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+}
+
+.requestInfo p {
+  margin: 0.25rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.requestBadges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  text-transform: capitalize;
+}
+
+.urgencyBadge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.requestDescription {
+  color: #495057;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.requestActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.requestDate {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.viewButton {
+  padding: 0.5rem 1rem;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease;
+}
+
+.viewButton:hover {
+  background-color: #004494;
+}
+
+/* Consultations Styles */
+.consultationsContent {
+  max-width: 1400px;
+}
+
+.consultationsList h3 {
+  margin: 0 0 1.5rem 0;
+  color: #333333;
+  font-size: 1.5rem;
+}
+
+.consultationsFilter {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1rem;
+}
+
+.filterButton {
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  color: #6c757d;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.filterButton:hover {
+  color: #0056b3;
+}
+
+.filterButton.active {
+  color: #0056b3;
+  border-bottom-color: #0056b3;
+}
+
+.consultationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.consultationCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.consultationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.cardInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+}
+
+.cardInfo p {
+  margin: 0.25rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.cardBadges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.cardDescription {
+  color: #495057;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.viewDetailsButton, .quickAcceptButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.viewDetailsButton {
+  background-color: #0056b3;
+  color: white;
+}
+
+.viewDetailsButton:hover {
+  background-color: #004494;
+}
+
+.quickAcceptButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.quickAcceptButton:hover {
+  background-color: #218838;
+}
+
+/* Consultation Detail Styles */
+.consultationDetail {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.consultationHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.backButton {
+  padding: 0.5rem 1rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+}
+
+.consultationHeader h3 {
+  margin: 0;
+  color: #333333;
+}
+
+.consultationGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.consultationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.clientCard, .descriptionCard, .actionsCard {
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.clientCard h4, .descriptionCard h4, .actionsCard h4 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+}
+
+.clientDetails p {
+  margin: 0.5rem 0;
+  color: #495057;
+  display: flex;
+  align-items: center;
+}
+
+.descriptionCard p {
+  margin: 0;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.acceptButton, .completeButton {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.acceptButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.acceptButton:hover {
+  background-color: #218838;
+}
+
+.completeButton {
+  background-color: #0056b3;
+  color: white;
+}
+
+.completeButton:hover {
+  background-color: #004494;
+}
+
+.completedText {
+  color: #28a745;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Messaging Styles */
+.messagingSection {
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.messagingSection h4 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+}
+
+.messageHistory {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 0.5rem;
+}
+
+.message {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 85%;
+}
+
+.message.user {
+  background-color: #e3f2fd;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.message.lawyer {
+  background-color: #f8f9fa;
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.messageHeader strong {
+  color: #0056b3;
+  font-size: 0.9rem;
+}
+
+.messageTime {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.messageText {
+  margin: 0;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.messageInput {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.messageTextarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.messageTextarea:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2);
+}
+
+.sendButton {
+  padding: 0.75rem 1rem;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  align-self: flex-end;
+  transition: background-color 0.3s ease;
+}
+
+.sendButton:hover {
+  background-color: #004494;
+}
+
+.sendButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Profile Styles */
+.profileContent {
+  max-width: 1000px;
+}
+
+.profileContent h3 {
+  margin: 0 0 2rem 0;
+  color: #333333;
+  font-size: 1.5rem;
+}
+
+.profileForm {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.photoSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.photoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profilePhoto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #e9ecef;
+}
+
+.photoPlaceholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  border: 4px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+}
+
+.photoPlaceholder i {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.photoInput {
+  display: none;
+}
+
+.photoUploadButton {
+  padding: 0.5rem 1rem;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.photoUploadButton:hover {
+  background-color: #004494;
+}
+
+.formSection {
+  margin-bottom: 2rem;
+}
+
+.formSection h4 {
+  margin: 0 0 1.5rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.fieldGroup {
+  margin-bottom: 1.5rem;
+}
+
+.fieldGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333333;
+  font-size: 0.9rem;
+}
+
+.inputField, .textareaField {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.inputField:focus, .textareaField:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2);
+}
+
+.textareaField {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.inputField:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.workingDays {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.dayCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+  cursor: pointer;
+  padding: 0.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.dayCheckbox:hover {
+  border-color: #0056b3;
+  background-color: #f8f9fa;
+}
+
+.dayCheckbox input[type="checkbox"] {
+  margin: 0;
+}
+
+.timeSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.saveButton {
+  padding: 0.75rem 2rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.saveButton:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .consultationGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .consultationsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .mainContent {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .requestHeader, .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .requestBadges, .cardBadges {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .consultationsFilter {
+    flex-wrap: wrap;
+  }
+  
+  .cardActions {
+    flex-direction: column;
+  }
+  
+  .workingDays {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .messageHistory {
+    max-height: 300px;
+  }
+  
+  .message {
+    max-width: 95%;
+  }
+}
+
+/* New styles for video consultation features */
+.consultationTabs {
+  display: flex;
+  border-bottom: 2px solid #e9ecef;
+  margin-bottom: 2rem;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.tabButton:hover {
+  color: #0056b3;
+  background: #f8f9fa;
+}
+
+.tabButton.activeTab {
+  color: #0056b3;
+  border-bottom-color: #0056b3;
+  background: #ffffff;
+}
+
+.requestCount {
+  background: #0056b3;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.warningBanner {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #856404;
+}
+
+.warningBanner i {
+  font-size: 1.2rem;
+  color: #ffc107;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #6c757d;
+}
+
+.emptyState i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  margin: 0 0 0.5rem 0;
+  color: #495057;
+}
+
+.requestsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.statsInfo {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.statsInfo strong {
+  color: #495057;
+}
+
+.requestCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.requestCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.requestActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.acceptButton {
+  flex: 1;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.acceptButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.rejectButton {
+  flex: 1;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.rejectButton:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.rejectButton.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.meetingCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.meetingCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.meetingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.meetingInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.meetingInfo p {
+  margin: 0.25rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.meetingActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.joinCallButton {
+  flex: 1;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.joinCallButton:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.joinCallButton.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.viewDetailsButton {
+  flex: 1;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.viewDetailsButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Responsive adjustments for new features */
+@media (max-width: 768px) {
+  .consultationTabs {
+    flex-direction: column;
+  }
+  
+  .tabButton {
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+  
+  .requestsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .statsInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .requestActions, .meetingActions {
+    flex-direction: column;
+  }
+  
+  .warningBanner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Scheduled Meetings Wrapper Styles */
+.scheduledMeetingsWrapper {
+  max-width: 1600px;
+}
+
+.scheduledMeetingsHeader {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.scheduledMeetingsHeader h3 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.scheduledMeetingsHeader p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+/* Notification System Styles */
+.notificationBanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 1rem 2rem;
+  z-index: 9999;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.5s ease-out;
+}
+
+.notificationContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.notificationContent i {
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+.closeNotification {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.closeNotification:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navItem.hasNotifications {
+  background-color: #fff3cd;
+  color: #856404;
+  border-right: 3px solid #ffc107;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Chat Modal Styles */
+.chatModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+}
+
+.chatModal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chatModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid #f8f9fa;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.chatHeaderInfo h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.3rem;
+}
+
+.chatHeaderInfo p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.closeChatModal {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.closeChatModal:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chatModalContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chatMessages {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chatMessage {
+  max-width: 80%;
+  padding: 1rem;
+  border-radius: 12px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.chatMessage.user {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 1px solid #2196f3;
+}
+
+.chatMessage.lawyer {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  border: 1px solid #28a745;
+}
+
+.chatMessage.originalRequest {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%);
+  border: 2px solid #ff9800;
+  max-width: 90%;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.messageHeader strong {
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.messageTime {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.messageText {
+  color: #333;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.originalRequestLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(255, 152, 0, 0.2);
+  border-radius: 6px;
+  font-weight: 600;
+  color: #e65100;
+  font-size: 0.85rem;
+}
+
+.chatInput {
+  padding: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chatTextarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.chatTextarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.sendChatButton {
+  align-self: flex-end;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.sendChatButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+  transform: translateY(-2px);
+}
+
+.sendChatButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.chatModalActions {
+  padding: 1.5rem;
+  border-top: 2px solid #f8f9fa;
+  background: #ffffff;
+  display: flex;
+  gap: 1rem;
+}
+
+.approveRequestButton {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.approveRequestButton:hover {
+  background: linear-gradient(135deg, #218838 0%, #17a2b8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.rejectRequestButton {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.rejectRequestButton:hover:not(.disabled) {
+  background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+}
+
+.rejectRequestButton.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* New Request Card Styles */
+.chatApproveButton {
+  flex: 1;
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.chatApproveButton:hover {
+  background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+}
+
+/* Approved Request Card Styles */
+.approvedRequestCard {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid #28a745;
+  position: relative;
+}
+
+.approvedRequestCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+.approvedRequestCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.15);
+}
+
+.approvedBadge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.approvedActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.viewChatButton {
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.viewChatButton:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-2px);
+}
+
+.waitingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.waitingIndicator i {
+  animation: pulse 2s infinite;
+  color: #ffc107;
+}
+
+.subHeader {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Animation for chat messages */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments for chat modal */
+@media (max-width: 768px) {
+  .chatModalOverlay {
+    padding: 0.5rem;
+  }
+  
+  .chatModal {
+    max-height: 90vh;
+  }
+  
+  .chatModalHeader {
+    padding: 1rem;
+  }
+  
+  .chatHeaderInfo h3 {
+    font-size: 1.1rem;
+  }
+  
+  .chatMessages {
+    padding: 1rem;
+  }
+  
+  .chatMessage {
+    max-width: 90%;
+  }
+  
+  .chatInput {
+    padding: 1rem;
+  }
+  
+  .chatModalActions {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .approvedActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .waitingIndicator {
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+}
+
+/* New Workflow Styles */
+.acceptChatButton {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.acceptChatButton:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.activeConsultationCard {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #28a745;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.1);
+  transition: all 0.3s ease;
+}
+
+.activeConsultationCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.15);
+}
+
+.activeBadge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activeConsultationActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.openChatButton {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.openChatButton:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+.chatIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.proposeTimeButton {
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+  color: #212529;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.proposeTimeButton:hover {
+  background: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
+}
+
+/* Scheduling Modal Styles */
+.schedulingModal {
+  background: white;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+.schedulingModalHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border-radius: 15px 15px 0 0;
+}
+
+.schedulingModalHeader h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.schedulingModalHeader p {
+  margin: 0.5rem 0 0 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.schedulingModalContent {
+  padding: 1.5rem;
+}
+
+.timeSlotGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.daySlots h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.timeSlots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.75rem;
+}
+
+.timeSlot {
+  background: white;
+  border: 2px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-align: center;
+}
+
+.timeSlot:hover {
+  border-color: #007bff;
+  background: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.timeSlot.selected {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border-color: #0056b3;
+}
+
+.schedulingModalActions {
+  padding: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  border-radius: 0 0 15px 15px;
+}
+
+.sendProposalButton {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sendProposalButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.sendProposalButton:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancelButton {
+  background: transparent;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+/* Time Proposal Message Styles */
+.timeProposal {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: 1px solid #ffeaa7;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.proposalHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #856404;
+}
+
+.proposedTimes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.proposedTimeSlot {
+  background: white;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.proposedTimeSlot:hover {
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+  color: white;
+  transform: translateX(5px);
+}
+
+.proposalNote {
+  margin: 0.75rem 0 0 0;
+  font-size: 0.85rem;
+  color: #856404;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-style: italic;
+}
+
+.confirmationMessage {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #155724;
+  font-weight: 600;
+}

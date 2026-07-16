@@ -1,0 +1,257 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.header {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.backButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.headerContent {
+  text-align: center;
+  color: white;
+}
+
+.headerContent h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.headerContent p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.infoSection {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.infoSection h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.infoCard {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+  border: 2px solid #e8ecff;
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+}
+
+.infoIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.infoCard h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.infoCard p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.eligibilitySection {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.eligibilitySection h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.eligibilityContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+}
+
+.eligibilityList,
+.documentsNeeded {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 15px;
+  border-left: 5px solid #667eea;
+}
+
+.eligibilityList h3,
+.documentsNeeded h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.eligibilityList ul,
+.documentsNeeded ul {
+  list-style: none;
+  padding: 0;
+}
+
+.eligibilityList li,
+.documentsNeeded li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  padding-left: 30px;
+  color: #666;
+}
+
+.eligibilityList li:last-child,
+.documentsNeeded li:last-child {
+  border-bottom: none;
+}
+
+.eligibilityList li::before,
+.documentsNeeded li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.servicesSection {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.servicesSection h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+  border-radius: 15px;
+  border: 2px solid #e8ecff;
+  transition: all 0.3s ease;
+}
+
+.serviceItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+}
+
+.serviceIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.serviceItem span:last-child {
+  color: #333;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .headerContent h1 {
+    font-size: 2rem;
+  }
+  
+  .headerContent p {
+    font-size: 1rem;
+  }
+  
+  .infoSection,
+  .eligibilitySection,
+  .servicesSection {
+    padding: 25px;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .eligibilityContent {
+    grid-template-columns: 1fr;
+  }
+  
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .serviceItem {
+    flex-direction: column;
+    text-align: center;
+  }
+}

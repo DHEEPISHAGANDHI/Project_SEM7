@@ -1,0 +1,373 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.header {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.backButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.headerContent {
+  text-align: center;
+  color: white;
+}
+
+.headerContent h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.headerContent p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 40px;
+}
+
+.formSection {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.formSection h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.consultationForm {
+  display: grid;
+  gap: 25px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.submitButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.lawyersSection {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.lawyersSection h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.lawyersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.lawyerCard {
+  border: 2px solid #f0f0f0;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.lawyerCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+}
+
+.lawyerImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 4px solid #667eea;
+}
+
+.lawyerInfo h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.specialization {
+  color: #667eea;
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.lawyerDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+}
+
+.experience,
+.rating {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.languages {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: left;
+}
+
+.benefitsSection {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.benefitsSection h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.benefitCard {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+  border: 2px solid #e8ecff;
+  transition: all 0.3s ease;
+}
+
+.benefitCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+}
+
+.benefitIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.benefitCard h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.benefitCard p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.successMessage {
+  background: white;
+  padding: 60px 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  margin: 100px auto;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  margin: 0 auto 30px auto;
+  box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+}
+
+.successMessage h2 {
+  color: #27ae60;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.successMessage p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.nextSteps {
+  text-align: left;
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 15px;
+  margin-top: 30px;
+}
+
+.nextSteps h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.nextSteps ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nextSteps li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  padding-left: 30px;
+}
+
+.nextSteps li:last-child {
+  border-bottom: none;
+}
+
+.nextSteps li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .headerContent h1 {
+    font-size: 2rem;
+  }
+  
+  .headerContent p {
+    font-size: 1rem;
+  }
+  
+  .formSection,
+  .lawyersSection,
+  .benefitsSection {
+    padding: 25px;
+  }
+  
+  .lawyersGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lawyerDetails {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,1395 @@
+/* User Dashboard Styles */
+.userDashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 280px;
+  background-color: #ffffff;
+  border-right: 1px solid #e9ecef;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebarHeader {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.sidebarHeader h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.sidebarHeader p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.sidebarNav {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: none;
+  background: none;
+  text-align: left;
+  color: #333333;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.navItem:hover {
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+.navItem.active {
+  background-color: #e3f2fd;
+  color: #007bff;
+  border-right: 3px solid #007bff;
+}
+
+.navItem i {
+  margin-right: 0.75rem;
+  width: 20px;
+  font-size: 1.1rem;
+}
+
+.notificationBadge {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countBadge {
+  background-color: #6c757d;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main Content Styles */
+.mainContent {
+  flex: 1;
+  margin-left: 280px;
+  padding: 2rem;
+  overflow-y: auto;
+  max-width: calc(100vw - 280px);
+}
+
+/* Consultations Styles */
+.consultationsList {
+  max-width: 1200px;
+}
+
+.consultationsList h3 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.sectionDescription {
+  margin: 0 0 2rem 0;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.consultationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.consultationCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e9ecef;
+}
+
+.consultationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-color: #007bff;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.lawyerPhoto {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+}
+
+.lawyerDetails {
+  flex: 1;
+}
+
+.lawyerDetails h4 {
+  margin: 0 0 0.25rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.specialization {
+  margin: 0 0 0.5rem 0;
+  color: #007bff;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.initiatedDate {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.statusBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  text-transform: capitalize;
+}
+
+.lastMessage {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #007bff;
+}
+
+.lastMessage p {
+  margin: 0 0 0.5rem 0;
+  color: #495057;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lastMessageDate {
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.viewChatButton {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.viewChatButton:hover {
+  background-color: #0056b3;
+}
+
+/* Chat Interface Styles */
+.chatInterface {
+  max-width: 1000px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 4rem);
+}
+
+.chatHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backButton {
+  padding: 0.5rem 1rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+}
+
+.lawyerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lawyerAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+}
+
+.lawyerInfo h3 {
+  margin: 0;
+  color: #333333;
+  font-size: 1.1rem;
+}
+
+.lawyerInfo p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.messagesContainer {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message {
+  max-width: 70%;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.message.user {
+  background-color: #007bff;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.message.lawyer {
+  background-color: #f8f9fa;
+  color: #333333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.messageHeader strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.messageTime {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.messageText {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.messageInput {
+  padding: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.messageTextarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.messageTextarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.sendButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  align-self: flex-end;
+  transition: background-color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.sendButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.sendButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Documents Styles */
+.documentsList {
+  max-width: 1200px;
+}
+
+.documentsList h3 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.documentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.documentCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+}
+
+.documentCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.documentIcon {
+  width: 60px;
+  height: 60px;
+  background-color: #dc3545;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.documentIcon i {
+  font-size: 1.8rem;
+  color: white;
+}
+
+.documentInfo {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+.documentInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.documentCategory {
+  margin: 0 0 0.75rem 0;
+  color: #007bff;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.documentDescription {
+  margin: 0 0 1rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.downloadDate {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.documentActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.downloadAgainButton {
+  padding: 0.75rem 1.25rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.downloadAgainButton:hover {
+  background-color: #218838;
+}
+
+/* Empty State Styles */
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #6c757d;
+}
+
+.emptyState i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #dee2e6;
+}
+
+.emptyState h4 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.25rem;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .consultationsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .documentsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  .chatInterface {
+    height: calc(100vh - 2rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .mainContent {
+    margin-left: 0;
+    padding: 1rem;
+    max-width: 100vw;
+  }
+  
+  .consultationsGrid,
+  .documentsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .statusBadge {
+    position: static;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+  
+  .messagesContainer {
+    padding: 1rem;
+  }
+  
+  .message {
+    max-width: 85%;
+  }
+  
+  .chatInterface {
+    height: calc(100vh - 1rem);
+  }
+  
+  .chatHeader {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .backButton {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .documentCard {
+    padding: 1rem;
+  }
+  
+  .consultationCard {
+    padding: 1rem;
+  }
+  
+  .messageInput {
+    padding: 1rem;
+  }
+  
+  .sendButton {
+    width: 100%;
+  }
+}
+
+/* New styles for video consultation features */
+.scheduleButton {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.scheduleButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.joinCallButton {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.joinCallButton:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.joinCallButton.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.viewChatButton.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Status badge updates for new statuses */
+.statusBadge {
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Animation for pending status */
+.statusBadge[style*="#ffc107"] {
+  animation: pulse-yellow 2s infinite;
+}
+
+@keyframes pulse-yellow {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Schedule Meeting Page Styles */
+.scheduleMeetingPage {
+  padding: 2rem;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
+.pageHeader h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.pageDescription {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.approvedLawyersGrid {
+  max-width: 800px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.sectionHeader h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.lawyerCount {
+  color: #666;
+  font-size: 0.9rem;
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+.approvedLawyerCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.approvedLawyerCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.lawyerCardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.lawyerPhoto {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.lawyerInfo h4 {
+  margin: 0 0 0.25rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.specialization {
+  margin: 0 0 0.5rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.approvalBadge {
+  display: flex;
+  align-items: center;
+  color: #28a745;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.approvalBadge i {
+  margin-right: 0.5rem;
+}
+
+.lawyerCardActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.selectLawyerBtn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.selectLawyerBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.backToConsultationsBtn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.backToConsultationsBtn:hover {
+  background: #5a6268;
+}
+
+/* Lawyer Calendar Styles */
+.lawyerCalendarPage {
+  padding: 2rem;
+  max-width: 1000px;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.selectedLawyerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lawyerAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.selectedLawyerInfo h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.selectedLawyerInfo p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.calendarContent h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.calendarDescription {
+  margin: 0 0 2rem 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.datesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.dateCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.dateHeader {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.dateHeader h5 {
+  margin: 0 0 0.25rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.dayOfWeek {
+  color: #666;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeSlots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.timeSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #333;
+  min-height: 60px;
+  position: relative;
+}
+
+.timeSlot:hover:not(.unavailable) {
+  border-color: #007bff;
+  background: #f8f9ff;
+  transform: translateY(-1px);
+}
+
+.timeSlot.unavailable {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.timeSlot i {
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.bookedLabel {
+  position: absolute;
+  bottom: 2px;
+  font-size: 0.7rem;
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* Approval Badge for sidebar */
+.approvalCountBadge {
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* In-Chat Meeting Request Styles */
+.meetingRequestSection {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.requestMeetingButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  justify-content: center;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.requestMeetingButton:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.requestMeetingButton.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.requestMeetingButton.approved {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.requestMeetingButton.approved:hover {
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.requestMeetingButton.rejected {
+  background: #dc3545;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.textInputSection {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.messageTextarea {
+  flex: 1;
+}
+
+.conversationStatus {
+  margin: 0.5rem 0 0 0;
+  color: #17a2b8;
+  font-size: 0.8rem;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* System Message Styles */
+.message.system {
+  background: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border-radius: 0 8px 8px 0;
+  max-width: 90%;
+  align-self: center;
+}
+
+.message.system .messageHeader {
+  color: #1976d2;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.message.system .messageText {
+  color: #0d47a1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Empty Conversation State */
+.emptyConversation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.emptyConversation i {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.emptyConversation h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.emptyConversation p {
+  margin: 0;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+/* Request History Styles */
+.requestHistoryList {
+  max-width: 1200px;
+}
+
+.requestHistoryList h3 {
+  margin: 0 0 1rem 0;
+  color: #333333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.requestHistoryTable {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tableHeader {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 2.5fr 1fr 1.2fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  align-items: center;
+}
+
+.tableBody {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.requestHistoryRow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 2.5fr 1fr 1.2fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  align-items: center;
+  border-bottom: 1px solid #f1f3f4;
+  transition: background-color 0.3s ease;
+}
+
+.requestHistoryRow:hover {
+  background-color: #f8f9fa;
+}
+
+.requestHistoryRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  display: flex;
+  align-items: center;
+  word-wrap: break-word;
+}
+
+.lawyerInfoCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lawyerPhotoSmall {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+}
+
+.lawyerNameCell {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.specializationCell {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.dateSentCell {
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.legalIssueCell {
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.requestHistoryStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.cancelRequestButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.cancelRequestButton:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.cancelRequestButton i {
+  font-size: 0.75rem;
+}
+
+.noActionText {
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+/* Responsive Design for Request History */
+@media (max-width: 1024px) {
+  .requestHistoryTable {
+    overflow-x: auto;
+  }
+  
+  .tableRow,
+  .requestHistoryRow {
+    grid-template-columns: 2fr 1.2fr 1fr 2fr 1fr 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .legalIssueCell {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .requestHistoryTable {
+    border-radius: 8px;
+  }
+  
+  .tableHeader {
+    display: none; /* Hide header on mobile */
+  }
+  
+  .requestHistoryRow {
+    display: block;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 0;
+  }
+  
+  .tableCell {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  
+  .tableCell:last-child {
+    margin-bottom: 0;
+  }
+  
+  .lawyerInfoCell {
+    margin-bottom: 1rem;
+  }
+  
+  .lawyerNameCell {
+    font-size: 1.1rem;
+  }
+  
+  .tableCell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .requestHistoryStatusBadge {
+    margin-top: 0.5rem;
+  }
+  
+  .cancelRequestButton {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+    padding: 0.6rem 1rem;
+  }
+  
+  .noActionText {
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+}
+
+@media (max-width: 480px) {
+  .requestHistoryRow {
+    padding: 1rem;
+  }
+  
+  .lawyerPhotoSmall {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .requestHistoryStatusBadge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  
+  .cancelRequestButton {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .cancelRequestButton i {
+    font-size: 0.7rem;
+  }
+}

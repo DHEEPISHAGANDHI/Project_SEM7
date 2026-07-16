@@ -1,0 +1,102 @@
+import React from 'react';
+import { Link } from 'react-scroll';
+import TranslatableText from '../components/TranslatableText';
+import styles from './Hero.module.css';
+
+const Hero = () => {
+  return (
+    <section id="home" className={styles.hero}>
+      <div className={styles.ambientLeft} aria-hidden="true" />
+      <div className={styles.ambientRight} aria-hidden="true" />
+      <div className={styles.overlay}>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <div className={styles.pillRow}>
+              <span className={styles.pill}>24/7 legal guidance</span>
+              <span className={styles.pill}>Multilingual support</span>
+              <span className={styles.pill}>Verified resources</span>
+            </div>
+
+            <TranslatableText
+              text="Know your rights with clarity, speed, and confidence"
+              component="h1"
+              className={styles.title}
+            />
+            <TranslatableText
+              text="A modern legal access platform that helps citizens find answers, compare options, and act faster in the language they trust."
+              component="p"
+              className={styles.subtitle}
+            />
+
+            <div className={styles.actionRow}>
+              <Link
+                to="know-your-rights"
+                spy={true}
+                smooth={true}
+                offset={-88}
+                duration={500}
+                className={styles.primaryButton}
+              >
+                <TranslatableText text="Explore Rights" />
+              </Link>
+              <Link
+                to="legal-aid"
+                spy={true}
+                smooth={true}
+                offset={-88}
+                duration={500}
+                className={styles.secondaryButton}
+              >
+                <TranslatableText text="View Legal Services" />
+              </Link>
+            </div>
+
+            <div className={styles.metrics}>
+              <div className={styles.metricCard}>
+                <strong>Instant</strong>
+                <span>AI-powered answers</span>
+              </div>
+              <div className={styles.metricCard}>
+                <strong>24/7</strong>
+                <span>Always available assistance</span>
+              </div>
+              <div className={styles.metricCard}>
+                <strong>India-wide</strong>
+                <span>Designed for every region</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.visualPanel}>
+            <div className={styles.visualHeader}>
+              <span className={styles.visualTag}>Live support</span>
+              <span className={styles.visualStatus}>Ready</span>
+            </div>
+
+            <div className={styles.visualCard}>
+              <div className={styles.visualCardTitle}>Today’s guidance</div>
+              <p>Talk to the assistant, review your options, and move to the right legal resource in one flow.</p>
+            </div>
+
+            <div className={styles.visualStack}>
+              <div className={styles.visualStackItem}>
+                <span>Case clarity</span>
+                <strong>Structured intake</strong>
+              </div>
+              <div className={styles.visualStackItem}>
+                <span>Language access</span>
+                <strong>Localized support</strong>
+              </div>
+              <div className={styles.visualStackItem}>
+                <span>Next step</span>
+                <strong>Right service match</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
