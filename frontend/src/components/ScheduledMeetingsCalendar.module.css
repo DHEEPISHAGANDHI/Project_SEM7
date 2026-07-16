@@ -1,0 +1,644 @@
+/* Scheduled Meetings Calendar Styles */
+.scheduledMeetingsContainer {
+  display: flex;
+  gap: 2rem;
+  height: 70vh;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Calendar Section (Left Side) */
+.calendarSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e9ecef;
+  padding-right: 2rem;
+  min-width: 400px;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.navButton {
+  background: none;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #6c757d;
+}
+
+.navButton:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: white;
+  transform: scale(1.05);
+}
+
+.monthTitle {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.calendar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 1rem;
+}
+
+.weekDay {
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 0.9rem;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  flex: 1;
+}
+
+.calendarDay {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  min-height: 60px;
+}
+
+.calendarDay:hover {
+  background-color: #f8f9fa;
+  border-color: #0056b3;
+  transform: scale(1.02);
+}
+
+.calendarDay.currentMonth {
+  color: #2c3e50;
+}
+
+.calendarDay.otherMonth {
+  color: #adb5bd;
+  opacity: 0.6;
+}
+
+.calendarDay.today {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  font-weight: 600;
+  border-color: #0056b3;
+}
+
+.calendarDay.today:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+}
+
+.calendarDay.selected {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border-color: #28a745;
+  transform: scale(1.05);
+}
+
+.calendarDay.blockedDay {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  cursor: not-allowed;
+}
+
+.calendarDay.blockedDay:hover {
+  transform: none;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+}
+
+.dayNumber {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.meetingIndicator {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
+.meetingDot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: #dc3545;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px white;
+}
+
+.calendarDay.today .meetingDot,
+.calendarDay.selected .meetingDot {
+  background-color: #ffc107;
+  box-shadow: 0 0 0 2px currentColor;
+}
+
+.calendarActions {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.blockDayButton {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.blockDayButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.blockDayButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Schedule Section (Right Side) */
+.scheduleSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+}
+
+.scheduleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.selectedDateTitle {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.meetingCount {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.timeSlotContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.timeSlot {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.timeSlot:hover {
+  border-color: #0056b3;
+  box-shadow: 0 2px 8px rgba(0, 86, 179, 0.1);
+}
+
+.timeSlot.blocked {
+  background-color: #f8f9fa;
+  border-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.timeSlot.blocked:hover {
+  border-color: #6c757d;
+  box-shadow: none;
+}
+
+.timeSlot.selectedSlot {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+}
+
+.timeSlot.hasMeeting {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  border-color: #28a745;
+}
+
+.timeLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding: 1rem 0.75rem;
+  background-color: #f8f9fa;
+  border-right: 1px solid #e9ecef;
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
+.timeSlot.blocked .timeLabel {
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.timeSlot.selectedSlot .timeLabel {
+  background-color: #2196f3;
+  color: white;
+}
+
+.timeSlot.hasMeeting .timeLabel {
+  background-color: #28a745;
+  color: white;
+}
+
+.timeContent {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.emptySlot {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.blockedIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.blockedIndicator i {
+  color: #dc3545;
+}
+
+.meetingInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.meetingInfo:hover {
+  background: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}
+
+.meetingClient {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.meetingClient i {
+  color: #28a745;
+  font-size: 0.9rem;
+}
+
+.meetingSubject {
+  color: #495057;
+  font-size: 0.9rem;
+  margin-left: 1.4rem;
+}
+
+.meetingType {
+  color: #6c757d;
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-left: 1.4rem;
+  text-transform: capitalize;
+}
+
+.meetingActions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: #007bff;
+  font-size: 0.9rem;
+}
+
+.meetingInfo:hover .meetingActions {
+  opacity: 1;
+}
+
+/* Block Time Actions */
+.blockTimeActions {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.selectionInfo {
+  margin-bottom: 1rem;
+  font-weight: 500;
+  color: #495057;
+  text-align: center;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.blockTimeButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.blockTimeButton:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.cancelButton:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .scheduledMeetingsContainer {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .calendarSection {
+    border-right: none;
+    border-bottom: 1px solid #e9ecef;
+    padding-right: 0;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    min-width: auto;
+  }
+  
+  .scheduleSection {
+    min-width: auto;
+  }
+  
+  .calendarGrid {
+    min-height: 300px;
+  }
+  
+  .timeSlotContainer {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .scheduledMeetingsContainer {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .calendarHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .scheduleHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .calendarDay {
+    min-height: 45px;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .dayNumber {
+    font-size: 0.9rem;
+  }
+  
+  .meetingDot {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .timeSlot {
+    flex-direction: column;
+  }
+  
+  .timeLabel {
+    min-width: auto;
+    padding: 0.5rem;
+    border-right: none;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 7px 7px 0 0;
+  }
+  
+  .timeContent {
+    padding: 0.75rem;
+  }
+  
+  .meetingClient {
+    font-size: 0.9rem;
+  }
+  
+  .meetingSubject {
+    font-size: 0.8rem;
+    margin-left: 0;
+  }
+  
+  .meetingType {
+    font-size: 0.75rem;
+    margin-left: 0;
+  }
+  
+  .actionButtons {
+    flex-direction: column;
+  }
+  
+  .selectedDateTitle {
+    font-size: 1rem;
+  }
+  
+  .monthTitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* Custom scrollbar for time slot container */
+.timeSlotContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.timeSlotContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.timeSlotContainer::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.timeSlotContainer::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Selection feedback for dragging */
+.timeSlot.selectedSlot .timeContent {
+  position: relative;
+}
+
+.timeSlot.selectedSlot .timeContent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(33, 150, 243, 0.1);
+  border-radius: 4px;
+}
+
+/* Animation for hover states */
+.calendarDay, .timeSlot, .blockDayButton, .blockTimeButton, .cancelButton {
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.calendarDay.today {
+  animation: pulse 2s infinite;
+}
+
+/* Focus states for accessibility */
+.navButton:focus,
+.calendarDay:focus,
+.timeSlot:focus,
+.blockDayButton:focus,
+.blockTimeButton:focus,
+.cancelButton:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .calendarDay {
+    border-width: 2px;
+  }
+  
+  .timeSlot {
+    border-width: 2px;
+  }
+  
+  .meetingDot {
+    border-width: 2px;
+  }
+}

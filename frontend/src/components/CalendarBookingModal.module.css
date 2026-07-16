@@ -1,0 +1,628 @@
+/* CalendarBookingModal.module.css */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #f8f9fa;
+  border-radius: 12px 12px 0 0;
+}
+
+.lawyerInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.lawyerAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e5e5;
+}
+
+.lawyerInfo h3 {
+  margin: 0 0 5px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.lawyerInfo p {
+  margin: 0;
+  color: var(--text-light, #6B7281);
+  font-size: 0.9rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #666;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.closeButton:hover {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.modalBody {
+  padding: 30px;
+}
+
+/* Request Summary */
+.requestSummary {
+  background: #f8fafc;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.requestSummary h4 {
+  margin: 0 0 15px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.requestSummary p {
+  margin: 8px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 0.9rem;
+}
+
+.requestSummary strong {
+  color: var(--primary-blue, #2563EB);
+}
+
+/* Instructions */
+.instruction {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+}
+
+/* Calendar Styles */
+.calendarSection h4,
+.timeSlotSection h4,
+.callTypeSection h4,
+.confirmationSection h4 {
+  margin: 0 0 15px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.calendar {
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.calendarHeader {
+  background: var(--primary-blue, #2563EB);
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.calendarHeader h5 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.calendarWeekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f8f9fa;
+}
+
+.weekDay {
+  padding: 12px 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #666;
+  border-right: 1px solid #e5e5e5;
+}
+
+.weekDay:last-child {
+  border-right: none;
+}
+
+.calendarDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendarDay {
+  min-height: 60px;
+  padding: 8px;
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.calendarDay:nth-child(7n) {
+  border-right: none;
+}
+
+.dayNumber {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.otherMonth .dayNumber {
+  color: #ccc;
+}
+
+.today {
+  background: #fff3cd;
+}
+
+.pastDay {
+  background: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.pastDay .dayNumber {
+  color: #999;
+}
+
+.availableDay {
+  background: #e8f5e8;
+}
+
+.selectableDay {
+  cursor: pointer;
+}
+
+.selectableDay:hover {
+  background: #d4edda;
+  transform: scale(1.05);
+}
+
+.availabilityIndicator {
+  font-size: 0.7rem;
+  color: #28a745;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Time Slot Styles */
+.timeSlotSection {
+  text-align: center;
+}
+
+.dateDisplay {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-blue, #2563EB);
+}
+
+.timeSlots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.timeSlot {
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.timeSlot:hover {
+  border-color: var(--primary-blue, #2563EB);
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.timeText {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-dark, #1F2937);
+}
+
+.durationText {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Call Type Styles */
+.callTypeSection {
+  text-align: center;
+}
+
+.meetingSummary {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-blue, #2563EB);
+}
+
+.callTypeOptions {
+  display: grid;
+  gap: 15px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.callTypeOption {
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+}
+
+.callTypeOption:hover {
+  border-color: var(--primary-blue, #2563EB);
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.callTypeOption.selected {
+  border-color: var(--primary-blue, #2563EB);
+  background: #eff6ff;
+}
+
+.callTypeIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--primary-blue, #2563EB);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.callTypeInfo h5 {
+  margin: 0 0 5px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.1rem;
+}
+
+.callTypeInfo p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Confirmation Section */
+.confirmationSection {
+  text-align: center;
+}
+
+.bookingSummary {
+  background: #f8fafc;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bookingSummary h5 {
+  margin: 0 0 15px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.summaryDetails {
+  text-align: left;
+}
+
+.summaryDetails p {
+  margin: 8px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 0.95rem;
+}
+
+/* Action Buttons */
+.actionButtons,
+.finalActions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.backButton,
+.confirmButton {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.backButton {
+  background: #f5f5f5;
+  color: var(--text-dark, #1F2937);
+  border: 2px solid #e5e5e5;
+}
+
+.backButton:hover {
+  background: #e5e5e5;
+  transform: translateY(-1px);
+}
+
+.confirmButton {
+  background: var(--primary-blue, #2563EB);
+  color: white;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.confirmButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success Message */
+.successMessage {
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.successIcon {
+  font-size: 4rem;
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+.successMessage h3 {
+  margin: 0 0 15px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.successMessage p {
+  margin: 0 0 15px 0;
+  color: var(--text-light, #6B7281);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.meetingDetails {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+  border: 1px solid #e5e5e5;
+}
+
+.meetingDetails h4 {
+  margin: 0 0 15px 0;
+  color: var(--text-dark, #1F2937);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid var(--primary-blue, #2563EB);
+  padding-bottom: 8px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: var(--text-dark, #1F2937);
+  font-size: 0.95rem;
+}
+
+.meetingLink {
+  color: var(--primary-blue, #2563EB);
+  font-weight: 500;
+}
+
+.nextStepsInfo {
+  background: #e8f5e8;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.nextStepsInfo h4 {
+  margin: 0 0 15px 0;
+  color: #2e7d32;
+  font-size: 1rem;
+}
+
+.nextStepsInfo ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #2e7d32;
+}
+
+.nextStepsInfo li {
+  margin: 8px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .modalContent {
+    max-width: 95vw;
+    margin: 10px;
+  }
+  
+  .modalHeader {
+    padding: 20px;
+  }
+  
+  .modalBody {
+    padding: 20px;
+  }
+  
+  .timeSlots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .callTypeOptions {
+    grid-template-columns: 1fr;
+  }
+  
+  .finalActions,
+  .actionButtons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .backButton,
+  .confirmButton {
+    width: 100%;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeSlots {
+    grid-template-columns: 1fr;
+  }
+  
+  .calendarDays {
+    grid-template-columns: repeat(7, 1fr);
+  }
+  
+  .calendarDay {
+    min-height: 50px;
+    padding: 6px;
+  }
+  
+  .callTypeOption {
+    padding: 15px;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .callTypeIcon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}

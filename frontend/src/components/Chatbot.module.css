@@ -1,0 +1,133 @@
+.chatbotContainer {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+}
+
+.chatbotToggle {
+  background: var(--primary-blue);
+  color: var(--primary-white);
+  border: none;
+  border-radius: 50px;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.3s ease;
+}
+
+.chatbotToggle:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-large);
+}
+
+.chatbotToggle i { font-size: 1.2rem; }
+
+/* Overlay and side panel */
+.panelOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in;
+}
+
+.sidePanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 50vw; /* right half */
+  min-width: 360px;
+  max-width: 720px;
+  background: var(--primary-white);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -6px 0 24px rgba(0,0,0,0.1);
+  animation: slideInRight 0.25s ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Header, messages, input reuse */
+.chatbotHeader {
+  background: var(--primary-blue);
+  color: var(--primary-white);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbotHeader h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--primary-white);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+.closeButton:hover { background-color: rgba(255,255,255,0.1); }
+
+.messagesContainer {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message { max-width: 80%; padding: 0.75rem 1rem; border-radius: 12px; word-wrap: break-word; }
+.message.user { background: var(--primary-blue); color: var(--primary-white); align-self: flex-end; border-bottom-right-radius: 4px; }
+.message.bot { background: var(--background-light); color: var(--text-dark); align-self: flex-start; border-bottom-left-radius: 4px; }
+
+.quickReplies { padding: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.quickReplyButton {
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+.quickReplyButton:hover { background: #e5e7eb; border-color: var(--primary-blue); }
+
+.inputForm { display: flex; padding: 1rem; gap: 0.5rem; border-top: 1px solid var(--border-color); }
+.input { flex: 1; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s ease; }
+.input:focus { border-color: var(--primary-blue); }
+.input:disabled { background-color: var(--background-light); cursor: not-allowed; }
+
+.sendButton { background: var(--primary-blue); color: var(--primary-white); border: none; border-radius: 8px; padding: 0.75rem; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
+.sendButton:hover:not(:disabled) { background: #1d4ed8; }
+.sendButton:disabled { background: var(--text-light); cursor: not-allowed; }
+
+.typingIndicator { display: flex; gap: 0.25rem; align-items: center; }
+.typingIndicator span { width: 8px; height: 8px; border-radius: 50%; background: var(--text-light); animation: typing 1.4s infinite ease-in-out; }
+.typingIndicator span:nth-child(1) { animation-delay: -0.32s; }
+.typingIndicator span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes typing { 0%,80%,100%{ transform: scale(0.8); opacity: 0.5;} 40%{ transform: scale(1); opacity: 1; } }
+
+@media (max-width: 768px) {
+  .sidePanel { width: 100vw; }
+  .chatbotContainer { bottom: 1rem; right: 1rem; }
+  .chatbotToggle span { display: none; }
+  .chatbotToggle { padding: 1rem; }
+}

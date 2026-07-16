@@ -1,0 +1,321 @@
+/* Google Translate Button Styles */
+.translateContainer {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.translateToggle {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-width: 130px;
+  justify-content: center;
+}
+
+.translateToggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5b6ce8 0%, #6a5b9a 100%);
+}
+
+.translateToggle:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+.translateToggle i {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.buttonText {
+  color: white;
+  font-weight: 600;
+}
+
+/* Language Dropdown */
+.languageDropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 1rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e2e8f0;
+  width: 280px;
+  max-height: 400px;
+  overflow: hidden;
+  animation: dropUp 0.3s ease-out;
+  transform-origin: bottom left;
+}
+
+@keyframes dropUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdownHeader {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.dropdownHeader i {
+  font-size: 1.1rem;
+}
+
+.languageList {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+/* Custom Scrollbar */
+.languageList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.languageList::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+.languageList::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 3px;
+}
+
+.languageList::-webkit-scrollbar-thumb:hover {
+  background: #5b6ce8;
+}
+
+.languageOption {
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-align: left;
+}
+
+.languageOption:hover {
+  background: #f8fafc;
+  color: #667eea;
+}
+
+.languageOption:active {
+  background: #e2e8f0;
+}
+
+.languageFlag {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.languageName {
+  font-size: 0.95rem;
+  color: #1f2937;
+  font-weight: 500;
+  flex: 1;
+}
+
+.languageOption:hover .languageName {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .translateContainer {
+    bottom: 1.5rem;
+    left: 1.5rem;
+  }
+  
+  .translateToggle {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+    min-width: 120px;
+  }
+  
+  .translateToggle i {
+    font-size: 1.1rem;
+  }
+  
+  .languageDropdown {
+    width: 260px;
+    max-height: 350px;
+  }
+  
+  .buttonText {
+    display: none;
+  }
+  
+  .translateToggle {
+    min-width: auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .translateContainer {
+    bottom: 1rem;
+    left: 1rem;
+  }
+  
+  .translateToggle {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+  }
+  
+  .translateToggle i {
+    font-size: 1rem;
+  }
+  
+  .languageDropdown {
+    width: 240px;
+    max-height: 300px;
+  }
+  
+  .languageOption {
+    padding: 0.6rem 1rem;
+  }
+  
+  .languageName {
+    font-size: 0.9rem;
+  }
+}
+
+/* Hide Google Translate's default elements */
+.hiddenGoogle {
+  position: fixed !important;
+  left: -9999px !important;
+  top: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.goog-te-gadget {
+  display: none !important;
+}
+
+.goog-te-combo {
+  display: none !important;
+}
+
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget > span > a {
+  display: none !important;
+}
+
+.goog-te-gadget .goog-te-gadget-simple {
+  display: none !important;
+}
+
+/* Hide Google Translate banner */
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.skiptranslate {
+  display: none !important;
+}
+
+/* Animation for better UX */
+.translateToggle {
+  animation: fadeInUp 0.5s ease-out 1s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure button stays above other elements */
+.translateContainer {
+  z-index: 998;
+}
+
+/* Focus states for accessibility */
+.translateToggle:focus {
+  outline: 3px solid rgba(102, 126, 234, 0.5);
+  outline-offset: 2px;
+}
+
+.languageOption:focus {
+  background: #e2e8f0;
+  outline: none;
+}
+
+/* Loading state */
+.translateToggle.loading {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.translateToggle.loading i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
