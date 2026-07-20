@@ -18,12 +18,12 @@ const Hero = () => {
             </div>
 
             <TranslatableText
-              text="Know your rights with clarity, speed, and confidence"
+              text="Get legal clarity before problems grow"
               component="h1"
               className={styles.title}
             />
             <TranslatableText
-              text="A modern legal access platform that helps citizens find answers, compare options, and act faster in the language they trust."
+              text="A public legal aid hub that helps people understand rights, compare next steps, and act with confidence in the language they trust."
               component="p"
               className={styles.subtitle}
             />
@@ -37,7 +37,7 @@ const Hero = () => {
                 duration={500}
                 className={styles.primaryButton}
               >
-                <TranslatableText text="Explore Rights" />
+                <TranslatableText text="Explore rights" />
                 <i className="fas fa-arrow-right" />
               </Link>
               <Link
@@ -48,14 +48,14 @@ const Hero = () => {
                 duration={500}
                 className={styles.secondaryButton}
               >
-                <TranslatableText text="View Legal Services" />
+                <TranslatableText text="View legal services" />
               </Link>
             </div>
 
             <div className={styles.metrics}>
               <div className={styles.metricCard}>
-                <strong>Instant</strong>
-                <span>AI-powered answers</span>
+                <strong>Clear</strong>
+                <span>Plain-language answers</span>
               </div>
               <div className={styles.metricCard}>
                 <strong>24/7</strong>
@@ -75,8 +75,8 @@ const Hero = () => {
             </div>
 
             <div className={styles.visualCard}>
-              <div className={styles.visualCardTitle}>Today's guidance</div>
-              <p>Talk to the assistant, review your options, and move to the right legal resource in one flow.</p>
+              <div className={styles.visualCardTitle}>Today&apos;s guidance</div>
+              <p>Talk to the assistant, review your options, and move to the right legal resource in one calm flow.</p>
             </div>
 
             <div className={styles.visualStack}>

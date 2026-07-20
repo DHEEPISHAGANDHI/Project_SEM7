@@ -15,24 +15,24 @@ const LegalAidServices = ({ services = [] }) => {
     {
       image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop',
       title: 'Free Legal Consultation',
-      description: 'Get free initial consultation with experienced lawyers to understand your legal options.',
-      actionText: 'Find a Lawyer',
+      description: 'Start with a free first conversation so you can understand your options before taking action.',
+      actionText: 'Talk to a Lawyer',
       action: 'consultation',
       icon: 'fas fa-user-tie'
     },
     {
       image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop',
       title: 'Document Templates',
-      description: 'Access ready-to-use legal document templates for common legal procedures.',
-      actionText: 'Browse Templates',
+      description: 'Open practical legal templates for common procedures and everyday disputes.',
+      actionText: 'Open Templates',
       action: 'templates',
       icon: 'fas fa-file-contract'
     },
     {
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop',
       title: 'Local Legal Clinics',
-      description: 'Find legal aid clinics and organizations in your area for in-person assistance.',
-      actionText: 'Find Clinics',
+      description: 'Find nearby legal aid clinics and organizations when you need in-person assistance.',
+      actionText: 'Locate Clinics',
       action: 'clinics',
       icon: 'fas fa-map-location-dot'
     }
@@ -62,7 +62,7 @@ const LegalAidServices = ({ services = [] }) => {
             className="section-title"
           />
           <TranslatableText
-            text="Get practical help and connect with legal professionals to resolve your legal issues"
+            text="Choose the next step that matches your issue, then move straight to a lawyer, a template, or a local clinic."
             component="p"
             className="section-subtitle"
           />

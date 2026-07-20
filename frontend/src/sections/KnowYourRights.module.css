@@ -1,73 +1,158 @@
 .knowYourRights {
   background: var(--primary-white);
   position: relative;
+  padding: 80px 0;
 }
 
 .knowYourRights::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border-color), transparent);
 }
 
+/* Section header enhancements */
+.knowYourRights .section-badge {
+  background: var(--primary-gold-soft);
+  color: var(--primary-blue);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  padding: 6px 18px;
+}
+
+.knowYourRights .section-title {
+  margin-top: 1rem;
+}
+
+/* Filter bar */
 .filterBar {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 2.5rem;
+  gap: 12px;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
 }
 
 .filterBtn {
-  padding: 8px 18px;
-  border-radius: 999px;
+  padding: 8px 20px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-color);
   background: var(--primary-white);
   color: var(--text-light);
   font-weight: 500;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all var(--transition-smooth);
   font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.filterBtn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--primary-blue);
+  transition: width var(--transition-smooth);
 }
 
 .filterBtn:hover {
   border-color: var(--primary-blue);
   color: var(--primary-blue);
+  background: rgba(30, 58, 95, 0.02);
+}
+
+.filterBtn:hover::after {
+  width: 60%;
 }
 
 .filterActive {
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+  background: var(--primary-blue);
   color: var(--primary-white);
-  border-color: transparent;
-  box-shadow: 0 4px 12px rgba(22, 58, 114, 0.25);
+  border-color: var(--primary-blue);
+  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.2);
 }
 
+.filterActive::after {
+  display: none;
+}
+
+.filterActive:hover {
+  background: var(--primary-blue-hover);
+  color: var(--primary-white);
+  border-color: var(--primary-blue-hover);
+}
+
+/* Topics grid */
 .topicsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 28px;
+  padding: 0 4px;
 }
 
+/* Empty state */
 .emptyState {
   text-align: center;
-  color: var(--text-light);
-  padding: 3rem;
-  font-size: 1.1rem;
+  color: var(--text-muted);
+  padding: 4rem 2rem;
+  font-size: 1.05rem;
+  background: var(--background-light);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-color);
 }
 
+/* Responsive design */
 @media (max-width: 1024px) {
   .topicsGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .knowYourRights {
+    padding: 60px 0;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .topicsGrid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 20px;
+  }
+  
+  .filterBar {
+    gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+  
+  .filterBtn {
+    padding: 7px 14px;
+    font-size: 0.825rem;
+  }
+  
+  .knowYourRights {
+    padding: 48px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterBar {
+    gap: 6px;
+  }
+  
+  .filterBtn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }
