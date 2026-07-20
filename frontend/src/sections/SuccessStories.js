@@ -36,7 +36,7 @@ const SuccessStories = ({ testimonials = [] }) => {
           </span>
           <h2 className="section-title"><TranslatableText text="Success Stories" /></h2>
           <p className="section-subtitle">
-            <TranslatableText text="Real stories from people who found justice and peace of mind through LegalAid India" />
+            <TranslatableText text="Real stories from people who found clearer answers, faster help, and peace of mind through LegalAid India" />
           </p>
         </div>
 

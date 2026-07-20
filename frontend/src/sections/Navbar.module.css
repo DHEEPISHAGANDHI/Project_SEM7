@@ -46,13 +46,13 @@
 .logoMark {
   width: 42px;
   height: 42px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-hover));
   color: var(--primary-white);
   display: grid;
   place-items: center;
   font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(22, 58, 114, 0.3);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
 }
 
 .logoCopy {
@@ -123,11 +123,11 @@
 }
 
 .assistantButton {
-  background: linear-gradient(135deg, rgba(22, 58, 114, 0.08), rgba(212, 163, 115, 0.12));
+  background: var(--primary-gold-subtle);
   color: var(--primary-blue);
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(22, 58, 114, 0.12);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(30, 58, 95, 0.08);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-smooth);
@@ -139,7 +139,7 @@
 }
 
 .assistantButton:hover {
-  background: linear-gradient(135deg, rgba(22, 58, 114, 0.14), rgba(212, 163, 115, 0.2));
+  background: var(--primary-gold-soft);
   transform: translateY(-1px);
   box-shadow: var(--shadow-light);
 }
@@ -176,22 +176,22 @@
 }
 
 .getHelpButton {
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
-  color: var(--primary-white);
-  padding: 9px 18px;
-  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-light));
+  color: var(--primary-blue-strong);
+  padding: 9px 20px;
+  border-radius: var(--radius-sm);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all var(--transition-smooth);
   font-size: 0.85rem;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(22, 58, 114, 0.25);
+  box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
 }
 
 .getHelpButton:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
 }
 
 .authButton {
@@ -233,11 +233,11 @@
 }
 
 .dashboardButton {
-  background: rgba(22, 58, 114, 0.08);
+  background: rgba(30, 58, 95, 0.06);
   color: var(--primary-blue);
-  border: 1px solid rgba(22, 58, 114, 0.12);
-  padding: 8px 12px;
-  border-radius: 999px;
+  border: 1px solid rgba(30, 58, 95, 0.08);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-smooth);
@@ -249,7 +249,7 @@
 }
 
 .dashboardButton:hover {
-  background: rgba(22, 58, 114, 0.14);
+  background: rgba(30, 58, 95, 0.1);
   transform: translateY(-1px);
 }
 

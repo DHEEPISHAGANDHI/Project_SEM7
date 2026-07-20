@@ -1,4 +1,100 @@
-/* User Dashboard Styles */
+.dashboardShell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-large);
+  backdrop-filter: blur(16px);
+}
+
+.brandBlock {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.brandIcon {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: var(--primary-white);
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-gold));
+  box-shadow: 0 12px 30px rgba(22, 58, 114, 0.24);
+}
+
+.brandKicker {
+  display: inline-flex;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+  .heroPanel,
+  .consultationsLayout,
+  .overviewGrid,
+  .statsGrid,
+  .scheduleGrid,
+  .documentGrid,
+  .summaryGrid,
+  .schedulerFields {
+    grid-template-columns: 1fr;
+  }
+
+  .heroPanel,
+  .detailHeader,
+  .panelHeader,
+  .historyItem,
+  .consultationCardTop,
+  .videoCallTopbar {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .heroActions,
+  .composerActions {
+    justify-content: stretch;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    width: 100%;
+  }
+
+  .historyItem {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboardShell,
+  .videoCallShell {
+    padding: 16px;
+  }
+
+  .sidebar,
+  .heroPanel,
+  .consultationListPanel,
+  .detailPanel,
+  .scheduleSection,
+  .documentsSection,
+  .historySection {
+    border-radius: 22px;
+    padding: 18px;
+  }
+}/* User Dashboard Styles */
 .userDashboard {
   display: flex;
   min-height: 100vh;

@@ -21,7 +21,7 @@ import GoogleTranslateAPI from './components/GoogleTranslateAPI';
 import PropertyRights from './pages/PropertyRights';
 import LegalHelplineDirectory from './components/LegalHelplineDirectory';
 import LawyerDashboard from './pages/dashboards/LawyerDashboard';
-import UserDashboard from './pages/dashboards/UserDashboard';
+import UserDashboard from './pages/dashboards/UserDashboard_Professional';
 import AdminDashboard from './pages/dashboards/AdminDashboard';
 
 function HomePage({ content, onLanguageClick, currentLanguage, onOpenAuth, assistantOpen, setAssistantOpen, isAuthModalOpen, setIsAuthModalOpen, isModalOpen, setIsModalOpen, handleLanguageSelect }) {

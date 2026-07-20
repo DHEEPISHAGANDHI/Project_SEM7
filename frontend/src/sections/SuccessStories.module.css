@@ -1,6 +1,19 @@
 .successStories {
-  background: var(--primary-white);
+  background:
+    radial-gradient(circle at 15% 15%, rgba(212, 163, 115, 0.08), transparent 24%),
+    var(--primary-white);
   position: relative;
+  overflow: hidden;
+}
+
+.successStories::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(15, 35, 72, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 35, 72, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 92%);
+  pointer-events: none;
 }
 
 .testimonialsGrid {
@@ -8,6 +21,8 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-top: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 900px) {
