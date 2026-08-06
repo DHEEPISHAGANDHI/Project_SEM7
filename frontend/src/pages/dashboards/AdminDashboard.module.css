@@ -2,38 +2,41 @@
 .adminDashboard {
   display: flex;
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background: #0b1220;
+  color: #e2e8f0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Sidebar Styles */
 .sidebar {
   width: 280px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-  color: white;
+  background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+  color: #e2e8f0;
   display: flex;
   flex-direction: column;
   position: fixed;
   height: 100vh;
   overflow-y: auto;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.35);
 }
 
 .sidebarHeader {
   padding: 2rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .sidebarHeader h2 {
   margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
+  color: #ffffff;
 }
 
 .sidebarHeader p {
   margin: 0;
-  opacity: 0.8;
-  font-size: 0.9rem;
+  opacity: 0.65;
+  font-size: 0.95rem;
+  color: #cbd5e1;
 }
 
 .sidebarNav {
@@ -46,7 +49,7 @@
   padding: 1rem 1.5rem;
   background: none;
   border: none;
-  color: white;
+  color: #d1d5db;
   text-align: left;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -56,35 +59,38 @@
 }
 
 .navItem:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-left-color: #60a5fa;
+  background-color: rgba(148, 163, 184, 0.12);
+  border-left-color: #38bdf8;
+  color: #f8fafc;
 }
 
 .navItem.active {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-left-color: #fbbf24;
+  background-color: rgba(56, 189, 248, 0.12);
+  border-left-color: #38bdf8;
+  color: #f8fafc;
   font-weight: 600;
 }
 
 .sidebarFooter {
   padding: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .logoutButton {
   width: 100%;
   padding: 0.75rem;
-  background-color: #dc2626;
+  background-color: #2563eb;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logoutButton:hover {
-  background-color: #b91c1c;
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
 }
 
 /* Main Content Styles */
@@ -97,7 +103,7 @@
 
 /* Overview Section */
 .overview h2 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 700;
@@ -111,44 +117,44 @@
 }
 
 .metricCard {
-  background: white;
+  background: #111827;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.15);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .metricCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
 }
 
 .metricCard h3 {
   font-size: 2.5rem;
-  color: #1e40af;
+  color: #38bdf8;
   margin: 0 0 0.5rem 0;
   font-weight: 700;
 }
 
 .metricCard p {
-  color: #6b7280;
+  color: #94a3b8;
   margin: 0;
   font-weight: 500;
 }
 
 .moderationQueue {
-  background: white;
+  background: #111827;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   margin-bottom: 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 .moderationQueue h3 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
   font-weight: 600;
@@ -164,22 +170,22 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  background: #fef3c7;
-  border: 1px solid #f59e0b;
-  border-radius: 8px;
+  background: rgba(71, 85, 105, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
 }
 
 .queueItem:hover {
-  background: #fde68a;
+  background: rgba(71, 85, 105, 0.25);
   transform: translateY(-1px);
 }
 
 .badge {
-  background: #dc2626;
-  color: white;
+  background: #38bdf8;
+  color: #0f172a;
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -191,15 +197,15 @@
 }
 
 .recentActivity {
-  background: white;
+  background: #111827;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .recentActivity h3 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
   font-weight: 600;
@@ -213,26 +219,26 @@
 
 .activityItem {
   padding: 1rem;
-  border-left: 4px solid #3b82f6;
-  background: #f8fafc;
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid #38bdf8;
+  background: rgba(71, 85, 105, 0.10);
+  border-radius: 0 12px 12px 0;
 }
 
 .activityItem strong {
-  color: #1f2937;
+  color: #e2e8f0;
   display: block;
   margin-bottom: 0.25rem;
 }
 
 .activityItem p {
-  color: #6b7280;
+  color: #94a3b8;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 /* User Management */
 .userManagement h2 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 700;
@@ -242,45 +248,50 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  max-width: 500px;
+  width: 100%;
+  max-width: 620px;
 }
 
 .searchInput {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  background: #0f172a;
+  color: #e2e8f0;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14);
 }
 
 .searchButton {
   padding: 0.75rem 1.5rem;
-  background: #3b82f6;
-  color: white;
+  background: #38bdf8;
+  color: #0f172a;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .searchButton:hover {
-  background: #2563eb;
+  background: #22d3ee;
+  transform: translateY(-1px);
 }
 
 .userTable {
-  background: white;
-  border-radius: 12px;
+  background: #111827;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .userTable table {
@@ -289,97 +300,105 @@
 }
 
 .userTable th {
-  background: #f9fafb;
+  background: #0f172a;
   padding: 1rem;
   text-align: left;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .userTable td {
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #1f2937;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
 }
 
 .userTable tbody tr:hover {
-  background: #f9fafb;
+  background: rgba(71, 85, 105, 0.12);
 }
 
 .status {
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
+  padding: 0.35rem 0.95rem;
+  border-radius: 999px;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .status.active {
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(34, 197, 94, 0.18);
+  color: #a7f3d0;
 }
 
 .status.inactive {
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(248, 113, 113, 0.18);
+  color: #fecaca;
 }
 
 .status.published {
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(14, 165, 233, 0.18);
+  color: #bae6fd;
 }
 
 .status.draft {
-  background: #fef3c7;
-  color: #92400e;
+  background: rgba(165, 180, 252, 0.18);
+  color: #c7d2fe;
 }
 
 .actionButton {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.15rem;
   margin-right: 0.5rem;
-  background: #3b82f6;
-  color: white;
+  background: #38bdf8;
+  color: #0f172a;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 700;
   transition: all 0.3s ease;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.actionButton + .actionButton {
+  margin-left: 0.5rem;
 }
 
 .actionButton:hover {
-  background: #2563eb;
+  background: #22d3ee;
   transform: translateY(-1px);
 }
 
 .actionButton.danger {
-  background: #dc2626;
+  background: #ef4444;
+  color: #f8fafc;
 }
 
 .actionButton.danger:hover {
-  background: #b91c1c;
+  background: #dc2626;
 }
 
 /* Lawyer Management */
 .lawyerManagement h2 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 700;
 }
 
 .verificationQueue {
-  background: white;
+  background: #111827;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   margin-bottom: 3rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .verificationQueue h3 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
   font-weight: 600;
@@ -395,29 +414,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background: #fafafa;
-  transition: all 0.3s ease;
+  padding: 1.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 18px;
+  background: #0f172a;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .applicationCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.45);
+  transform: translateY(-2px);
 }
 
 .lawyerInfo h4 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin: 0 0 0.5rem 0;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .lawyerInfo p {
   margin: 0.25rem 0;
-  color: #6b7280;
-  font-size: 0.9rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
 }
 
 .applicationActions {
@@ -434,6 +453,7 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  min-width: 145px;
 }
 
 .approveButton:hover {
@@ -459,39 +479,40 @@
 
 .viewButton {
   padding: 0.75rem 1.5rem;
-  background: #6b7280;
+  background: #475569;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .viewButton:hover {
-  background: #4b5563;
+  background: #334155;
   transform: translateY(-1px);
 }
 
 .masterLawyerList {
-  background: white;
+  background: #111827;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .masterLawyerList h3 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
   font-weight: 600;
 }
 
 .lawyerTable {
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: #111827;
 }
 
 .lawyerTable table {
@@ -500,73 +521,79 @@
 }
 
 .lawyerTable th {
-  background: #f9fafb;
+  background: #0f172a;
   padding: 1rem;
   text-align: left;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .lawyerTable td {
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #1f2937;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
 }
 
 .lawyerTable tbody tr:hover {
-  background: #f9fafb;
+  background: rgba(71, 85, 105, 0.12);
 }
 
 /* Content Management */
 .contentManagement h2 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 700;
 }
 
-.contentSection {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 3rem;
-  border: 1px solid #e5e7eb;
-}
-
-.contentSection h3 {
-  color: #1f2937;
-  margin-bottom: 1.5rem;
-  font-size: 1.3rem;
-  font-weight: 600;
+.sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contentSection {
+  background: #111827;
+  padding: 1.75rem;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.contentSection h3 {
+  color: #e2e8f0;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .addButton {
-  padding: 0.75rem 1.5rem;
-  background: #10b981;
-  color: white;
+  padding: 0.85rem 1.5rem;
+  background: #38bdf8;
+  color: #0f172a;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
   font-size: 0.9rem;
 }
 
 .addButton:hover {
-  background: #059669;
+  background: #22d3ee;
   transform: translateY(-1px);
 }
 
 .contentTable {
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.12);
   margin-top: 1rem;
+  background: #0f172a;
 }
 
 .contentTable table {
@@ -575,22 +602,22 @@
 }
 
 .contentTable th {
-  background: #f9fafb;
+  background: #111827;
   padding: 1rem;
   text-align: left;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .contentTable td {
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #1f2937;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
 }
 
 .contentTable tbody tr:hover {
-  background: #f9fafb;
+  background: rgba(71, 85, 105, 0.12);
 }
 
 .templateGrid {
@@ -602,28 +629,28 @@
 
 .templateCard {
   padding: 1.5rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background: #fafafa;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
+  background: #0f172a;
   transition: all 0.3s ease;
 }
 
 .templateCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 .templateCard h4 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin: 0 0 0.75rem 0;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .templateCard p {
   margin: 0.5rem 0;
-  color: #6b7280;
-  font-size: 0.9rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
 }
 
 .templateActions {
@@ -642,28 +669,28 @@
 
 .storyCard {
   padding: 1.5rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background: #fafafa;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
+  background: #0f172a;
   transition: all 0.3s ease;
 }
 
 .storyCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 .storyCard h4 {
-  color: #1f2937;
+  color: #e2e8f0;
   margin: 0 0 0.75rem 0;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .storyCard p {
   margin: 0.5rem 0;
-  color: #6b7280;
-  font-size: 0.9rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
 }
 
 .storyActions {
@@ -673,16 +700,17 @@
 }
 
 .status.pendingreview {
-  background: #fef3c7;
-  color: #92400e;
+  background: rgba(250, 204, 21, 0.18);
+  color: #fef3c7;
 }
 
 /* Clinics Table */
 .clinicsTable {
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.12);
   margin-top: 1rem;
+  background: #0f172a;
 }
 
 .clinicsTable table {
@@ -691,32 +719,32 @@
 }
 
 .clinicsTable th {
-  background: #f9fafb;
+  background: #111827;
   padding: 1rem;
   text-align: left;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .clinicsTable td {
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #1f2937;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  color: #cbd5e1;
 }
 
 .clinicsTable tbody tr:hover {
-  background: #f9fafb;
+  background: rgba(71, 85, 105, 0.12);
 }
 
 /* Case Assignment Section */
 .caseAssignmentSection {
-  background: white;
+  background: #111827;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   margin-top: 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 /* Responsive Design */
@@ -777,45 +805,162 @@
 /* Consultation Management Styles */
 .consultationManagement {
   padding: 2rem;
+  background: #111827;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.consultationManagement h2 {
+  margin-bottom: 1.5rem;
 }
 
 .consultationTabs {
   display: flex;
-  border-bottom: 2px solid #e9ecef;
-  margin-bottom: 2rem;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.consultationLogContent,
+.lawyerPerformanceContent {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1.5rem;
+}
+
+.modalContent {
+  width: min(760px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #111827;
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+  padding: 1.5rem;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.closeButton {
+  border: none;
+  background: rgba(148, 163, 184, 0.2);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #0f172a;
+}
+
+.modalBody {
+  display: grid;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 1rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancelButton {
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: #0f172a;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancelButton:hover {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+/* Consultation Management Styles */
+.consultationManagement {
+  padding: 2rem;
+  background: #111827;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
 }
 
 .tabButton {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 1.5rem;
+  padding: 0.95rem 1.25rem;
   border: none;
-  background: none;
+  background: #0f172a;
   cursor: pointer;
+  border-radius: 14px 14px 0 0;
   border-bottom: 3px solid transparent;
   transition: all 0.3s ease;
-  font-weight: 500;
-  color: #6c757d;
+  font-weight: 700;
+  color: #cbd5e1;
 }
 
 .tabButton:hover {
-  color: #0056b3;
-  background: #f8f9fa;
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.15);
 }
 
 .tabButton.activeTab {
-  color: #0056b3;
-  border-bottom-color: #0056b3;
-  background: #ffffff;
+  color: #ffffff;
+  border-bottom-color: #38bdf8;
+  background: #111827;
+  box-shadow: inset 0 -2px 0 rgba(56, 189, 248, 0.35);
 }
 
 /* Consultation Log Styles */
 .logHeader, .performanceHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -824,29 +969,73 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.logSubtitle {
+  margin: 0.35rem 0 0;
+  color: #94a3b8;
+  font-size: 0.95rem;
 }
 
 .filterSelect {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: white;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  background: #0f172a;
+  color: #e2e8f0;
   cursor: pointer;
 }
 
 .searchInput {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
   min-width: 250px;
+  background: #0f172a;
+  color: #e2e8f0;
 }
 
 .consultationTable, .performanceTable {
-  background: white;
-  border-radius: 12px;
+  background: #111827;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   margin-bottom: 2rem;
+  width: 100%;
+}
+
+.consultationTableWrapper, .performanceTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.statusFilterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.statusFilterButton {
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(71, 85, 105, 0.15);
+  color: #cbd5e1;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.statusFilterButton:hover {
+  background: rgba(71, 85, 105, 0.3);
+}
+
+.activeStatusFilter {
+  background: #38bdf8;
+  color: #0f172a;
+  border-color: #38bdf8;
 }
 
 .consultationTable table, .performanceTable table {
@@ -855,43 +1044,44 @@
 }
 
 .consultationTable th, .performanceTable th {
-  background: #f8f9fa;
+  background: #111827;
   padding: 1rem;
   text-align: left;
-  font-weight: 600;
-  color: #495057;
-  border-bottom: 1px solid #dee2e6;
+  font-weight: 700;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 .consultationTable td, .performanceTable td {
   padding: 1rem;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   vertical-align: middle;
+  color: #cbd5e1;
 }
 
 .consultationTable tr:hover, .performanceTable tr:hover {
-  background: #f8f9fa;
+  background: rgba(71, 85, 105, 0.12);
 }
 
 /* Status badges for consultation log */
 .statusBadge.pending {
-  background: #ffc107;
-  color: #856404;
+  background: rgba(245, 158, 11, 0.18);
+  color: #facc15;
 }
 
 .statusBadge.scheduled {
-  background: #17a2b8;
-  color: white;
+  background: rgba(56, 189, 248, 0.18);
+  color: #7dd3fc;
 }
 
 .statusBadge.completed {
-  background: #28a745;
-  color: white;
+  background: rgba(34, 197, 94, 0.18);
+  color: #86efac;
 }
 
 .statusBadge.rejected {
-  background: #dc3545;
-  color: white;
+  background: rgba(248, 113, 113, 0.18);
+  color: #fecaca;
 }
 
 /* Consultation Statistics */
@@ -902,16 +1092,16 @@
 }
 
 .statCard {
-  background: white;
+  background: #111827;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
 }
 
 .statCard h4 {
   margin: 0 0 1rem 0;
-  color: #6c757d;
+  color: #94a3b8;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -920,7 +1110,7 @@
   display: block;
   font-size: 2rem;
   font-weight: bold;
-  color: #0056b3;
+  color: #38bdf8;
 }
 
 /* Lawyer Performance Styles */
@@ -928,17 +1118,17 @@
   font-weight: bold;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
-  background: #d4edda;
-  color: #155724;
+  background: rgba(34, 197, 94, 0.18);
+  color: #a7f3d0;
 }
 
 .acceptanceRate.lowRate {
-  background: #f8d7da;
-  color: #721c24;
+  background: rgba(248, 113, 113, 0.18);
+  color: #fecaca;
 }
 
 .warningStatus {
-  color: #dc3545;
+  color: #fca5a5;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -946,7 +1136,7 @@
 }
 
 .goodStatus {
-  color: #28a745;
+  color: #86efac;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -954,12 +1144,12 @@
 }
 
 .actionButton.warning {
-  background: #ffc107;
-  color: #856404;
+  background: #facc15;
+  color: #0f172a;
 }
 
 .actionButton.warning:hover {
-  background: #e0a800;
+  background: #eab308;
 }
 
 /* Performance Summary */
@@ -970,16 +1160,16 @@
 }
 
 .summaryCard {
-  background: white;
+  background: #111827;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
 }
 
 .summaryCard h4 {
   margin: 0 0 1rem 0;
-  color: #6c757d;
+  color: #94a3b8;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -988,24 +1178,26 @@
   display: block;
   font-size: 2rem;
   font-weight: bold;
-  color: #0056b3;
+  color: #38bdf8;
 }
 
 .summaryNumber.warning {
-  color: #dc3545;
+  color: #f87171;
 }
 
 /* Responsive adjustments for consultation management */
 @media (max-width: 768px) {
   .consultationTabs {
-    flex-direction: column;
-  }
-  
-  .tabButton {
-    justify-content: center;
-    padding: 0.75rem 1rem;
-  }
-  
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tabButton {
+  justify-content: center;
+  padding: 0.95rem 1.35rem;
+}
   .logHeader, .performanceHeader {
     flex-direction: column;
     align-items: flex-start;

@@ -78,7 +78,7 @@ def query_rag(query_text: str, chat_history: Optional[List[Dict[str, Any]]] = No
         chat_history=history_str
     )
 
-    model = OllamaLLM(model="llama3.2:latest")
+    model = OllamaLLM(model="llama3.1:latest")
 
     response_text = model.invoke(prompt)
 

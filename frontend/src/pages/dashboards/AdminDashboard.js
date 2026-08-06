@@ -41,6 +41,16 @@ const mockData = {
     { id: 1, name: 'Rental Agreement', category: 'Property', downloads: 245 },
     { id: 2, name: 'Employment Contract', category: 'Labor', downloads: 189 }
   ],
+  successStories: [
+    { id: 1, title: 'Property Dispute Resolved', author: 'Rajesh Kumar', status: 'Published', date: '2024-11-20' },
+    { id: 2, title: 'Employment Rights Victory', author: 'Priya Singh', status: 'Pending Review', date: '2024-12-05' },
+    { id: 3, title: 'Consumer Protection Win', author: 'Amit Sharma', status: 'Draft', date: '2024-12-08' }
+  ],
+  legalClinics: [
+    { id: 1, name: 'Delhi Legal Aid Center', location: 'New Delhi', contact: '+91-11-2345-6789', specialization: 'General Law', status: 'Active' },
+    { id: 2, name: 'Mumbai Family Court Clinic', location: 'Mumbai', contact: '+91-22-3456-7890', specialization: 'Family Law', status: 'Active' },
+    { id: 3, name: 'Bangalore Consumer Forum', location: 'Bangalore', contact: '+91-80-4567-8901', specialization: 'Consumer Rights', status: 'Inactive' }
+  ],
   consultationLog: [
     { 
       id: 'CASE001', 
@@ -133,6 +143,20 @@ const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('overview');
   const [data, setData] = useState(mockData);
   const [consultationManagementTab, setConsultationManagementTab] = useState('consultation-log'); // 'consultation-log' or 'lawyer-performance'
+  const [searchUserQuery, setSearchUserQuery] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [consultationSearchQuery, setConsultationSearchQuery] = useState('');
+  const [lawyerSearchQuery, setLawyerSearchQuery] = useState('');
+  const [consultationStatusFilter, setConsultationStatusFilter] = useState('all');
+  const [lawyerPerformanceFilter, setLawyerPerformanceFilter] = useState('all');
+  const [selectedConsultation, setSelectedConsultation] = useState(null);
+  const [articleForm, setArticleForm] = useState({ title: '', author: 'Admin', status: 'Draft', date: new Date().toISOString().split('T')[0] });
+  const [showArticleModal, setShowArticleModal] = useState(false);
+  const [storyForm, setStoryForm] = useState({ title: '', author: 'Admin', status: 'Draft', date: new Date().toISOString().split('T')[0] });
+  const [showStoryModal, setShowStoryModal] = useState(false);
+  const [clinicForm, setClinicForm] = useState({ name: '', location: '', contact: '', specialization: '', status: 'Active' });
+  const [showClinicModal, setShowClinicModal] = useState(false);
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
@@ -143,6 +167,244 @@ const AdminDashboard = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const getFilteredUsers = () => {
+    const query = searchUserQuery.trim().toLowerCase();
+    if (!query) return data.users;
+    return data.users.filter(user =>
+      user.name.toLowerCase().includes(query) ||
+      user.email.toLowerCase().includes(query)
+    );
+  };
+
+  const handleSearchUsers = (value) => {
+    setSearchUserQuery(value);
+  };
+
+  const handleViewUser = (user) => {
+    setSelectedUser(user);
+    setShowUserModal(true);
+  };
+
+  const handleToggleUserStatus = (userId) => {
+    setData(prev => ({
+      ...prev,
+      users: prev.users.map(user =>
+        user.id === userId
+          ? { ...user, status: user.status === 'Active' ? 'Inactive' : 'Active' }
+          : user
+      )
+    }));
+  };
+
+  const handleApproveLawyer = (lawyerId) => {
+    setData(prev => {
+      const approvedLawyer = prev.pendingLawyers.find(lawyer => lawyer.id === lawyerId);
+      if (!approvedLawyer) return prev;
+
+      return {
+        ...prev,
+        pendingLawyers: prev.pendingLawyers.filter(lawyer => lawyer.id !== lawyerId),
+        verifiedLawyers: [
+          ...prev.verifiedLawyers,
+          {
+            id: Date.now(),
+            name: approvedLawyer.name,
+            specialization: approvedLawyer.specialization,
+            cases: 0,
+            rating: 4.5
+          }
+        ]
+      };
+    });
+  };
+
+  const handleRejectLawyer = (lawyerId) => {
+    setData(prev => ({
+      ...prev,
+      pendingLawyers: prev.pendingLawyers.filter(lawyer => lawyer.id !== lawyerId)
+    }));
+  };
+
+  const handleViewCredentials = (lawyer) => {
+    alert(`Viewing credentials for ${lawyer.name}.`);
+  };
+
+  const handleConsultationSearch = (value) => {
+    setConsultationSearchQuery(value);
+  };
+
+  const handleConsultationFilter = (value) => {
+    setConsultationStatusFilter(value);
+  };
+
+  const getFilteredConsultations = () => {
+    return data.consultationLog.filter(entry => {
+      const query = consultationSearchQuery.trim().toLowerCase();
+      const matchesQuery =
+        !query ||
+        entry.id.toLowerCase().includes(query) ||
+        entry.userName.toLowerCase().includes(query) ||
+        entry.lawyerName.toLowerCase().includes(query);
+      const matchesStatus =
+        consultationStatusFilter === 'all' ||
+        entry.status.toLowerCase() === consultationStatusFilter;
+      return matchesQuery && matchesStatus;
+    });
+  };
+
+  const handleViewConsultationDetails = (consultation) => {
+    setSelectedConsultation(consultation);
+  };
+
+  const handleLawyerSearch = (value) => {
+    setLawyerSearchQuery(value);
+  };
+
+  const handleLawyerPerformanceFilter = (value) => {
+    setLawyerPerformanceFilter(value);
+  };
+
+  const getFilteredLawyers = () => {
+    return data.lawyerPerformance.filter(lawyer => {
+      const query = lawyerSearchQuery.trim().toLowerCase();
+      const matchesQuery = !query || lawyer.name.toLowerCase().includes(query);
+      if (!matchesQuery) return false;
+      if (lawyerPerformanceFilter === 'below-80') {
+        return lawyer.acceptanceRate < 80;
+      }
+      if (lawyerPerformanceFilter === 'above-90') {
+        return lawyer.acceptanceRate > 90;
+      }
+      return true;
+    });
+  };
+
+  const handleAddContent = (contentType) => {
+    if (contentType === 'article') {
+      setArticleForm({ title: '', author: 'Admin', status: 'Draft', date: new Date().toISOString().split('T')[0] });
+      setShowArticleModal(true);
+    }
+    if (contentType === 'story') {
+      setStoryForm({ title: '', author: 'Admin', status: 'Draft', date: new Date().toISOString().split('T')[0] });
+      setShowStoryModal(true);
+    }
+    if (contentType === 'clinic') {
+      setClinicForm({ name: '', location: '', contact: '', specialization: '', status: 'Active' });
+      setShowClinicModal(true);
+    }
+  };
+
+  const handleSaveArticle = () => {
+    if (!articleForm.title) {
+      alert('Please enter an article title.');
+      return;
+    }
+    setData(prev => ({
+      ...prev,
+      kyrArticles: [
+        ...prev.kyrArticles,
+        { id: Date.now(), ...articleForm }
+      ]
+    }));
+    setShowArticleModal(false);
+  };
+
+  const handleDeleteArticle = (articleId) => {
+    setData(prev => ({
+      ...prev,
+      kyrArticles: prev.kyrArticles.filter(article => article.id !== articleId)
+    }));
+  };
+
+  const handleSaveStory = () => {
+    if (!storyForm.title) {
+      alert('Please enter a story title.');
+      return;
+    }
+    setData(prev => ({
+      ...prev,
+      successStories: [
+        ...(prev.successStories || []),
+        { id: Date.now(), ...storyForm }
+      ]
+    }));
+    setShowStoryModal(false);
+  };
+
+  const handleDeleteStory = (storyId) => {
+    setData(prev => ({
+      ...prev,
+      successStories: (prev.successStories || []).filter(story => story.id !== storyId)
+    }));
+  };
+
+  const handleSaveClinic = () => {
+    if (!clinicForm.name || !clinicForm.location) {
+      alert('Please enter clinic name and location.');
+      return;
+    }
+    setData(prev => ({
+      ...prev,
+      legalClinics: [
+        ...(prev.legalClinics || [
+          { id: 1, name: 'Delhi Legal Aid Center', location: 'New Delhi', contact: '+91-11-2345-6789', specialization: 'General Law', status: 'Active' },
+          { id: 2, name: 'Mumbai Family Court Clinic', location: 'Mumbai', contact: '+91-22-3456-7890', specialization: 'Family Law', status: 'Active' },
+          { id: 3, name: 'Bangalore Consumer Forum', location: 'Bangalore', contact: '+91-80-4567-8901', specialization: 'Consumer Rights', status: 'Inactive' }
+        ]),
+        { id: Date.now(), ...clinicForm }
+      ]
+    }));
+    setShowClinicModal(false);
+  };
+
+  const handleDeleteClinic = (clinicId) => {
+    setData(prev => ({
+      ...prev,
+      legalClinics: (prev.legalClinics || []).filter(clinic => clinic.id !== clinicId)
+    }));
+  };
+
+  const handleToggleArticleStatus = (articleId) => {
+    setData(prev => ({
+      ...prev,
+      kyrArticles: prev.kyrArticles.map(article =>
+        article.id === articleId
+          ? { ...article, status: article.status === 'Published' ? 'Draft' : 'Published' }
+          : article
+      )
+    }));
+  };
+
+  const handleToggleStoryStatus = (storyId) => {
+    setData(prev => ({
+      ...prev,
+      successStories: (prev.successStories || []).map(story =>
+        story.id === storyId
+          ? { ...story, status: story.status === 'Published' ? 'Draft' : 'Published' }
+          : story
+      )
+    }));
+  };
+
+  const handleToggleClinicStatus = (clinicId) => {
+    setData(prev => ({
+      ...prev,
+      legalClinics: (prev.legalClinics || []).map(clinic =>
+        clinic.id === clinicId
+          ? { ...clinic, status: clinic.status === 'Active' ? 'Inactive' : 'Active' }
+          : clinic
+      )
+    }));
+  };
+
+  const handleCloseModals = () => {
+    setShowUserModal(false);
+    setShowArticleModal(false);
+    setShowStoryModal(false);
+    setShowClinicModal(false);
+    setSelectedConsultation(null);
   };
 
   const renderOverview = () => (
@@ -209,8 +471,10 @@ const AdminDashboard = () => {
           type="text" 
           placeholder="Search users..." 
           className={styles.searchInput}
+          value={searchUserQuery}
+          onChange={(e) => handleSearchUsers(e.target.value)}
         />
-        <button className={styles.searchButton}>
+        <button className={styles.searchButton} onClick={() => handleSearchUsers(searchUserQuery)}>
           <TranslatableText text="Search" />
         </button>
       </div>
@@ -227,7 +491,7 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {data.users.map(user => (
+            {getFilteredUsers().map(user => (
               <tr key={user.id}>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
@@ -238,11 +502,14 @@ const AdminDashboard = () => {
                 </td>
                 <td>{user.joinDate}</td>
                 <td>
-                  <button className={styles.actionButton}>
+                  <button className={styles.actionButton} onClick={() => handleViewUser(user)}>
                     <TranslatableText text="View Profile" />
                   </button>
-                  <button className={`${styles.actionButton} ${styles.danger}`}>
-                    <TranslatableText text="Deactivate" />
+                  <button
+                    className={`${styles.actionButton} ${styles.danger}`}
+                    onClick={() => handleToggleUserStatus(user.id)}
+                  >
+                    <TranslatableText text={user.status === 'Active' ? 'Deactivate' : 'Activate'} />
                   </button>
                 </td>
               </tr>
@@ -270,13 +537,13 @@ const AdminDashboard = () => {
                 <p><strong><TranslatableText text="Applied:" /></strong> {lawyer.applicationDate}</p>
               </div>
               <div className={styles.applicationActions}>
-                <button className={styles.approveButton}>
+                <button className={styles.approveButton} onClick={() => handleApproveLawyer(lawyer.id)}>
                   <TranslatableText text="Approve" />
                 </button>
-                <button className={styles.rejectButton}>
+                <button className={styles.rejectButton} onClick={() => handleRejectLawyer(lawyer.id)}>
                   <TranslatableText text="Reject" />
                 </button>
-                <button className={styles.viewButton}>
+                <button className={styles.viewButton} onClick={() => handleViewCredentials(lawyer)}>
                   <TranslatableText text="View Credentials" />
                 </button>
               </div>
@@ -334,10 +601,12 @@ const AdminDashboard = () => {
       
       {/* KYR Articles */}
       <div className={styles.contentSection}>
-        <h3><TranslatableText text="Know Your Rights Articles" /></h3>
-        <button className={styles.addButton}>
-          <TranslatableText text="+ Add New Article" />
-        </button>
+        <div className={styles.sectionHeader}>
+          <h3><TranslatableText text="Know Your Rights Articles" /></h3>
+          <button className={styles.addButton} onClick={() => handleAddContent('article')}>
+            <TranslatableText text="+ Add New Article" />
+          </button>
+        </div>
         <div className={styles.contentTable}>
           <table>
             <thead>
@@ -361,10 +630,10 @@ const AdminDashboard = () => {
                   </td>
                   <td>{article.date}</td>
                   <td>
-                    <button className={styles.actionButton}>
-                      <TranslatableText text="Edit" />
+                    <button className={styles.actionButton} onClick={() => handleToggleArticleStatus(article.id)}>
+                      <TranslatableText text={article.status === 'Published' ? 'Unpublish' : 'Publish'} />
                     </button>
-                    <button className={`${styles.actionButton} ${styles.danger}`}>
+                    <button className={`${styles.actionButton} ${styles.danger}`} onClick={() => handleDeleteArticle(article.id)}>
                       <TranslatableText text="Delete" />
                     </button>
                   </td>
@@ -382,31 +651,29 @@ const AdminDashboard = () => {
 
       {/* Success Stories */}
       <div className={styles.contentSection}>
-        <h3><TranslatableText text="Success Stories Management" /></h3>
-        <button className={styles.addButton}>
-          <TranslatableText text="+ Add Success Story" />
-        </button>
+        <div className={styles.sectionHeader}>
+          <h3><TranslatableText text="Success Stories Management" /></h3>
+          <button className={styles.addButton} onClick={() => handleAddContent('story')}>
+            <TranslatableText text="+ Add Success Story" />
+          </button>
+        </div>
         <div className={styles.successStoriesGrid}>
-          {[
-            { id: 1, title: 'Property Dispute Resolved', author: 'Rajesh Kumar', status: 'Published', date: '2024-11-20' },
-            { id: 2, title: 'Employment Rights Victory', author: 'Priya Singh', status: 'Pending Review', date: '2024-12-05' },
-            { id: 3, title: 'Consumer Protection Win', author: 'Amit Sharma', status: 'Draft', date: '2024-12-08' }
-          ].map(story => (
+          {data.successStories.map(story => (
             <div key={story.id} className={styles.storyCard}>
               <h4>{story.title}</h4>
               <p><TranslatableText text="Author:" /> {story.author}</p>
               <p><TranslatableText text="Date:" /> {story.date}</p>
-              <div className={`${styles.status} ${styles[story.status.toLowerCase().replace(' ', '')]}`}>
+              <div className={`${styles.status} ${styles[story.status.toLowerCase().replace(/\s+/g, '')]}`}>
                 {story.status}
               </div>
               <div className={styles.storyActions}>
-                <button className={styles.actionButton}>
-                  <TranslatableText text="Edit" />
+                <button className={styles.actionButton} onClick={() => handleToggleStoryStatus(story.id)}>
+                  <TranslatableText text={story.status === 'Published' ? 'Unpublish' : 'Publish'} />
                 </button>
                 <button className={styles.actionButton}>
                   <TranslatableText text="Preview" />
                 </button>
-                <button className={`${styles.actionButton} ${styles.danger}`}>
+                <button className={`${styles.actionButton} ${styles.danger}`} onClick={() => handleDeleteStory(story.id)}>
                   <TranslatableText text="Delete" />
                 </button>
               </div>
@@ -417,10 +684,12 @@ const AdminDashboard = () => {
 
       {/* Legal Clinics Management */}
       <div className={styles.contentSection}>
-        <h3><TranslatableText text="Legal Clinics Directory" /></h3>
-        <button className={styles.addButton}>
-          <TranslatableText text="+ Add Legal Clinic" />
-        </button>
+        <div className={styles.sectionHeader}>
+          <h3><TranslatableText text="Legal Clinics Directory" /></h3>
+          <button className={styles.addButton} onClick={() => handleAddContent('clinic')}>
+            <TranslatableText text="+ Add Legal Clinic" />
+          </button>
+        </div>
         <div className={styles.clinicsTable}>
           <table>
             <thead>
@@ -434,11 +703,7 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {[
-                { id: 1, name: 'Delhi Legal Aid Center', location: 'New Delhi', contact: '+91-11-2345-6789', specialization: 'General Law', status: 'Active' },
-                { id: 2, name: 'Mumbai Family Court Clinic', location: 'Mumbai', contact: '+91-22-3456-7890', specialization: 'Family Law', status: 'Active' },
-                { id: 3, name: 'Bangalore Consumer Forum', location: 'Bangalore', contact: '+91-80-4567-8901', specialization: 'Consumer Rights', status: 'Inactive' }
-              ].map(clinic => (
+              {data.legalClinics.map(clinic => (
                 <tr key={clinic.id}>
                   <td>{clinic.name}</td>
                   <td>{clinic.location}</td>
@@ -450,10 +715,10 @@ const AdminDashboard = () => {
                     </span>
                   </td>
                   <td>
-                    <button className={styles.actionButton}>
-                      <TranslatableText text="Edit" />
+                    <button className={styles.actionButton} onClick={() => handleToggleClinicStatus(clinic.id)}>
+                      <TranslatableText text={clinic.status === 'Active' ? 'Deactivate' : 'Activate'} />
                     </button>
-                    <button className={`${styles.actionButton} ${styles.danger}`}>
+                    <button className={`${styles.actionButton} ${styles.danger}`} onClick={() => handleDeleteClinic(clinic.id)}>
                       <TranslatableText text="Remove" />
                     </button>
                   </td>
@@ -497,9 +762,16 @@ const AdminDashboard = () => {
   const renderConsultationLog = () => (
     <div className={styles.consultationLogContent}>
       <div className={styles.logHeader}>
-        <h3><TranslatableText text="Master Consultation Log" /></h3>
+        <div>
+          <h3><TranslatableText text="Master Consultation Log" /></h3>
+          <p className={styles.logSubtitle}><TranslatableText text="View all requests, filter by status, or search by case and lawyer." /></p>
+        </div>
         <div className={styles.logFilters}>
-          <select className={styles.filterSelect}>
+          <select
+            className={styles.filterSelect}
+            value={consultationStatusFilter}
+            onChange={(e) => handleConsultationFilter(e.target.value)}
+          >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="scheduled">Scheduled</option>
@@ -510,12 +782,27 @@ const AdminDashboard = () => {
             type="text"
             placeholder="Search by case ID, user, or lawyer..."
             className={styles.searchInput}
+            value={consultationSearchQuery}
+            onChange={(e) => handleConsultationSearch(e.target.value)}
           />
         </div>
       </div>
 
-      <div className={styles.consultationTable}>
-        <table>
+      <div className={styles.statusFilterBar}>
+        {['all', 'pending', 'scheduled', 'completed', 'rejected'].map(status => (
+          <button
+            key={status}
+            className={`${styles.statusFilterButton} ${consultationStatusFilter === status ? styles.activeStatusFilter : ''}`}
+            onClick={() => handleConsultationFilter(status)}
+          >
+            {status === 'all' ? 'All' : status.charAt(0).toUpperCase() + status.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.consultationTableWrapper}>
+        <div className={styles.consultationTable}>
+          <table>
           <thead>
             <tr>
               <th><TranslatableText text="Case ID" /></th>
@@ -528,7 +815,7 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {data.consultationLog.map(consultation => (
+            {getFilteredConsultations().map(consultation => (
               <tr key={consultation.id}>
                 <td><strong>{consultation.id}</strong></td>
                 <td>{consultation.userName}</td>
@@ -543,7 +830,7 @@ const AdminDashboard = () => {
                   </span>
                 </td>
                 <td>
-                  <button className={styles.actionButton}>
+                  <button className={styles.actionButton} onClick={() => handleViewConsultationDetails(consultation)}>
                     <TranslatableText text="View Details" />
                   </button>
                 </td>
@@ -551,6 +838,7 @@ const AdminDashboard = () => {
             ))}
           </tbody>
         </table>
+      </div>
       </div>
 
       {/* Consultation Statistics */}
@@ -586,7 +874,11 @@ const AdminDashboard = () => {
       <div className={styles.performanceHeader}>
         <h3><TranslatableText text="Lawyer Performance Analytics" /></h3>
         <div className={styles.performanceFilters}>
-          <select className={styles.filterSelect}>
+          <select
+            className={styles.filterSelect}
+            value={lawyerPerformanceFilter}
+            onChange={(e) => handleLawyerPerformanceFilter(e.target.value)}
+          >
             <option value="all">All Lawyers</option>
             <option value="below-80">Below 80% Acceptance</option>
             <option value="above-90">Above 90% Acceptance</option>
@@ -595,6 +887,8 @@ const AdminDashboard = () => {
             type="text"
             placeholder="Search lawyers..."
             className={styles.searchInput}
+            value={lawyerSearchQuery}
+            onChange={(e) => handleLawyerSearch(e.target.value)}
           />
         </div>
       </div>
@@ -613,7 +907,7 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {data.lawyerPerformance.map(lawyer => (
+            {getFilteredLawyers().map(lawyer => (
               <tr key={lawyer.id}>
                 <td><strong>{lawyer.name}</strong></td>
                 <td>{lawyer.totalRequests}</td>
@@ -698,6 +992,194 @@ const AdminDashboard = () => {
         return renderOverview();
     }
   };
+
+  const renderModals = () => (
+    <>
+      {showUserModal && selectedUser && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h3><TranslatableText text="User Profile" /></h3>
+              <button className={styles.closeButton} onClick={handleCloseModals}>×</button>
+            </div>
+            <div className={styles.modalBody}>
+              <p><strong><TranslatableText text="Name:" /></strong> {selectedUser.name}</p>
+              <p><strong><TranslatableText text="Email:" /></strong> {selectedUser.email}</p>
+              <p><strong><TranslatableText text="Status:" /></strong> {selectedUser.status}</p>
+              <p><strong><TranslatableText text="Joined:" /></strong> {selectedUser.joinDate}</p>
+            </div>
+            <div className={styles.modalActions}>
+              <button className={styles.actionButton} onClick={handleCloseModals}>
+                <TranslatableText text="Close" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedConsultation && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h3><TranslatableText text="Consultation Details" /></h3>
+              <button className={styles.closeButton} onClick={handleCloseModals}>×</button>
+            </div>
+            <div className={styles.modalBody}>
+              <p><strong><TranslatableText text="Case ID:" /></strong> {selectedConsultation.id}</p>
+              <p><strong><TranslatableText text="User:" /></strong> {selectedConsultation.userName}</p>
+              <p><strong><TranslatableText text="Lawyer:" /></strong> {selectedConsultation.lawyerName}</p>
+              <p><strong><TranslatableText text="Request Date:" /></strong> {selectedConsultation.requestDate}</p>
+              <p><strong><TranslatableText text="Meeting Date:" /></strong> {selectedConsultation.meetingDate || 'Not scheduled'}</p>
+              <p><strong><TranslatableText text="Status:" /></strong> {selectedConsultation.status}</p>
+            </div>
+            <div className={styles.modalActions}>
+              <button className={styles.actionButton} onClick={handleCloseModals}>
+                <TranslatableText text="Close" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showArticleModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h3><TranslatableText text="Create Article" /></h3>
+              <button className={styles.closeButton} onClick={handleCloseModals}>×</button>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Title" /></label>
+                <input
+                  type="text"
+                  value={articleForm.title}
+                  onChange={(e) => setArticleForm({ ...articleForm, title: e.target.value })}
+                  placeholder="Article title"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Status" /></label>
+                <select
+                  value={articleForm.status}
+                  onChange={(e) => setArticleForm({ ...articleForm, status: e.target.value })}
+                >
+                  <option value="Draft">Draft</option>
+                  <option value="Published">Published</option>
+                </select>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <button className={styles.actionButton} onClick={handleSaveArticle}>
+                <TranslatableText text="Save" />
+              </button>
+              <button className={styles.cancelButton} onClick={handleCloseModals}>
+                <TranslatableText text="Cancel" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showStoryModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h3><TranslatableText text="Create Success Story" /></h3>
+              <button className={styles.closeButton} onClick={handleCloseModals}>×</button>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Title" /></label>
+                <input
+                  type="text"
+                  value={storyForm.title}
+                  onChange={(e) => setStoryForm({ ...storyForm, title: e.target.value })}
+                  placeholder="Story title"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Status" /></label>
+                <select
+                  value={storyForm.status}
+                  onChange={(e) => setStoryForm({ ...storyForm, status: e.target.value })}
+                >
+                  <option value="Draft">Draft</option>
+                  <option value="Pending Review">Pending Review</option>
+                  <option value="Published">Published</option>
+                </select>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <button className={styles.actionButton} onClick={handleSaveStory}>
+                <TranslatableText text="Save" />
+              </button>
+              <button className={styles.cancelButton} onClick={handleCloseModals}>
+                <TranslatableText text="Cancel" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showClinicModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h3><TranslatableText text="Add Legal Clinic" /></h3>
+              <button className={styles.closeButton} onClick={handleCloseModals}>×</button>
+            </div>
+            <div className={styles.modalBody}>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Clinic Name" /></label>
+                <input
+                  type="text"
+                  value={clinicForm.name}
+                  onChange={(e) => setClinicForm({ ...clinicForm, name: e.target.value })}
+                  placeholder="Clinic name"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Location" /></label>
+                <input
+                  type="text"
+                  value={clinicForm.location}
+                  onChange={(e) => setClinicForm({ ...clinicForm, location: e.target.value })}
+                  placeholder="City or state"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Contact" /></label>
+                <input
+                  type="text"
+                  value={clinicForm.contact}
+                  onChange={(e) => setClinicForm({ ...clinicForm, contact: e.target.value })}
+                  placeholder="Phone or email"
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label><TranslatableText text="Specialization" /></label>
+                <input
+                  type="text"
+                  value={clinicForm.specialization}
+                  onChange={(e) => setClinicForm({ ...clinicForm, specialization: e.target.value })}
+                  placeholder="Legal specialization"
+                />
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <button className={styles.actionButton} onClick={handleSaveClinic}>
+                <TranslatableText text="Save" />
+              </button>
+              <button className={styles.cancelButton} onClick={handleCloseModals}>
+                <TranslatableText text="Cancel" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 
   if (!user || user.role !== 'admin') {
     return <div><TranslatableText text="Access Denied" /></div>;
