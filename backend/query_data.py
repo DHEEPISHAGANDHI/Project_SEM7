@@ -1,6 +1,6 @@
 import argparse
 from langchain_chroma import Chroma
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
 from vector_embeddings import get_embedding_function
 from typing import List, Dict, Any, Optional 

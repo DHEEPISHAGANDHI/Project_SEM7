@@ -11,6 +11,7 @@ from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 
 from query_data import query_rag
+from voice.routes import voice_router
 
 # Load environment variables
 load_dotenv()
@@ -22,6 +23,7 @@ app = FastAPI(
 
 origins = [
     "http://localhost:3000", 
+    "http://localhost:3001",
 ]
 
 app.add_middleware(
@@ -31,6 +33,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(voice_router)
 
 class QueryRequest(BaseModel):
     query_text: str
@@ -45,6 +49,102 @@ class DocumentRequest(BaseModel):
     incidentDetails: Dict[str, Any]
     legalGrounds: str
     reliefSought: List[str]
+
+
+def get_homepage_content() -> Dict[str, Any]:
+    return {
+        "topics": [
+            {
+                "icon": "fas fa-home",
+                "title": "Property Rights",
+                "description": "Understand your rights related to property ownership, tenancy, and real estate transactions.",
+                "category": "civil",
+            },
+            {
+                "icon": "fas fa-briefcase",
+                "title": "Labor Rights",
+                "description": "Learn about workplace rights, minimum wages, working conditions, and employee benefits.",
+                "category": "work",
+            },
+            {
+                "icon": "fas fa-users",
+                "title": "Family Law",
+                "description": "Navigate through marriage, divorce, child custody, and inheritance legal matters.",
+                "category": "family",
+            },
+            {
+                "icon": "fas fa-shopping-cart",
+                "title": "Consumer Rights",
+                "description": "Know your rights as a consumer, including product safety and fair trade practices.",
+                "category": "civil",
+            },
+            {
+                "icon": "fas fa-heartbeat",
+                "title": "Healthcare Rights",
+                "description": "Understand your rights to healthcare access, medical privacy, and patient care.",
+                "category": "health",
+            },
+            {
+                "icon": "fas fa-graduation-cap",
+                "title": "Education Rights",
+                "description": "Learn about your right to education, school policies, and student protections.",
+                "category": "education",
+            },
+        ],
+        "services": [
+            {
+                "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop",
+                "title": "Free Legal Consultation",
+                "description": "Start with a free first conversation so you can understand your options before taking action.",
+                "actionText": "Talk to a Lawyer",
+                "action": "consultation",
+                "icon": "fas fa-user-tie",
+            },
+            {
+                "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop",
+                "title": "Document Templates",
+                "description": "Open practical legal templates for common procedures and everyday disputes.",
+                "actionText": "Open Templates",
+                "action": "templates",
+                "icon": "fas fa-file-contract",
+            },
+            {
+                "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop",
+                "title": "Local Legal Clinics",
+                "description": "Find nearby legal aid clinics and organizations when you need in-person assistance.",
+                "actionText": "Locate Clinics",
+                "action": "clinics",
+                "icon": "fas fa-map-location-dot",
+            },
+        ],
+        "testimonials": [
+            {
+                "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
+                "name": "Rajesh Kumar",
+                "location": "Farmer, Uttar Pradesh",
+                "quote": "LegalAid India helped me understand my land rights and resolve a property dispute that had been going on for years. The information was clear and in Hindi, which made all the difference.",
+            },
+            {
+                "photo": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop",
+                "name": "Priya Sharma",
+                "location": "Teacher, Maharashtra",
+                "quote": "When I faced workplace discrimination, the chatbot guided me through my rights and connected me with a local lawyer. I got justice and my job back within months.",
+            },
+            {
+                "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop",
+                "name": "Amit Patel",
+                "location": "Small Business Owner, Gujarat",
+                "quote": "The document templates saved me thousands of rupees in legal fees. I was able to draft proper contracts and agreements for my business without hiring expensive lawyers.",
+            },
+        ],
+    }
+
+
+@app.get("/api/content")
+def get_content(language: str = "en"):
+    content = get_homepage_content()
+    content["language"] = language
+    return content
 
 
 @app.post("/api/query")

@@ -180,10 +180,17 @@
 
 .inputForm {
   display: flex;
+  flex-direction: column;
   padding: 1rem 1.25rem;
   gap: 10px;
   border-top: 1px solid var(--border-color);
   background: var(--primary-white);
+}
+
+.inputRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .input {
@@ -205,6 +212,68 @@
 .input:disabled {
   background-color: var(--background-light);
   cursor: not-allowed;
+}
+
+.voiceButton {
+  background: var(--background-light);
+  color: var(--primary-blue);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.voiceButton:hover:not(:disabled) {
+  transform: scale(1.06);
+  border-color: var(--primary-blue);
+  box-shadow: 0 4px 14px rgba(22, 58, 114, 0.14);
+}
+
+.voiceButtonActive {
+  background: linear-gradient(135deg, #b91c1c, #ef4444);
+  color: var(--primary-white);
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(185, 28, 28, 0.24);
+  animation: pulseVoice 1.6s ease-in-out infinite;
+}
+
+.voiceButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.voiceStatusRow {
+  min-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.voiceStatus,
+.voiceStatusMuted,
+.voiceError {
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.voiceStatus {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.voiceStatusMuted {
+  color: var(--text-light);
+}
+
+.voiceError {
+  color: #b91c1c;
+  font-weight: 600;
 }
 
 .sendButton {
@@ -230,6 +299,11 @@
 .sendButton:disabled {
   background: var(--text-muted);
   cursor: not-allowed;
+}
+
+@keyframes pulseVoice {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
 }
 
 .typingIndicator {
@@ -271,5 +345,21 @@
     width: 56px;
     height: 56px;
     justify-content: center;
+  }
+
+  .inputRow {
+    gap: 8px;
+  }
+
+  .voiceButton,
+  .sendButton {
+    width: 42px;
+    height: 42px;
+  }
+
+  .voiceStatus,
+  .voiceStatusMuted,
+  .voiceError {
+    font-size: 0.76rem;
   }
 }

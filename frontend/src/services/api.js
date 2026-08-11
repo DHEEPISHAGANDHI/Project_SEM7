@@ -32,4 +32,31 @@ export const postQuery = async (query) => {
   }
 };
 
+export const transcribeAudio = async (audioBlob, filename = 'voice-input.webm') => {
+  try {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, filename);
+
+    const response = await api.post('/voice/transcribe', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error transcribing audio:', error);
+
+    if (error.response) {
+      return {
+        error: `An error occurred: ${error.response.data.detail || error.response.statusText}`,
+      };
+    }
+
+    return {
+      error: 'Could not connect to the voice service. Please ensure it is running.',
+    };
+  }
+};
+
 export default api;
