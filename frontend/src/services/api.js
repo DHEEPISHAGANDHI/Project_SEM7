@@ -1,3 +1,4 @@
+// src/services/api.js
 import axios from 'axios';
 
 const api = axios.create({
@@ -17,9 +18,13 @@ export const fetchContent = async (language = 'en') => {
   }
 };
 
-export const postQuery = async (query) => {
+export const postQuery = async (query, language = 'en', chatHistory = []) => {
   try {
-    const response = await api.post('/query', { query_text: query });
+    const response = await api.post('/query', { 
+      query_text: query,
+      language: language,
+      chat_history: chatHistory
+    });
     return response.data; 
   } catch (error) {
     console.error('Error posting query:', error);
@@ -29,6 +34,33 @@ export const postQuery = async (query) => {
       };
     }
     return { error: 'Could not connect to the server. Please ensure it is running.' };
+  }
+};
+
+export const transcribeAudio = async (audioBlob, filename = 'voice-input.webm') => {
+  try {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, filename);
+
+    const response = await api.post('/voice/transcribe', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error transcribing audio:', error);
+
+    if (error.response) {
+      return {
+        error: `An error occurred: ${error.response.data.detail || error.response.statusText}`,
+      };
+    }
+
+    return {
+      error: 'Could not connect to the voice service. Please ensure it is running.',
+    };
   }
 };
 
