@@ -11,9 +11,9 @@ from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 
 from query_data import query_rag
+from translator import translate_text
 from voice.routes import voice_router
 
-# Load environment variables
 load_dotenv()
 
 app = FastAPI(
@@ -38,9 +38,9 @@ app.include_router(voice_router)
 
 class QueryRequest(BaseModel):
     query_text: str
+    language: Optional[str] = "en"  # Selected language code passed from the frontend navbar
     chat_history: Optional[List[Dict[str, Any]]] = None
 
-# Pydantic model to define the structure of the incoming request data
 class DocumentRequest(BaseModel):
     caseType: str
     courtDetails: Dict[str, Any]
@@ -150,33 +150,37 @@ def get_content(language: str = "en"):
 @app.post("/api/query")
 async def process_query(request: QueryRequest):
     try:
+        user_lang = request.language or "en"
+
+        # Pass language parameter straight into query_rag
         response_text, sources = await asyncio.to_thread(
-            query_rag, request.query_text, request.chat_history
+            query_rag, request.query_text, request.chat_history, user_lang
         )
 
-        advice = "\n\n---\nNext Steps: For specific advice on your situation or to take action, consider contacting a qualified lawyer or the relevant government authority."
-        full_response = response_text + advice if response_text else advice
+        advice_en = "\n\n---\nNext Steps: For specific advice on your situation or to take action, consider contacting a qualified lawyer or the relevant government authority."
+        
+        if user_lang != "en":
+            translated_advice = translate_text(advice_en, source_lang="en", target_lang=user_lang)
+        else:
+            translated_advice = advice_en
 
-        return {"response": full_response, "sources": sources}
+        full_response = response_text + translated_advice if response_text else translated_advice
+
+        return {"response": full_response, "sources": sources, "language": user_lang}
     except Exception as e:
         print(f"Error processing query: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while processing the query.")
 
+
 @app.post("/api/generate-document")
 async def generate_document(request: DocumentRequest):
-    """
-    Receives case details and uses a generative AI to draft a legal complaint.
-    """
     try:
-        # Get the secret API key from environment variables
         api_key = os.getenv('AI_API_KEY')
         if not api_key:
             raise HTTPException(status_code=500, detail="AI_API_KEY is not configured on the server.")
 
-        # The URL for the generative AI service (e.g., Google's Gemini API)
         ai_api_url = f'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}'
 
-        # The detailed, structured prompt for the AI model
         prompt = f"""
         **SYSTEM PROMPT**
         You are an expert legal drafting assistant with deep knowledge of the Indian legal system. Your primary function is to generate a formal, accurate, and court-ready legal complaint based on structured JSON data provided by a user. You must adhere strictly to Indian legal drafting standards.
@@ -185,18 +189,18 @@ async def generate_document(request: DocumentRequest):
         Generate a complete legal complaint document based on the following JSON object.
 
         **RULES & FORMATTING INSTRUCTIONS**
-        1.  **Structure:** The document must be structured in the following specific order:
-            a.  Court Heading
-            b.  Case Information (Parties: Complainant vs. Respondent)
-            c.  Title of Document
-            d.  Introduction (The humble complaint...)
-            e.  Facts of the Case (Numbered paragraphs)
-            f.  Legal Grounds
-            g.  Prayer for Relief
-            h.  Verification
-            i.  Conclusion (Place, Date, Signature line)
-        2.  **Language and Tone:** Use formal, precise, and unambiguous legal language.
-        3.  **Output:** Your final output must be ONLY the text of the legal document.
+        1. **Structure:** The document must be structured in the following specific order:
+            a. Court Heading
+            b. Case Information (Parties: Complainant vs. Respondent)
+            c. Title of Document
+            d. Introduction (The humble complaint...)
+            e. Facts of the Case (Numbered paragraphs)
+            f. Legal Grounds
+            g. Prayer for Relief
+            h. Verification
+            i. Conclusion (Place, Date, Signature line)
+        2. **Language and Tone:** Use formal, precise, and unambiguous legal language.
+        3. **Output:** Your final output must be ONLY the text of the legal document.
 
         **JSON INPUT DATA**
         ```json
@@ -209,10 +213,9 @@ async def generate_document(request: DocumentRequest):
             "contents": [{"parts": [{"text": prompt}]}]
         }
 
-        # Make the async API call using httpx
         async with httpx.AsyncClient() as client:
             response = await client.post(ai_api_url, headers=headers, json=payload, timeout=90.0)
-            response.raise_for_status() # Raise an exception for HTTP errors
+            response.raise_for_status()
 
         result = response.json()
         generated_document = result['candidates'][0]['content']['parts'][0]['text']
@@ -229,9 +232,11 @@ async def generate_document(request: DocumentRequest):
         print(f"An unexpected error occurred: {e}")
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {e}")
 
+
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "message": "NyaayaBot API is running."}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

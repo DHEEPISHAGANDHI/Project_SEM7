@@ -1,9 +1,13 @@
+// src/components/Chatbot.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { postQuery, transcribeAudio } from '../services/api'; 
+import { useGlobalLanguage } from '../contexts/GlobalLanguageContext';
 import TranslatableText from './TranslatableText';
 import styles from './Chatbot.module.css';
 
 const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
+  const { currentLanguage } = useGlobalLanguage();
+  
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const isOpen = controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
   const open = () => (onOpen ? onOpen() : setUncontrolledOpen(true));
@@ -119,7 +123,7 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
       }
 
       setUserInput(transcript);
-  await sendMessage(transcript, { allowWhileProcessing: true });
+      await sendMessage(transcript, { allowWhileProcessing: true });
     } catch (error) {
       console.error('Voice transcription failed:', error);
       setVoiceError('Voice transcription failed. Please try again or type your question.');
@@ -215,18 +219,16 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
     const userMessage = { id: Date.now(), text: query, type: 'user' };
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
-    setUserInput(''); // Clear input field immediately
+    setUserInput('');
 
-    // Call the real API
-    const apiResponse = await postQuery(query);
+    // Pass currentLanguage to the API service
+    const apiResponse = await postQuery(query, currentLanguage);
     
     let botMessageText;
     if (apiResponse.error) {
-      // If there was an error, display it
       botMessageText = apiResponse.error;
     } else {
-      // Format the response with sources
-      const sourcesText = apiResponse.sources.length 
+      const sourcesText = apiResponse.sources && apiResponse.sources.length 
         ? `\n\n*Sources: ${apiResponse.sources.join(', ')}*` 
         : '';
       botMessageText = apiResponse.response + sourcesText;
@@ -280,9 +282,8 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
             <div className={styles.messagesContainer}>
               {messages.map((message) => (
                 <div key={message.id} className={`${styles.message} ${styles[message.type]}`}>
-                   {/* Using pre-wrap to respect newlines from the bot's response */}
                   <span style={{ whiteSpace: 'pre-wrap' }}>
-                    <TranslatableText text={message.text} />
+                    {message.text}
                   </span>
                 </div>
               ))}
