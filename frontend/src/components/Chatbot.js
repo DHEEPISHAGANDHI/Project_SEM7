@@ -17,6 +17,8 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [voiceError, setVoiceError] = useState('');
   const [voiceSupported, setVoiceSupported] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const [speakingMessageId, setSpeakingMessageId] = useState(null);
   const [userInput, setUserInput] = useState('');
   
   const messagesEndRef = useRef(null);
@@ -38,6 +40,7 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
     );
 
     setVoiceSupported(supportsVoiceCapture);
+    setSpeechSupported(Boolean(window.speechSynthesis && window.SpeechSynthesisUtterance));
   }, []);
 
   useEffect(() => {
@@ -57,6 +60,8 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
         mediaStreamRef.current.getTracks().forEach(track => track.stop());
         mediaStreamRef.current = null;
       }
+
+      window.speechSynthesis?.cancel();
     };
   }, []);
 
@@ -206,6 +211,30 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
     startVoiceRecording();
   };
 
+  const speakMessage = (message) => {
+    if (!speechSupported) return;
+
+    if (speakingMessageId === message.id) {
+      window.speechSynthesis.cancel();
+      setSpeakingMessageId(null);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const speechText = message.text
+      .replace(/[*_`#>-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const utterance = new window.SpeechSynthesisUtterance(speechText);
+
+    utterance.onstart = () => setSpeakingMessageId(message.id);
+    utterance.onend = () => setSpeakingMessageId(null);
+    utterance.onerror = () => setSpeakingMessageId(null);
+
+    window.speechSynthesis.speak(utterance);
+  };
+
   const sendMessage = async (query, options = {}) => {
     const { allowWhileProcessing = false } = options;
 
@@ -284,6 +313,18 @@ const Chatbot = ({ isOpen: controlledOpen, onOpen, onClose }) => {
                   <span style={{ whiteSpace: 'pre-wrap' }}>
                     <TranslatableText text={message.text} />
                   </span>
+                  {message.type === 'bot' && (
+                    <button
+                      type="button"
+                      className={`${styles.speakButton} ${speakingMessageId === message.id ? styles.speakButtonActive : ''}`}
+                      onClick={() => speakMessage(message)}
+                      disabled={!speechSupported}
+                      aria-label={speakingMessageId === message.id ? 'Stop reading answer' : 'Read answer aloud'}
+                      title={speechSupported ? (speakingMessageId === message.id ? 'Stop reading' : 'Read answer aloud') : 'Text-to-speech is not supported in this browser'}
+                    >
+                      <i className={`fas ${speakingMessageId === message.id ? 'fa-stop' : 'fa-volume-high'}`}></i>
+                    </button>
+                  )}
                 </div>
               ))}
               

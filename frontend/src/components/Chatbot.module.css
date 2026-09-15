@@ -150,6 +150,38 @@
   box-shadow: var(--shadow-light);
 }
 
+.speakButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 10px;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--background-light);
+  color: var(--primary-blue);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.speakButton:hover:not(:disabled) {
+  border-color: var(--primary-blue);
+  background: rgba(22, 58, 114, 0.08);
+}
+
+.speakButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.speakButtonActive {
+  background: var(--primary-blue);
+  color: var(--primary-white);
+  border-color: var(--primary-blue);
+}
+
 .quickReplies {
   padding: 1rem 1.25rem;
   display: flex;
