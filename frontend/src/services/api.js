@@ -1,3 +1,4 @@
+// src/services/api.js
 import axios from 'axios';
 
 const api = axios.create({
@@ -17,9 +18,13 @@ export const fetchContent = async (language = 'en') => {
   }
 };
 
-export const postQuery = async (query) => {
+export const postQuery = async (query, language = 'en', chatHistory = []) => {
   try {
-    const response = await api.post('/query', { query_text: query });
+    const response = await api.post('/query', { 
+      query_text: query,
+      language: language,
+      chat_history: chatHistory
+    });
     return response.data; 
   } catch (error) {
     console.error('Error posting query:', error);
